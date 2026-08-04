@@ -35,7 +35,7 @@ def test_validate_output_path_only_allows_smoke_json(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="must stay under"):
         smoke.validate_output_path(
-            outputs / "transcripts" / "L21_V001.json",
+            tmp_path / "artifacts" / "transcripts" / "L21_V001.json",
             outputs_root=outputs,
             overwrite=False,
         )

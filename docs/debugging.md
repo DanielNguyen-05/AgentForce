@@ -42,13 +42,13 @@ scope khác, dừng lại và kiểm tra `configs/default.toml` trước khi reb
 Triệu chứng:
 
 ```text
-Local PhoWhisper model not found ... Run python convert_phowhisper.py first
+Local PhoWhisper model not found ... Run python scripts/prepare_phowhisper.py first
 ```
 
 Chạy:
 
 ```bash
-python convert_phowhisper.py \
+python scripts/prepare_phowhisper.py \
   --source-model vinai/PhoWhisper-large \
   --output-dir models/phowhisper-large-ct2 \
   --quantization int8
@@ -74,19 +74,19 @@ python scripts/smoke_phowhisper.py \
 ```
 
 Nếu output smoke đã tồn tại, chọn khoảng thời gian khác hoặc thêm `--overwrite`.
-Script từ chối mọi `--output` nằm ngoài `outputs/smoke/`, đặc biệt là
-`outputs/transcripts/`.
+Script từ chối mọi `--output` nằm ngoài `outputs/smoke/`, bao gồm
+`artifacts/transcripts/`.
 
 ## Transcript cũ hoặc không hợp lệ
 
-Ba file production nằm ở `outputs/transcripts/`. Kiểm tra read-only:
+Ba file production nằm ở `artifacts/transcripts/`. Kiểm tra read-only:
 
 ```bash
 python scripts/check_environment.py
 python scripts/validate_artifacts.py
 ```
 
-Để migrate schema PhoWhisper của notebook cũ mà không transcribe lại:
+Để migrate schema PhoWhisper legacy mà không transcribe lại:
 
 ```bash
 python scripts/transcribe_videos.py --rewrite-legacy
@@ -99,9 +99,6 @@ ID; chỉ dùng lệnh sau khi thực sự muốn trả chi phí thời gian ASR
 ```bash
 python scripts/transcribe_videos.py --overwrite --fail-fast -v
 ```
-
-`audio_to_json.ipynb` là notebook legacy, không phải cách sửa hoặc regenerate
-artifact production.
 
 ## ASR text trong window quá dài hoặc lặp
 

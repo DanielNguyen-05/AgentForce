@@ -1,14 +1,7 @@
-"""Convert an official VinAI PhoWhisper checkpoint to CTranslate2.
+"""Safely prepare an official VinAI PhoWhisper checkpoint for Faster-Whisper.
 
 This is a one-time, project-local model preparation step.  Transcription is
 performed by ``scripts/transcribe_videos.py`` after this converter succeeds.
-
-Example for the current Apple Silicon/CPU setup::
-
-    python convert_phowhisper.py \
-        --source-model vinai/PhoWhisper-large \
-        --output-dir models/phowhisper-large-ct2 \
-        --quantization int8
 
 The Hugging Face checkpoint is downloaded by Transformers on the first run.
 Conversion happens in a temporary sibling directory, so an interrupted run
@@ -17,19 +10,17 @@ does not leave a half-written model at the requested output path.
 
 from __future__ import annotations
 
-import argparse
 import importlib.metadata
 import json
 import shutil
-import sys
-from collections.abc import Callable, Sequence
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_SOURCE_MODEL = "vinai/PhoWhisper-large"
 DEFAULT_OUTPUT_DIR = Path("models/phowhisper-large-ct2")
 DEFAULT_COPY_FILES = ("tokenizer.json", "preprocessor_config.json")
@@ -259,46 +250,3 @@ def convert_phowhisper(
         "files": sizes,
     }
 
-
-def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source-model", default=DEFAULT_SOURCE_MODEL)
-    parser.add_argument("--output-dir", default=str(DEFAULT_OUTPUT_DIR))
-    parser.add_argument("--quantization", choices=QUANTIZATION_TYPES, default="int8")
-    parser.add_argument("--revision", help="Optional Hugging Face revision/commit")
-    parser.add_argument(
-        "--low-cpu-mem-usage",
-        action=argparse.BooleanOptionalAction,
-        default=False,
-        help="Ask Transformers to reduce peak CPU memory (requires Accelerate)",
-    )
-    parser.add_argument(
-        "--force",
-        action="store_true",
-        help="Safely replace an existing converted model after validating the new one",
-    )
-    return parser
-
-
-def main(argv: Sequence[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
-    print(f"[RUN] {Path(__file__).resolve()}", file=sys.stderr)
-    request = ConversionRequest(
-        source_model=args.source_model,
-        output_dir=Path(args.output_dir),
-        quantization=args.quantization,
-        revision=args.revision,
-        low_cpu_mem_usage=args.low_cpu_mem_usage,
-        force=args.force,
-    )
-    try:
-        result = convert_phowhisper(request)
-    except (PhoWhisperConversionError, OSError, RuntimeError, ValueError) as exc:
-        print(f"PhoWhisper conversion failed: {exc}", file=sys.stderr)
-        return 1
-    print(json.dumps(result, ensure_ascii=False, indent=2))
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())

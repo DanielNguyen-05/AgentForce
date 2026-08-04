@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-import convert_phowhisper as converter_module
-from convert_phowhisper import (
+from agentforce.preprocessing import phowhisper_model as converter_module
+from agentforce.preprocessing.phowhisper_model import (
     CONVERSION_MANIFEST,
     REQUIRED_MODEL_FILES,
     ConversionRequest,

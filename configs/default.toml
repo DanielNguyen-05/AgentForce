@@ -43,6 +43,11 @@ vad_filter = true
 vad_min_silence_duration_ms = 500
 word_timestamps = true
 condition_on_previous_text = true
+hotwords = []
+audio_sample_rate = 16000
+audio_channels = 1
+normalize_lufs = true
+integrated_loudness = -16.0
 
 [ocr]
 backend = "easyocr"

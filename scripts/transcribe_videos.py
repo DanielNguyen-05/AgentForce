@@ -22,6 +22,7 @@ from agentforce.preprocessing.asr import (
     read_transcript,
     write_transcript,
 )
+from agentforce.preprocessing.audio import AudioExtractionConfig
 
 
 LOGGER = logging.getLogger("scripts.transcribe_videos")
@@ -75,6 +76,21 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Enable or disable word timestamps",
     )
+    parser.add_argument(
+        "--hotword",
+        action="append",
+        dest="hotwords",
+        help="Domain term to bias ASR spelling; repeat for several terms",
+    )
+    parser.add_argument(
+        "--normalize-lufs",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help="Enable or disable ffmpeg loudness normalization",
+    )
+    parser.add_argument("--integrated-loudness", type=float)
+    parser.add_argument("--audio-sample-rate", type=int)
+    parser.add_argument("--audio-channels", type=int)
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument(
         "--rewrite-legacy",
@@ -107,7 +123,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     output_dir = (
         project_path(args.output_dir)
         if args.output_dir
-        else config.paths.outputs_root / "transcripts"
+        else config.paths.transcripts_dir
     )
     language = config.asr.language if args.language is None else (
         None if args.language.casefold() == "auto" else args.language
@@ -123,7 +139,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     if needs_inference and model_path.is_absolute() and not model_path.is_dir():
         raise FileNotFoundError(
             f"Local PhoWhisper model not found: {model_path}. Run `python "
-            "convert_phowhisper.py` first, or pass a Hugging Face model ID to --model."
+            "scripts/prepare_phowhisper.py` first, or pass a Hugging Face model ID "
+            "to --model."
         )
     adapter = FasterWhisperAdapter(
         WhisperConfig(
@@ -136,7 +153,30 @@ def main(argv: Sequence[str] | None = None) -> int:
             vad_min_silence_duration_ms=config.asr.vad_min_silence_duration_ms,
             word_timestamps=word_timestamps,
             condition_on_previous_text=config.asr.condition_on_previous_text,
+            hotwords=tuple(args.hotwords) if args.hotwords is not None else config.asr.hotwords,
         )
+    )
+    audio_config = AudioExtractionConfig(
+        sample_rate=(
+            config.asr.audio_sample_rate
+            if args.audio_sample_rate is None
+            else args.audio_sample_rate
+        ),
+        channels=(
+            config.asr.audio_channels
+            if args.audio_channels is None
+            else args.audio_channels
+        ),
+        normalize_lufs=(
+            config.asr.normalize_lufs
+            if args.normalize_lufs is None
+            else args.normalize_lufs
+        ),
+        integrated_loudness=(
+            config.asr.integrated_loudness
+            if args.integrated_loudness is None
+            else args.integrated_loudness
+        ),
     )
 
     completed = skipped = missing = 0
@@ -173,7 +213,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             continue
         LOGGER.info("Transcribing %s from %s", video.video_id, source)
         try:
-            document = adapter.transcribe_video(source, video_id=video.video_id)
+            document = adapter.transcribe_video(
+                source,
+                video_id=video.video_id,
+                audio_config=audio_config,
+            )
             write_transcript(document, destination)
             completed += 1
         except (KeyboardInterrupt, SystemExit):

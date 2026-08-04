@@ -13,8 +13,12 @@ from agentforce.preprocessing.ocr import EasyOCREngine, OCRProcessor, normalize_
 
 
 class FakeWhisper:
+    def __init__(self) -> None:
+        self.kwargs: dict[str, object] = {}
+
     def transcribe(self, path, **kwargs):
-        del path, kwargs
+        del path
+        self.kwargs = kwargs
         segment = SimpleNamespace(
             id=3,
             start=1.0,
@@ -78,12 +82,17 @@ class BatchEasyOCRReader:
 def test_faster_whisper_adapter_accepts_injected_model(tmp_path) -> None:
     audio = tmp_path / "sample.wav"
     audio.write_bytes(b"fake")
-    adapter = FasterWhisperAdapter(ASRConfig(model_name="fake"), model=FakeWhisper())
+    model = FakeWhisper()
+    adapter = FasterWhisperAdapter(
+        ASRConfig(model_name="fake", hotwords=("Buôn Ma Thuột", "xe đầu kéo")),
+        model=model,
+    )
     document = adapter.transcribe(audio, video_id="L01_V001")
     assert document.language == "vi"
     assert document.text == "xin chào"
     assert document.segments[0].words[0].confidence == 0.9
     assert document.segments[0].confidence is not None
+    assert model.kwargs["hotwords"] == "Buôn Ma Thuột, xe đầu kéo"
 
 
 def test_ocr_processor_filters_confidence_and_normalizes_unicode(tmp_path) -> None:

@@ -136,7 +136,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 duration_seconds=video.duration_seconds,
                 config=window_config,
             )
-            transcript_path = config.paths.outputs_root / "transcripts" / f"{video.video_id}.json"
+            transcript_path = config.paths.transcripts_dir / f"{video.video_id}.json"
             if transcript_path.exists():
                 align_transcript_to_windows(windows, read_transcript(transcript_path).segments)
 

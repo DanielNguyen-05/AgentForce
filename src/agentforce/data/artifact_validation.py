@@ -299,7 +299,7 @@ def _validate_transcripts(
     expected_scope: tuple[str, ...],
     report: ArtifactValidationReport,
 ) -> None:
-    directory = config.paths.outputs_root / "transcripts"
+    directory = config.paths.transcripts_dir
     valid_ids: list[str] = []
     if not directory.is_dir():
         report.add(

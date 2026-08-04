@@ -31,7 +31,7 @@
       "keyframe_total": 855
     },
     "transcripts": {
-      "path": "/Users/dangnguyen/Desktop/AgentForce/outputs/transcripts",
+      "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/transcripts",
       "valid_video_ids": [
         "L21_V001",
         "L21_V002",

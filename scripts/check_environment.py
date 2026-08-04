@@ -17,6 +17,7 @@ from _bootstrap import DEFAULT_CONFIG, project_path
 from agentforce.config import load_config
 from agentforce.data.layout import DatasetLayout
 from agentforce.preprocessing.asr import read_transcript
+from agentforce.preprocessing.phowhisper_model import REQUIRED_MODEL_FILES
 from agentforce.utils.io import atomic_write_json
 
 
@@ -60,7 +61,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             installed = False
         dependencies[module] = {"installed": installed, "extra": extra}
 
-    transcript_dir = config.paths.outputs_root / "transcripts"
+    transcript_dir = config.paths.transcripts_dir
     transcript_status: dict[str, dict[str, object]] = {}
     for video_id in config.scope.video_ids:
         path = transcript_dir / f"{video_id}.json"
@@ -82,20 +83,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     model_reference = Path(config.asr.model).expanduser()
     if not model_reference.is_absolute() and config.asr.model.startswith((".", "models/")):
         model_reference = project_path(model_reference)
-    required_model_files = (
-        "model.bin",
-        "config.json",
-        "tokenizer.json",
-        "preprocessor_config.json",
-    )
     model_files = {
-        name: (model_reference / name).is_file() for name in required_model_files
+        name: (model_reference / name).is_file() for name in REQUIRED_MODEL_FILES
     }
 
     report = {
         "python": sys.version,
         "config": str(config.source_path),
         "dataset_root": str(layout.root),
+        "artifacts_root": str(config.paths.artifacts_root),
         "configured_video_ids": list(config.scope.video_ids),
         "outputs_root": str(config.paths.outputs_root),
         "dataset_components": {

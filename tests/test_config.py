@@ -22,8 +22,29 @@ stride_seconds = 4.0
     monkeypatch.chdir(tmp_path)
     config = load_config(config_path)
     assert config.paths.dataset_root == (tmp_path / "data").resolve()
+    assert config.paths.transcripts_dir == (tmp_path / "out" / "transcripts").resolve()
     assert config.windows.length_seconds == 12.0
     assert config.retrieval.top_keyframes == 500
+
+
+def test_asr_hotwords_and_audio_settings_are_loaded(tmp_path: Path) -> None:
+    config_path = tmp_path / "config.toml"
+    config_path.write_text(
+        """
+[asr]
+hotwords = [" Buôn Ma Thuột ", "xe đầu kéo"]
+audio_sample_rate = 16000
+audio_channels = 1
+normalize_lufs = true
+integrated_loudness = -16.0
+""",
+        encoding="utf-8",
+    )
+
+    config = load_config(config_path)
+
+    assert config.asr.hotwords == ("Buôn Ma Thuột", "xe đầu kéo")
+    assert config.asr.normalize_lufs is True
 
 
 @pytest.mark.parametrize(

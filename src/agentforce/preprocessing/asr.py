@@ -38,12 +38,17 @@ class ASRConfig:
     vad_min_silence_duration_ms: int = 500
     word_timestamps: bool = True
     condition_on_previous_text: bool = True
+    hotwords: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if self.beam_size <= 0:
             raise ValueError("beam_size must be positive")
         if self.vad_min_silence_duration_ms < 0:
             raise ValueError("vad_min_silence_duration_ms cannot be negative")
+        normalized = tuple(
+            value for item in self.hotwords if (value := str(item).strip())
+        )
+        object.__setattr__(self, "hotwords", normalized)
 
 
 class FasterWhisperAdapter:
@@ -90,6 +95,7 @@ class FasterWhisperAdapter:
             ),
             word_timestamps=self.config.word_timestamps,
             condition_on_previous_text=self.config.condition_on_previous_text,
+            hotwords=", ".join(self.config.hotwords) or None,
         )
         segments: list[TranscriptSegment] = []
         for fallback_id, raw in enumerate(raw_segments):

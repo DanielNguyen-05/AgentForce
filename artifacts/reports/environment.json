@@ -2,6 +2,7 @@
   "python": "3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:11:29) [Clang 20.1.8 ]",
   "config": "/Users/dangnguyen/Desktop/AgentForce/configs/default.toml",
   "dataset_root": "/Users/dangnguyen/Desktop/AgentForce/dataset",
+  "artifacts_root": "/Users/dangnguyen/Desktop/AgentForce/artifacts",
   "configured_video_ids": [
     "L21_V001",
     "L21_V002",
@@ -107,19 +108,19 @@
   },
   "transcripts": {
     "L21_V001": {
-      "path": "/Users/dangnguyen/Desktop/AgentForce/outputs/transcripts/L21_V001.json",
+      "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/transcripts/L21_V001.json",
       "valid": true,
       "segments": 45,
       "model": "faster-whisper-models/phowhisper-large-ct2"
     },
     "L21_V002": {
-      "path": "/Users/dangnguyen/Desktop/AgentForce/outputs/transcripts/L21_V002.json",
+      "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/transcripts/L21_V002.json",
       "valid": true,
       "segments": 38,
       "model": "faster-whisper-models/phowhisper-large-ct2"
     },
     "L21_V003": {
-      "path": "/Users/dangnguyen/Desktop/AgentForce/outputs/transcripts/L21_V003.json",
+      "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/transcripts/L21_V003.json",
       "valid": true,
       "segments": 41,
       "model": "faster-whisper-models/phowhisper-large-ct2"

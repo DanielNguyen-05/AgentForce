@@ -66,7 +66,7 @@ def validate_output_path(
     """Require a JSON destination below ``outputs/smoke``.
 
     Resolving both paths also prevents an existing symlink below the smoke
-    directory from redirecting a result into ``outputs/transcripts``.
+    directory from redirecting a result into any canonical artifact directory.
     """
 
     destination = Path(output).expanduser().resolve()
@@ -108,6 +108,10 @@ def extract_audio_clip(
     start_seconds: float,
     duration_seconds: float,
     ffmpeg_binary: str = "ffmpeg",
+    sample_rate: int = 16_000,
+    channels: int = 1,
+    normalize_lufs: bool = False,
+    integrated_loudness: float = -16.0,
 ) -> None:
     """Extract a mono 16 kHz WAV clip with no shell interpolation."""
 
@@ -128,13 +132,15 @@ def extract_audio_clip(
         f"{duration_seconds:.6f}",
         "-vn",
         "-ac",
-        "1",
+        str(channels),
         "-ar",
-        "16000",
-        "-c:a",
-        "pcm_s16le",
-        str(destination),
+        str(sample_rate),
     ]
+    if normalize_lufs:
+        command.extend(
+            ["-af", f"loudnorm=I={integrated_loudness}:TP=-1.5:LRA=11"]
+        )
+    command.extend(["-c:a", "pcm_s16le", str(destination)])
     try:
         completed = subprocess.run(
             command,
@@ -316,7 +322,7 @@ def main(
     if model_path.is_absolute() and not model_path.is_dir():
         raise FileNotFoundError(
             f"Local PhoWhisper model not found: {model_path}. Run `python "
-            "convert_phowhisper.py` first."
+            "scripts/prepare_phowhisper.py` first."
         )
     language = (
         config.asr.language
@@ -336,6 +342,7 @@ def main(
         vad_min_silence_duration_ms=config.asr.vad_min_silence_duration_ms,
         word_timestamps=config.asr.word_timestamps,
         condition_on_previous_text=config.asr.condition_on_previous_text,
+        hotwords=config.asr.hotwords,
     )
 
     total_started = time.perf_counter()
@@ -354,6 +361,10 @@ def main(
             start_seconds=args.start_seconds,
             duration_seconds=args.duration_seconds,
             ffmpeg_binary=args.ffmpeg_binary,
+            sample_rate=config.asr.audio_sample_rate,
+            channels=config.asr.audio_channels,
+            normalize_lufs=config.asr.normalize_lufs,
+            integrated_loudness=config.asr.integrated_loudness,
         )
         extraction_seconds = time.perf_counter() - extraction_started
 

@@ -30,7 +30,7 @@ và submission.
 Mỗi video có một file:
 
 ```text
-outputs/transcripts/<video_id>.json
+artifacts/transcripts/<video_id>.json
 ```
 
 Canonical root chứa:
@@ -48,6 +48,10 @@ segments[]
 
 Mỗi segment chứa `segment_id`, `start`, `end`, `text`, confidence diagnostics
 và `words[]`. Mỗi word chứa `text`, `start`, `end`, `confidence`.
+
+Audio đầu vào được trích thành mono PCM 16 kHz và mặc định chuẩn hoá loudness
+`-16 LUFS`. `[asr].hotwords` là danh sách opt-in để bias cách viết tên riêng;
+danh sách rỗng không thay đổi decoder.
 
 Reader kiểm tra kiểu dữ liệu, probability range, ID trùng, timestamp hữu hạn,
 thứ tự segment/word và word có nằm trong segment hay không. Faster-Whisper đôi
@@ -71,7 +75,7 @@ python scripts/transcribe_videos.py --rewrite-legacy
 ```
 
 validate rồi atomically rewrite legacy JSON sang canonical JSON; file canonical
-hợp lệ được reuse. Không dùng `audio_to_json.ipynb` làm data contract mới.
+hợp lệ được reuse. Pipeline production là nguồn duy nhất của data contract mới.
 
 ## Word-to-window alignment
 
@@ -144,7 +148,7 @@ selection khớp toàn bộ configured scope và không có `--limit`/`--frame-l
 Smoke output phải nằm ở path riêng, ví dụ:
 
 ```text
-outputs/smoke/transcripts/
+outputs/smoke/phowhisper/
 outputs/smoke/ocr/
 outputs/smoke/objects/
 outputs/smoke/temporal_windows.jsonl

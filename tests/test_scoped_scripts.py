@@ -145,13 +145,13 @@ def test_partial_options_require_noncanonical_output(
         module.main(["--config", str(config_path), *extra_args])
 
 
-def test_build_windows_reads_phowhisper_from_outputs_root(
+def test_build_windows_reads_phowhisper_from_artifacts_root(
     scoped_project: tuple[Path, DatasetManifest],
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
     config_path, _ = scoped_project
-    transcript = tmp_path / "outputs" / "transcripts" / "L21_V001.json"
+    transcript = tmp_path / "artifacts" / "transcripts" / "L21_V001.json"
     transcript.parent.mkdir(parents=True)
     transcript.write_text("{}\n", encoding="utf-8")
     module = _load_script("build_windows")

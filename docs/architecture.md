@@ -29,7 +29,7 @@ dataset/ (read-only)
 scoped DatasetManifest + canonical keyframe timeline
   │
   ├─ supplied CLIP vectors
-  ├─ PhoWhisper CT2 transcript ở outputs/transcripts/
+  ├─ PhoWhisper CT2 transcript ở artifacts/transcripts/
   │    └─ segment + word timestamps
   ├─ EasyOCR vi,en trên keyframes
   └─ normalized object detections
@@ -57,7 +57,7 @@ Không có caption pipeline. Gemini không chạy trong preprocessing và
 
 ## PhoWhisper boundary
 
-`convert_phowhisper.py` là bước chuẩn bị model một lần:
+`scripts/prepare_phowhisper.py` là bước chuẩn bị model một lần:
 
 ```text
 vinai/PhoWhisper-large
@@ -67,8 +67,8 @@ vinai/PhoWhisper-large
 ```
 
 `scripts/transcribe_videos.py` load model CT2 một lần cho batch video rồi ghi một
-JSON atomic cho mỗi video trong `outputs/transcripts/`. File legacy từ notebook
-cũ được parser riêng validate và có thể migrate sang canonical schema mà không
+JSON atomic cho mỗi video trong `artifacts/transcripts/`. File legacy được
+parser riêng validate và có thể migrate sang canonical schema mà không
 chạy ASR lại.
 
 PhoWhisper thường tạo segment dài hơn retrieval window. Vì vậy alignment ưu
@@ -93,9 +93,8 @@ count, dimension, dtype, encoder, scope và source/window hash. Metadata chính
 xác như `video_id`, `frame_idx`, `pts_time`, bbox và text gốc không được nhét
 vào embedding.
 
-`artifacts/` chứa dữ liệu có thể rebuild; transcript theo yêu cầu experiment
-này nằm riêng trong `outputs/transcripts/`. Window builder là điểm join hai
-nhánh đó.
+`artifacts/` chứa toàn bộ dữ liệu có thể rebuild, gồm transcript tại
+`artifacts/transcripts/`. Window builder là điểm join các modality đó.
 
 ## Online pipeline
 

@@ -40,9 +40,9 @@ tình trộn index của hai experiment.
 
 ```text
 AgentForce/
-├── convert_phowhisper.py           # Download/convert PhoWhisper một lần
 ├── configs/default.toml            # Scope và toàn bộ tham số runtime
 ├── scripts/                        # Các entry file chạy bằng python
+│   ├── prepare_phowhisper.py       # Download/convert PhoWhisper một lần
 │   ├── check_environment.py
 │   ├── validate_dataset.py
 │   ├── validate_artifacts.py
@@ -62,15 +62,12 @@ AgentForce/
 │   └── write_submission.py
 ├── src/agentforce/                 # Logic Python nội bộ
 ├── dataset/                        # Dữ liệu BTC, chỉ đọc
-├── outputs/transcripts/            # Transcript PhoWhisper theo video
-├── artifacts/                      # Manifest, JSONL, vector index và cache
+├── outputs/                        # Kết quả task và smoke test
+├── artifacts/                      # Transcript, manifest, JSONL, index và cache
 ├── models/                         # PhoWhisper CT2 local, không commit Git
 ├── tests/
 └── docs/
 ```
-
-`audio_to_json.ipynb` là notebook thử nghiệm cũ với cấu hình hardcode. Nó không
-thuộc pipeline hiện tại và không được bất kỳ script production nào gọi.
 
 ## Cài đặt
 
@@ -109,11 +106,20 @@ Cấu hình mặc định vì vậy là:
 [asr]
 device = "cpu"
 compute_type = "int8"
+audio_sample_rate = 16000
+audio_channels = 1
+normalize_lufs = true
+integrated_loudness = -16.0
+hotwords = []
 ```
 
 Không đổi sang `float16` trên CPU Apple. Nếu chuyển sang máy NVIDIA CUDA, hãy
 đổi đồng bộ model conversion, `device` và `compute_type` sau khi kiểm tra phần
 cứng.
+
+Có thể thêm tên riêng/địa danh thường bị nhận sai vào `hotwords`, ví dụ
+`["Buôn Ma Thuột", "Cửu Long"]`. Pipeline truyền danh sách này vào decoder
+PhoWhisper; để rỗng nếu chưa có danh sách miền đáng tin cậy.
 
 ## Gemini API qua `.env`
 
@@ -145,7 +151,7 @@ này theo model mà tài khoản API hỗ trợ. `run_qa.py` không hardcode mod
 Lệnh mặc định tải checkpoint chính thức rồi convert sang CTranslate2 INT8:
 
 ```bash
-python convert_phowhisper.py \
+python scripts/prepare_phowhisper.py \
   --source-model vinai/PhoWhisper-large \
   --output-dir models/phowhisper-large-ct2 \
   --quantization int8
@@ -161,9 +167,9 @@ Nếu RAM hạn chế trong lúc convert, có thể thêm `--low-cpu-mem-usage`.
 Ba file mong đợi nằm tại:
 
 ```text
-outputs/transcripts/L21_V001.json
-outputs/transcripts/L21_V002.json
-outputs/transcripts/L21_V003.json
+artifacts/transcripts/L21_V001.json
+artifacts/transcripts/L21_V002.json
+artifacts/transcripts/L21_V003.json
 ```
 
 Kiểm tra read-only bằng:
@@ -212,7 +218,7 @@ python scripts/smoke_phowhisper.py \
 Script chỉ xử lý một video, giới hạn tối đa 60 giây và bắt buộc output nằm dưới
 `outputs/smoke/`. Output mặc định của lệnh trên là
 `outputs/smoke/phowhisper/L21_V001_start4_duration12.json`; các file
-`outputs/transcripts/*.json` không được đọc, rewrite hoặc overwrite. JSON smoke
+`artifacts/transcripts/*.json` không được đọc, rewrite hoặc overwrite. JSON smoke
 ghi cả timestamp tương đối trong clip và timestamp tuyệt đối trong video, cùng
 thời gian extract audio, load model + inference và tổng thời gian.
 
@@ -269,8 +275,8 @@ Phải build windows sau khi ASR, OCR và object đã hoàn tất:
 python scripts/build_windows.py
 ```
 
-Window mặc định dài 10 giây, stride 5 giây. `build_windows.py` đọc transcript từ
-`outputs/transcripts/` và OCR/object từ `artifacts/`.
+Window mặc định dài 10 giây, stride 5 giây. `build_windows.py` đọc transcript,
+OCR và object từ `artifacts/`.
 
 ### 4. Visual indexes
 

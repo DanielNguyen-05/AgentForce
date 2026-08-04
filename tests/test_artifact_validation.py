@@ -48,7 +48,7 @@ def _build_complete_artifacts(tmp_path: Path) -> AppConfig:
         ],
     ).write_json(artifacts_root / "manifests" / "dataset.json")
 
-    transcript_dir = outputs_root / "transcripts"
+    transcript_dir = artifacts_root / "transcripts"
     transcript_dir.mkdir(parents=True)
     for video_id in VIDEO_IDS:
         (transcript_dir / f"{video_id}.json").write_text(
@@ -216,7 +216,7 @@ def test_caption_artifacts_and_bad_index_shape_are_errors(tmp_path: Path) -> Non
 
 def test_transcript_window_scope_and_hash_drift_are_errors(tmp_path: Path) -> None:
     config = _build_complete_artifacts(tmp_path)
-    transcript = config.paths.outputs_root / "transcripts" / "L21_V002.json"
+    transcript = config.paths.transcripts_dir / "L21_V002.json"
     transcript.write_text(
         json.dumps({"source_video": "L21_V999.mp4", "segments": []}),
         encoding="utf-8",

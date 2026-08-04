@@ -16,6 +16,12 @@ class PathConfig:
     artifacts_root: Path = Path("artifacts")
     outputs_root: Path = Path("outputs")
 
+    @property
+    def transcripts_dir(self) -> Path:
+        """Canonical ASR artifacts, colocated with the other derived data."""
+
+        return self.artifacts_root / "transcripts"
+
 
 @dataclass(frozen=True, slots=True)
 class ScopeConfig:
@@ -68,6 +74,17 @@ class ASRConfig:
     vad_min_silence_duration_ms: int = 500
     word_timestamps: bool = True
     condition_on_previous_text: bool = True
+    hotwords: tuple[str, ...] = ()
+    audio_sample_rate: int = 16_000
+    audio_channels: int = 1
+    normalize_lufs: bool = True
+    integrated_loudness: float = -16.0
+
+    def __post_init__(self) -> None:
+        normalized = tuple(
+            value for item in self.hotwords if (value := str(item).strip())
+        )
+        object.__setattr__(self, "hotwords", normalized)
 
 
 @dataclass(frozen=True, slots=True)
@@ -196,6 +213,8 @@ def _validate_config(config: AppConfig) -> None:
         raise ConfigurationError("asr.beam_size must be positive")
     if config.asr.vad_min_silence_duration_ms < 0:
         raise ConfigurationError("asr.vad_min_silence_duration_ms cannot be negative")
+    if config.asr.audio_sample_rate < 1 or config.asr.audio_channels < 1:
+        raise ConfigurationError("ASR audio sample rate and channels must be positive")
     if config.gemini.max_attempts < 1:
         raise ConfigurationError("gemini.max_attempts must be at least 1")
     if config.gemini.timeout_seconds <= 0:

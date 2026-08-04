@@ -19,12 +19,12 @@ chọn subset bên trong scope, chủ yếu cho output smoke không canonical.
 
 | Việc cần làm | File/lệnh trực tiếp | Output mặc định |
 |---|---|---|
-| Convert PhoWhisper một lần | `python convert_phowhisper.py` | `models/phowhisper-large-ct2/` |
+| Chuẩn bị PhoWhisper một lần | `python scripts/prepare_phowhisper.py` | `models/phowhisper-large-ct2/` |
 | Kiểm tra môi trường | `python scripts/check_environment.py` | stdout JSON |
 | Validate dataset | `python scripts/validate_dataset.py --strict` | `artifacts/manifests/dataset.json` |
 | Validate artifact graph | `python scripts/validate_artifacts.py --strict` | stdout JSON |
 | Export timeline | `python scripts/export_timelines.py` | `artifacts/timelines/keyframes.jsonl` |
-| PhoWhisper ASR | `python scripts/transcribe_videos.py` | `outputs/transcripts/<video>.json` |
+| PhoWhisper ASR | `python scripts/transcribe_videos.py` | `artifacts/transcripts/<video>.json` |
 | Smoke PhoWhisper 15 giây | `python scripts/smoke_phowhisper.py --video-id L21_V001` | `outputs/smoke/phowhisper/*.json` |
 | EasyOCR | `python scripts/run_ocr.py` | `artifacts/ocr/<video>.jsonl` |
 | Chuẩn hóa object | `python scripts/normalize_objects.py` | `artifacts/objects/<video>.jsonl` |
@@ -52,7 +52,7 @@ python -m pip install -e '.[phowhisper]'
 Convert checkpoint sang CT2 INT8:
 
 ```bash
-python convert_phowhisper.py \
+python scripts/prepare_phowhisper.py \
   --source-model vinai/PhoWhisper-large \
   --output-dir models/phowhisper-large-ct2 \
   --quantization int8
@@ -101,8 +101,6 @@ python scripts/transcribe_videos.py \
   --video-id L21_V002
 ```
 
-`audio_to_json.ipynb` là code thử cũ, không nằm trong call graph.
-
 ### Smoke PhoWhisper không đụng transcript production
 
 ```bash
@@ -114,7 +112,7 @@ python scripts/smoke_phowhisper.py \
 ```
 
 Duration mặc định là 15 giây và giới hạn cứng là 60 giây. Script luôn ghi dưới
-`outputs/smoke/`; truyền `--output outputs/transcripts/...` sẽ bị từ chối. Muốn
+`outputs/smoke/`; mọi đường dẫn canonical như `artifacts/transcripts/...` sẽ bị từ chối. Muốn
 thay một smoke file đã tồn tại phải thêm `--overwrite`. JSON kết quả có text,
 segment/word timestamp tương đối và tuyệt đối, language probability và timing.
 

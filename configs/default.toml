@@ -1,0 +1,54 @@
+[paths]
+dataset_root = "dataset"
+artifacts_root = "artifacts"
+
+[windows]
+length_seconds = 10.0
+stride_seconds = 5.0
+
+[retrieval]
+top_keyframes = 500
+top_windows = 200
+top_videos = 30
+rrf_k = 60
+duplicate_seconds = 2.0
+
+[retrieval.weights]
+visual = 1.0
+asr = 0.8
+ocr = 0.8
+caption = 0.9
+metadata = 0.5
+objects = 0.3
+
+[embeddings]
+clip_model = "ViT-B-32"
+clip_pretrained = "openai"
+text_model = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+device = "cpu"
+batch_size = 128
+
+[asr]
+model = "large-v3"
+device = "auto"
+compute_type = "auto"
+language = "vi"
+word_timestamps = true
+
+[ocr]
+backend = "tesseract"
+languages = "vie+eng"
+minimum_confidence = 0.30
+
+[gemini]
+model = "gemini-2.5-flash"
+api_key_env = "GEMINI_API_KEY"
+timeout_seconds = 60.0
+max_attempts = 3
+prompt_version = "qa-v1"
+max_candidates = 12
+
+[trake]
+dense_fps = 12.5
+refine_radius_seconds = 3.0
+transition_penalty = 0.05

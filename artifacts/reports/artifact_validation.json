@@ -1,0 +1,216 @@
+{
+  "schema_version": "1.0",
+  "config": "/Users/dangnguyen/Desktop/AgentForce/configs/default.toml",
+  "strict": true,
+  "require_ocr": true,
+  "scope": {
+    "video_ids": [
+      "L21_V001",
+      "L21_V002",
+      "L21_V003"
+    ],
+    "video_count": 3,
+    "scope_hash": "3db1ff7e2c344ab136d393170f15f07541bea921ec2fd4c8c33ca374b043f5ce"
+  },
+  "ok": true,
+  "errors": 0,
+  "warnings": 0,
+  "checks": {
+    "dataset_manifest": {
+      "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/manifests/dataset.json",
+      "valid": true,
+      "video_ids": {
+        "count": 3,
+        "values": [
+          "L21_V001",
+          "L21_V002",
+          "L21_V003"
+        ],
+        "truncated": 0
+      },
+      "keyframe_total": 855
+    },
+    "transcripts": {
+      "path": "/Users/dangnguyen/Desktop/AgentForce/outputs/transcripts",
+      "valid_video_ids": [
+        "L21_V001",
+        "L21_V002",
+        "L21_V003"
+      ],
+      "expected_count": 3
+    },
+    "timeline": {
+      "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/timelines/keyframes.jsonl",
+      "valid": true,
+      "row_count": 855,
+      "expected_row_count": 855,
+      "video_ids": {
+        "count": 3,
+        "values": [
+          "L21_V001",
+          "L21_V002",
+          "L21_V003"
+        ],
+        "truncated": 0
+      }
+    },
+    "objects": {
+      "L21_V001": {
+        "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/objects/L21_V001.jsonl",
+        "valid": true,
+        "row_count": 307,
+        "expected_row_count": 307
+      },
+      "L21_V002": {
+        "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/objects/L21_V002.jsonl",
+        "valid": true,
+        "row_count": 262,
+        "expected_row_count": 262
+      },
+      "L21_V003": {
+        "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/objects/L21_V003.jsonl",
+        "valid": true,
+        "row_count": 286,
+        "expected_row_count": 286
+      }
+    },
+    "ocr": {
+      "L21_V001": {
+        "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/ocr/L21_V001.jsonl",
+        "valid": true,
+        "row_count": 307,
+        "expected_row_count": 307
+      },
+      "L21_V002": {
+        "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/ocr/L21_V002.jsonl",
+        "valid": true,
+        "row_count": 262,
+        "expected_row_count": 262
+      },
+      "L21_V003": {
+        "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/ocr/L21_V003.jsonl",
+        "valid": true,
+        "row_count": 286,
+        "expected_row_count": 286
+      }
+    },
+    "temporal_windows": {
+      "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/windows/temporal_windows.jsonl",
+      "manifest": "/Users/dangnguyen/Desktop/AgentForce/artifacts/windows/temporal_windows.manifest.json",
+      "valid": true,
+      "row_count": 702,
+      "video_ids": {
+        "count": 3,
+        "values": [
+          "L21_V001",
+          "L21_V002",
+          "L21_V003"
+        ],
+        "truncated": 0
+      },
+      "canonical_records_hash": "a5d0ae255b5cec294f765b23ca7fe6db395209a57093be16dc6376ad036bbedb"
+    },
+    "indexes": {
+      "asr_windows": {
+        "manifest": "/Users/dangnguyen/Desktop/AgentForce/artifacts/indexes/asr_windows.manifest.json",
+        "valid": true,
+        "vector_shape": [
+          701,
+          768
+        ],
+        "vector_dtype": "float16",
+        "metadata_rows": 701,
+        "metadata_video_ids": {
+          "count": 3,
+          "values": [
+            "L21_V001",
+            "L21_V002",
+            "L21_V003"
+          ],
+          "truncated": 0
+        }
+      },
+      "objects_windows": {
+        "manifest": "/Users/dangnguyen/Desktop/AgentForce/artifacts/indexes/objects_windows.manifest.json",
+        "valid": true,
+        "vector_shape": [
+          697,
+          768
+        ],
+        "vector_dtype": "float16",
+        "metadata_rows": 697,
+        "metadata_video_ids": {
+          "count": 3,
+          "values": [
+            "L21_V001",
+            "L21_V002",
+            "L21_V003"
+          ],
+          "truncated": 0
+        }
+      },
+      "ocr_windows": {
+        "manifest": "/Users/dangnguyen/Desktop/AgentForce/artifacts/indexes/ocr_windows.manifest.json",
+        "valid": true,
+        "vector_shape": [
+          702,
+          768
+        ],
+        "vector_dtype": "float16",
+        "metadata_rows": 702,
+        "metadata_video_ids": {
+          "count": 3,
+          "values": [
+            "L21_V001",
+            "L21_V002",
+            "L21_V003"
+          ],
+          "truncated": 0
+        }
+      },
+      "visual_keyframes": {
+        "manifest": "/Users/dangnguyen/Desktop/AgentForce/artifacts/indexes/visual_keyframes.manifest.json",
+        "valid": true,
+        "vector_shape": [
+          855,
+          512
+        ],
+        "vector_dtype": "float16",
+        "metadata_rows": 855,
+        "metadata_video_ids": {
+          "count": 3,
+          "values": [
+            "L21_V001",
+            "L21_V002",
+            "L21_V003"
+          ],
+          "truncated": 0
+        }
+      },
+      "visual_windows": {
+        "manifest": "/Users/dangnguyen/Desktop/AgentForce/artifacts/indexes/visual_windows.manifest.json",
+        "valid": true,
+        "vector_shape": [
+          702,
+          512
+        ],
+        "vector_dtype": "float16",
+        "metadata_rows": 702,
+        "metadata_video_ids": {
+          "count": 3,
+          "values": [
+            "L21_V001",
+            "L21_V002",
+            "L21_V003"
+          ],
+          "truncated": 0
+        }
+      }
+    },
+    "caption_artifacts": {
+      "valid": true,
+      "matches": []
+    }
+  },
+  "issues": []
+}

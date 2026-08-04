@@ -1,0 +1,17 @@
+{
+  "name": "temporal_windows",
+  "path": "/Users/dangnguyen/Desktop/AgentForce/artifacts/windows/temporal_windows.jsonl",
+  "sha256": "3c4cb93eecf45f00bdf0313b90138434233fe0f84f3280d437f3193a4e02a57c",
+  "canonical_records_hash": "a5d0ae255b5cec294f765b23ca7fe6db395209a57093be16dc6376ad036bbedb",
+  "video_count": 3,
+  "video_ids": [
+    "L21_V001",
+    "L21_V002",
+    "L21_V003"
+  ],
+  "scope_hash": "3db1ff7e2c344ab136d393170f15f07541bea921ec2fd4c8c33ca374b043f5ce",
+  "window_length_seconds": 10.0,
+  "window_stride_seconds": 5.0,
+  "dataset_manifest_created_at": "2026-08-04T15:02:34.046516+00:00",
+  "schema_version": "1.0"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "visual_keyframes",
+  "vectors_path": "visual_keyframes.npy",
+  "metadata_path": "visual_keyframes.jsonl",
+  "row_count": 855,
+  "dimension": 512,
+  "dtype": "float16",
+  "normalized": true,
+  "source": "dataset/clip-features-32",
+  "video_ids": [
+    "L21_V001",
+    "L21_V002",
+    "L21_V003"
+  ],
+  "scope_hash": "3db1ff7e2c344ab136d393170f15f07541bea921ec2fd4c8c33ca374b043f5ce",
+  "source_signature": "736ae3fa372d19170a99223ba086a60dfa538a152ff6991ef234c7e86631de72",
+  "expected_encoder": {
+    "model": "ViT-B-32-quickgelu",
+    "pretrained": "openai"
+  },
+  "created_at": "2026-08-04T15:03:04.225656+00:00",
+  "builder_version": 1
+}

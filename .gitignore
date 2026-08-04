@@ -1,5 +1,5 @@
 dataset/
-artifacts/
+# artifacts/
 .env
 .venv/
 venv/

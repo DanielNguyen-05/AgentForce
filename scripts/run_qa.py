@@ -167,6 +167,7 @@ def solve_qa(
             for answer in answers
         ]
     return {
+        "query": query,
         "query_id": query_id,
         "task_type": "qa",
         "qa_mode": "single_final" if single_answer else "ranked_batches",

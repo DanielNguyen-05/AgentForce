@@ -25,6 +25,7 @@ SCRIPT_NAMES = (
     "run_kis.py",
     "run_qa.py",
     "run_trake.py",
+    "visualize_results.py",
     "verify_qa_request.py",
     "evaluate_results.py",
     "write_submission.py",

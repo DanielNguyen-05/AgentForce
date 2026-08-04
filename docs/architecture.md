@@ -126,6 +126,12 @@ Nhờ vậy visual keyframe và ASR/OCR/object window đại diện cho cùng kh
 được cộng evidence vào một hit, trong khi `visual_vector_id`, `<modality>_vector_id`
 và `<modality>_window_id` vẫn được giữ để debug nguồn gốc.
 
+`scripts/visualize_results.py` là nhánh quan sát read-only: nó nhận raw search
+hoặc task JSON, resolve ảnh lại qua manifest/timeline canonical và tạo standalone
+HTML dưới `artifacts/visualizations/`. Query mode gọi local retrieval trực tiếp;
+không đi vào Gemini. Dense frame không trùng keyframe được decode từ video gốc
+và được ghi rõ là `exact_video_frame`.
+
 ## Gemini trust boundary
 
 Gemini chỉ tồn tại ở nhánh Q&A cuối:

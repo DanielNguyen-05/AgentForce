@@ -58,6 +58,7 @@ AgentForce/
 │   ├── run_kis.py
 │   ├── run_qa.py
 │   ├── run_trake.py
+│   ├── visualize_results.py       # HTML gallery cho query/result keyframes
 │   ├── evaluate_results.py
 │   └── write_submission.py
 ├── src/agentforce/                 # Logic Python nội bộ
@@ -449,6 +450,35 @@ python scripts/run_trake.py \
 TRAKE retrieve riêng từng event, gom candidate theo video rồi dùng dynamic
 programming để giữ đúng temporal order.
 
+## Xem trực quan keyframe results
+
+Chạy query local và tạo ngay một HTML gallery tự chứa ảnh:
+
+```bash
+python scripts/visualize_results.py \
+  --query "một xe đầu kéo lưu thông trên đường ở Buôn Ma Thuột" \
+  --task kis \
+  --max-results 20 \
+  --output artifacts/visualizations/xe_dau_keo.html
+```
+
+Query mode chỉ chạy retrieval local, kể cả khi `--task qa`; nó không gọi Gemini.
+Raw retrieval JSON được lưu cạnh HTML với cùng tên. Muốn script tự mở trình
+duyệt sau khi tạo xong, thêm `--open`.
+
+Visualize một result JSON đã có từ Search, KIS, QA hoặc TRAKE:
+
+```bash
+python scripts/visualize_results.py \
+  --input outputs/KIS001.json \
+  --output artifacts/visualizations/KIS001.html
+```
+
+Với result cũ chưa lưu query, truyền thêm `--query "query gốc"` để đặt nhãn.
+Gallery hiển thị rank, video/frame, timestamp, score từng modality, ASR, OCR,
+object, QA answer và thứ tự event TRAKE. Ảnh được resolve từ manifest/timeline
+local rồi resize và nhúng base64; file HTML không cần web server hoặc CDN.
+
 ## Dữ liệu nào lưu vector, dữ liệu nào lưu JSON
 
 | Dữ liệu | Định dạng | Lý do |
@@ -461,6 +491,7 @@ programming để giữ đúng temporal order.
 | PhoWhisper transcript | `.json` | Segment, word timestamp và model metadata |
 | Timeline, OCR, object, windows | `.jsonl` | Một record mỗi keyframe/window, dễ debug |
 | Query/Gemini/evaluation result | `.json` | Evidence và score có cấu trúc |
+| Keyframe visualization | `.html` | Gallery tự chứa, dễ mở và kiểm tra |
 | Submission | `.csv` | Định dạng nộp bài |
 
 Không lưu list embedding float trong JSON. ID, timestamp, bbox và text gốc vẫn

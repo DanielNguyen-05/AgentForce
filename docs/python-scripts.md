@@ -36,6 +36,7 @@ chọn subset bên trong scope, chủ yếu cho output smoke không canonical.
 | Q&A + Gemini final | `python scripts/run_qa.py --query "..." --question "..."` | stdout hoặc `--output` |
 | Q&A request đã chuẩn bị | `python scripts/verify_qa_request.py --request ...` | stdout hoặc `--output` |
 | TRAKE | `python scripts/run_trake.py --query "event 1, sau đó event 2"` | stdout hoặc `--output` |
+| Visualize keyframes | `python scripts/visualize_results.py --input <result.json>` | `artifacts/visualizations/*.html` |
 | Đánh giá | `python scripts/evaluate_results.py --ground-truth ... --predictions ...` | stdout hoặc `--output` |
 | Ghi submission | `python scripts/write_submission.py --task kis --predictions ... --output ...` | CSV |
 
@@ -265,6 +266,31 @@ python scripts/run_trake.py \
   --dense-refine \
   --output outputs/TRAKE001.json
 ```
+
+### Visualize Search/KIS/QA/TRAKE
+
+Tạo gallery trực tiếp từ query, không gọi Gemini:
+
+```bash
+python scripts/visualize_results.py \
+  --query "một xe đầu kéo trên đường" \
+  --task kis \
+  --max-results 20 \
+  --output artifacts/visualizations/xe_dau_keo.html
+```
+
+Hoặc đọc JSON đã có:
+
+```bash
+python scripts/visualize_results.py \
+  --input outputs/KIS001.json \
+  --output artifacts/visualizations/KIS001.html \
+  --open
+```
+
+HTML chứa thumbnail base64, filter theo video/text, sort theo rank/score và
+evidence collapsible. Dense-refined frame không trùng keyframe sẽ được decode
+từ video gốc và gắn badge `exact video frame`, không giả làm keyframe gần nhất.
 
 ## Call graph
 

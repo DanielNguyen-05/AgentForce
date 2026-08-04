@@ -76,6 +76,7 @@ def solve_kis(
     )
     answers = solver.solve(query)
     return {
+        "query": query,
         "query_id": query_id,
         "task_type": "kis",
         "predictions": [

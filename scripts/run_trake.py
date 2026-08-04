@@ -77,6 +77,7 @@ def solve_trake(
     )
     answers = solver.solve(query)
     return {
+        "query": query,
         "query_id": query_id,
         "task_type": "trake",
         "predictions": [

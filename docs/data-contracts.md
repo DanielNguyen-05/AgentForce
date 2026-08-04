@@ -135,6 +135,7 @@ canonical `artifacts/indexes/`.
 | Timeline, OCR, object, windows, row metadata | JSONL |
 | Embedding matrices | NPY float16/float32 |
 | Gemini cache/audit và task results | JSON/JSONL |
+| Keyframe retrieval gallery | Standalone HTML dưới `artifacts/visualizations/` |
 | Submission | CSV theo task |
 
 Embedding không được serialize thành list float trong JSON. Text gốc, ID,

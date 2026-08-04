@@ -10,12 +10,17 @@ from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 import sys
+from pathlib import Path
 
 from _bootstrap import project_path
 
-from agentforce.evaluation import evaluate_run, parse_ground_truth, parse_prediction
+from agentforce.evaluation import (
+    TaskType,
+    evaluate_run,
+    parse_ground_truth,
+    parse_prediction_document,
+)
 from agentforce.utils.io import atomic_write_json
 
 
@@ -39,10 +44,25 @@ def main() -> int:
         str(query_id): parse_ground_truth(value)
         for query_id, value in raw_ground_truth.items()
     }
-    predictions = {
-        str(query_id): tuple(parse_prediction(value) for value in values)
-        for query_id, values in raw_predictions.items()
-    }
+    only_ground_truth_id = next(iter(ground_truths)) if len(ground_truths) == 1 else None
+    predictions = parse_prediction_document(
+        raw_predictions,
+        query_id=only_ground_truth_id if isinstance(raw_predictions, list) else None,
+    )
+    if (
+        isinstance(raw_predictions, dict)
+        and "predictions" in raw_predictions
+        and "task_type" in raw_predictions
+    ):
+        wrapper_id = str(raw_predictions.get("query_id", "")).strip()
+        if wrapper_id in ground_truths:
+            wrapper_task = TaskType.parse(raw_predictions["task_type"])
+            expected_task = ground_truths[wrapper_id].task_type
+            if wrapper_task is not expected_task:
+                raise ValueError(
+                    f"Prediction output task {wrapper_task.value!r} does not match "
+                    f"ground-truth task {expected_task.value!r} for {wrapper_id}"
+                )
     report = evaluate_run(ground_truths, predictions).to_dict()
     if args.output:
         atomic_write_json(project_path(args.output), report)

@@ -6,9 +6,8 @@ without installing the project first.
 
 from __future__ import annotations
 
-from pathlib import Path
 import sys
-
+from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SRC_ROOT = PROJECT_ROOT / "src"
@@ -16,6 +15,10 @@ DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "default.toml"
 
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
+
+from agentforce.environment import load_project_env  # noqa: E402 - src path is set above
+
+load_project_env(PROJECT_ROOT, override=False)
 
 
 def project_path(value: str | Path) -> Path:

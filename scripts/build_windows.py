@@ -5,15 +5,16 @@ from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 import sys
-from typing import Sequence
+from collections.abc import Sequence
+from pathlib import Path
 
 from _bootstrap import DEFAULT_CONFIG, project_path
 
 from agentforce.config import load_config
 from agentforce.data.manifest import build_manifest
-from agentforce.data.schemas import DatasetManifest, VideoRecord, write_jsonl
+from agentforce.data.schemas import DatasetManifest, write_jsonl
+from agentforce.data.scope import assert_exact_scope, scope_hash, select_videos
 from agentforce.data.timeline import timeline_from_manifest
 from agentforce.preprocessing.asr import read_transcript
 from agentforce.preprocessing.windows import (
@@ -31,23 +32,6 @@ def _manifest(config) -> DatasetManifest:
     return DatasetManifest.read_json(path) if path.exists() else build_manifest(
         config.paths.dataset_root, validate=False
     )
-
-
-def _select_videos(
-    manifest: DatasetManifest, video_id: str | None, all_videos: bool, limit: int | None
-) -> list[VideoRecord]:
-    if limit is not None and limit < 1:
-        raise ValueError("--limit must be positive")
-    if video_id:
-        video = manifest.by_video_id().get(video_id.upper())
-        if video is None:
-            raise ValueError(f"Unknown video ID: {video_id}")
-        selected = [video]
-    elif all_videos:
-        selected = list(manifest.videos)
-    else:
-        raise ValueError("Specify --video-id or --all")
-    return selected if limit is None else selected[:limit]
 
 
 def _load_text_mapping(path: Path, text_field: str) -> dict[str, str]:
@@ -86,9 +70,18 @@ def _load_object_labels(path: Path) -> dict[str, list[str]]:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", default=str(DEFAULT_CONFIG))
-    selection = parser.add_mutually_exclusive_group(required=True)
-    selection.add_argument("--video-id", help="Build windows for one video")
-    selection.add_argument("--all", action="store_true", help="Build windows for every video")
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument(
+        "--video-ids",
+        "--video-id",
+        dest="video_ids",
+        nargs="+",
+        metavar="VIDEO_ID",
+        help="Build windows for an explicit subset inside the configured scope",
+    )
+    selection.add_argument(
+        "--all", action="store_true", help="Build the complete configured scope"
+    )
     parser.add_argument("--limit", type=int, help="Limit selected videos for a smoke run")
     parser.add_argument("--output", help="Output JSONL path")
     parser.add_argument("--length-seconds", type=float, help="Override window length")
@@ -101,12 +94,26 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"[RUN] {Path(__file__).resolve()}", file=sys.stderr)
     config = load_config(project_path(args.config))
     manifest = _manifest(config)
-    videos = _select_videos(manifest, args.video_id, args.all, args.limit)
-    output = (
-        project_path(args.output)
-        if args.output
-        else config.paths.artifacts_root / "windows" / "temporal_windows.jsonl"
+    videos = select_videos(
+        manifest,
+        configured_ids=config.scope.video_ids,
+        requested_ids=args.video_ids,
+        all_configured=args.all,
+        limit=args.limit,
     )
+    canonical_output = config.paths.artifacts_root / "windows" / "temporal_windows.jsonl"
+    output = project_path(args.output) if args.output else canonical_output
+    if output.resolve() == canonical_output.resolve():
+        if args.limit is not None:
+            raise ValueError("--limit requires an explicit non-canonical --output")
+        expected_ids = config.scope.video_ids or tuple(
+            video.video_id for video in manifest.videos
+        )
+        assert_exact_scope(
+            (video.video_id for video in videos),
+            expected_ids,
+            label="Canonical temporal windows",
+        )
     window_config = WindowConfig(
         length_seconds=(
             config.windows.length_seconds
@@ -129,9 +136,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 duration_seconds=video.duration_seconds,
                 config=window_config,
             )
-            transcript_path = (
-                config.paths.artifacts_root / "transcripts" / f"{video.video_id}.json"
-            )
+            transcript_path = config.paths.outputs_root / "transcripts" / f"{video.video_id}.json"
             if transcript_path.exists():
                 align_transcript_to_windows(windows, read_transcript(transcript_path).segments)
 
@@ -142,13 +147,6 @@ def main(argv: Sequence[str] | None = None) -> int:
             if ocr:
                 attach_keyframe_text(windows, ocr, target_field="ocr_text")
 
-            captions = _load_text_mapping(
-                config.paths.artifacts_root / "captions" / f"{video.video_id}.jsonl",
-                "caption_text",
-            )
-            if captions:
-                attach_keyframe_text(windows, captions, target_field="caption_text")
-
             objects = _load_object_labels(
                 config.paths.artifacts_root / "objects" / f"{video.video_id}.jsonl"
             )
@@ -158,6 +156,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     write_jsonl(generate(), output)
     manifest_path = output.with_suffix(".manifest.json")
+    selected_video_ids = [video.video_id for video in videos]
     window_manifest = {
         "name": "temporal_windows",
         "path": str(output),
@@ -165,8 +164,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         "canonical_records_hash": canonical_jsonl_sha256(
             output, exclude_fields=("metadata_text",)
         ),
-        "video_count": len(videos),
-        "video_ids": [video.video_id for video in videos],
+        "video_count": len(selected_video_ids),
+        "video_ids": selected_video_ids,
+        "scope_hash": scope_hash(selected_video_ids),
         "window_length_seconds": window_config.length_seconds,
         "window_stride_seconds": window_config.stride_seconds,
         "dataset_manifest_created_at": manifest.created_at,

@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import json
 import mimetypes
-from pathlib import Path
 import random
 import time
+from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Callable, Mapping, Protocol, Sequence
 
 from .schemas import FrameCandidate, QAVerification
@@ -23,7 +23,7 @@ class GeminiResponseError(RuntimeError):
 
 @dataclass(frozen=True, slots=True)
 class GeminiClientConfig:
-    model: str = "gemini-2.5-flash"
+    model: str = "gemini-3.6-flash"
     max_attempts: int = 3
     initial_backoff_seconds: float = 1.0
     max_backoff_seconds: float = 8.0
@@ -68,8 +68,17 @@ class GoogleGenAITransport:
     require an API key and does not require ``google-genai`` to be installed.
     """
 
-    def __init__(self, *, api_key: str | None = None, client: object | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        api_key: str | None = None,
+        timeout_seconds: float = 60.0,
+        client: object | None = None,
+    ) -> None:
+        if timeout_seconds <= 0:
+            raise ValueError("timeout_seconds must be positive")
         self._api_key = api_key
+        self._timeout_seconds = float(timeout_seconds)
         self._client = client
         self.last_diagnostics: dict[str, Any] = {}
 
@@ -89,7 +98,11 @@ class GoogleGenAITransport:
         genai, types = self._imports()
         if self._client is None:
             # With api_key=None the SDK reads GEMINI_API_KEY/GOOGLE_API_KEY.
-            self._client = genai.Client(api_key=self._api_key)
+            # The Google Gen AI SDK expects HttpOptions.timeout in milliseconds.
+            self._client = genai.Client(
+                api_key=self._api_key,
+                http_options=types.HttpOptions(timeout=round(self._timeout_seconds * 1000)),
+            )
         return self._client, types
 
     @staticmethod
@@ -238,7 +251,7 @@ class GeminiQAClient:
                 raise
             except (KeyboardInterrupt, SystemExit):
                 raise
-            except BaseException as exc:
+            except Exception as exc:
                 last_error = exc
                 if attempt < self.config.max_attempts:
                     self._sleep(self._delay(attempt))

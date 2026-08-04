@@ -1,6 +1,10 @@
 [paths]
 dataset_root = "dataset"
 artifacts_root = "artifacts"
+outputs_root = "outputs"
+
+[scope]
+video_ids = ["L21_V001", "L21_V002", "L21_V003"]
 
 [windows]
 length_seconds = 10.0
@@ -12,43 +16,50 @@ top_windows = 200
 top_videos = 30
 rrf_k = 60
 duplicate_seconds = 2.0
+visual_level = "keyframe"
 
 [retrieval.weights]
 visual = 1.0
 asr = 0.8
 ocr = 0.8
-caption = 0.9
 metadata = 0.5
 objects = 0.3
 
 [embeddings]
-clip_model = "ViT-B-32"
+clip_model = "ViT-B-32-quickgelu"
 clip_pretrained = "openai"
 text_model = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
 device = "cpu"
 batch_size = 128
+query_local_files_only = true
 
 [asr]
-model = "large-v3"
-device = "auto"
-compute_type = "auto"
+model = "models/phowhisper-large-ct2"
+device = "cpu"
+compute_type = "int8"
 language = "vi"
+beam_size = 5
+vad_filter = true
+vad_min_silence_duration_ms = 500
 word_timestamps = true
+condition_on_previous_text = true
 
 [ocr]
-backend = "tesseract"
-languages = "vie+eng"
+backend = "easyocr"
+languages = "vi,en"
 minimum_confidence = 0.30
 
 [gemini]
-model = "gemini-2.5-flash"
+model = "gemini-3.6-flash"
 api_key_env = "GEMINI_API_KEY"
 timeout_seconds = 60.0
 max_attempts = 3
-prompt_version = "qa-v1"
+prompt_version = "qa-multiframe-v1"
 max_candidates = 12
 
 [trake]
 dense_fps = 12.5
 refine_radius_seconds = 3.0
-transition_penalty = 0.05
+strict_order = true
+min_event_gap_seconds = 0.0
+transition_penalty = 0.0

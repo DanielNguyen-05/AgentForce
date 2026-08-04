@@ -10,12 +10,12 @@ from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 import sys
+from pathlib import Path
 
 from _bootstrap import project_path
 
-from agentforce.evaluation import parse_prediction
+from agentforce.evaluation import TaskType, parse_prediction_document
 from agentforce.submission import write_submission
 
 
@@ -36,16 +36,27 @@ def main() -> int:
     if not 1 <= args.limit <= 100:
         raise ValueError("--limit must be between 1 and 100")
     raw = json.loads(project_path(args.predictions).read_text(encoding="utf-8"))
-    if isinstance(raw, dict):
-        if not args.query_id:
-            raise ValueError("--query-id is required when predictions JSON is a mapping")
-        values = raw[args.query_id]
+    parsed_task = TaskType.parse(args.task)
+    if isinstance(raw, dict) and "predictions" in raw and "task_type" in raw:
+        embedded_task = TaskType.parse(raw["task_type"])
+        if embedded_task is not parsed_task:
+            raise ValueError(
+                f"Requested task {parsed_task.value!r} does not match prediction output "
+                f"task {embedded_task.value!r}"
+            )
+    runs = parse_prediction_document(raw, query_id=args.query_id)
+    if args.query_id:
+        selected_query_id = args.query_id.strip()
+        if selected_query_id not in runs:
+            raise ValueError(f"Query ID not found in predictions: {selected_query_id}")
+    elif len(runs) == 1:
+        selected_query_id = next(iter(runs))
     else:
-        values = raw
-    predictions = tuple(parse_prediction(value) for value in values[: args.limit])
+        raise ValueError("--query-id is required when predictions contain multiple queries")
+    predictions = runs[selected_query_id][: args.limit]
     output = write_submission(
         project_path(args.output),
-        args.task,
+        parsed_task,
         predictions,
         include_header=args.header,
         max_results=args.limit,

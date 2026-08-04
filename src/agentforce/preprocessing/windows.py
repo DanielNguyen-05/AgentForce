@@ -2,11 +2,16 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import math
-from typing import Iterable, Sequence
+from collections.abc import Iterable, Sequence
+from dataclasses import dataclass
 
-from agentforce.data.schemas import KeyframeRecord, TemporalWindow, TranscriptSegment
+from agentforce.data.schemas import (
+    KeyframeRecord,
+    TemporalWindow,
+    TranscriptSegment,
+    TranscriptWord,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -96,25 +101,50 @@ def align_transcript_to_windows(
     *,
     min_segment_overlap: float = 0.2,
 ) -> Sequence[TemporalWindow]:
-    """Attach ASR using overlap, allowing boundary-spanning speech in both windows."""
+    """Attach timestamped ASR text to retrieval windows.
+
+    Word timestamps are preferred because Whisper/PhoWhisper segments are often
+    around 30 seconds long, substantially wider than a retrieval window.  A
+    word is assigned by its timestamp midpoint, which avoids copying the full
+    long segment into every intersecting window.  Segment overlap remains the
+    fallback for transcripts that do not contain usable word timestamps.
+    """
 
     if not 0 <= min_segment_overlap <= 1:
         raise ValueError("min_segment_overlap must be in [0, 1]")
     for window in windows:
-        selected: list[TranscriptSegment] = []
+        selected_ids: list[int] = []
+        text_parts: list[str] = []
         for segment in segments:
             if segment.end < segment.start:
                 raise ValueError(f"ASR segment {segment.segment_id} has end < start")
+            for word in segment.words:
+                if word.end < word.start:
+                    raise ValueError(
+                        f"ASR word in segment {segment.segment_id} has end < start"
+                    )
+            usable_words = [word for word in segment.words if word.text.strip()]
+            if usable_words:
+                selected_words: list[TranscriptWord] = []
+                for word in usable_words:
+                    midpoint = (word.start + word.end) / 2.0
+                    if window.start_time <= midpoint < window.end_time:
+                        selected_words.append(word)
+                if selected_words:
+                    selected_ids.append(segment.segment_id)
+                    text_parts.extend(word.text.strip() for word in selected_words)
+                continue
+
             duration = max(1e-9, segment.end - segment.start)
             overlap = interval_overlap(
                 window.start_time, window.end_time, segment.start, segment.end
             )
             if overlap > 0 and overlap / duration >= min_segment_overlap:
-                selected.append(segment)
-        window.asr_segment_ids = [segment.segment_id for segment in selected]
-        window.asr_text = " ".join(
-            segment.text.strip() for segment in selected if segment.text.strip()
-        )
+                selected_ids.append(segment.segment_id)
+                if segment.text.strip():
+                    text_parts.append(segment.text.strip())
+        window.asr_segment_ids = list(dict.fromkeys(selected_ids))
+        window.asr_text = " ".join(text_parts)
     return windows
 
 
@@ -124,10 +154,10 @@ def attach_keyframe_text(
     *,
     target_field: str,
 ) -> Sequence[TemporalWindow]:
-    """Aggregate OCR/caption text into existing windows without duplication."""
+    """Aggregate keyframe OCR text into existing windows without duplication."""
 
-    if target_field not in {"ocr_text", "caption_text"}:
-        raise ValueError("target_field must be 'ocr_text' or 'caption_text'")
+    if target_field != "ocr_text":
+        raise ValueError("target_field must be 'ocr_text'")
     for window in windows:
         values = [
             text_by_keyframe_uid[uid].strip()

@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections import defaultdict
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
+import math
 from typing import Any
 
 from agentforce.retrieval.query import (
@@ -14,7 +15,7 @@ from agentforce.retrieval.query import (
     QueryParser,
 )
 from agentforce.retrieval.ranking import aggregate_by_video
-from agentforce.retrieval.types import ParsedQuery, QueryEvent, SearchHit, TaskType
+from agentforce.retrieval.types import ParsedQuery, SearchHit, TaskType
 from agentforce.temporal.alignment import AlignmentResult, align_ordered_candidates
 from agentforce.temporal.refinement import DenseRefiner, FrameCandidate
 
@@ -36,6 +37,7 @@ class TRAKEConfig:
     strict_order: bool = True
     min_event_gap_seconds: float = 0.0
     max_event_gap_seconds: float | None = None
+    transition_penalty: float = 0.0
 
     def __post_init__(self) -> None:
         if min(
@@ -46,7 +48,11 @@ class TRAKEConfig:
             self.top_k,
         ) <= 0:
             raise ValueError("retrieval sizes must be positive")
-        if self.global_video_weight < 0 or self.min_event_gap_seconds < 0:
+        if (
+            self.global_video_weight < 0
+            or self.min_event_gap_seconds < 0
+            or self.transition_penalty < 0
+        ):
             raise ValueError("weights and gaps must be non-negative")
         if (
             self.max_event_gap_seconds is not None
@@ -240,8 +246,12 @@ class TRAKESolver:
                     video_id=video_id,
                     strict=self._config.strict_order,
                 )
-                if refined_alignment is not None:
-                    alignment = refined_alignment
+                # Dense refinement is the final exact-frame stage.  Keeping a
+                # non-strict coarse path after exact frames fail strict order
+                # would emit an invalid TRAKE answer.
+                if refined_alignment is None:
+                    continue
+                alignment = refined_alignment
             score = alignment.score / len(parsed.events)
             score += self._config.global_video_weight * global_scores.get(video_id, 0.0)
             alignments.append((alignment, score))
@@ -276,12 +286,21 @@ class TRAKESolver:
         video_id: str,
         strict: bool | None = None,
     ) -> AlignmentResult | None:
+        transition_penalty_fn = None
+        if self._config.transition_penalty > 0:
+            weight = self._config.transition_penalty
+
+            def penalize_gap(gap: float) -> float:
+                return weight * math.log1p(gap)
+
+            transition_penalty_fn = penalize_gap
         return align_ordered_candidates(
             event_candidates,
             video_id=video_id,
             strict=self._config.strict_order if strict is None else strict,
             min_gap=self._config.min_event_gap_seconds,
             max_gap=self._config.max_event_gap_seconds,
+            transition_penalty=transition_penalty_fn,
         )
 
     @staticmethod

@@ -9,7 +9,7 @@ from .metrics import (
     normalize_answer,
     score_prediction,
 )
-from .io import parse_ground_truth, parse_prediction
+from .io import parse_ground_truth, parse_prediction, parse_prediction_document
 from .schemas import (
     FrameInterval,
     KISGroundTruth,
@@ -38,5 +38,6 @@ __all__ = [
     "normalize_answer",
     "parse_ground_truth",
     "parse_prediction",
+    "parse_prediction_document",
     "score_prediction",
 ]

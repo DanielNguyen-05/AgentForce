@@ -70,7 +70,7 @@ def _expected_answer_type(text: str) -> str | None:
 
 def _modality_hints(text: str) -> dict[str, float]:
     lowered = text.casefold()
-    hints = {"visual": 1.0, "caption": 1.0}
+    hints = {"visual": 1.0}
     if any(
         term in lowered
         for term in ("ghi gì", "viết gì", "dòng chữ", "biển hiệu", "logo", "ocr")
@@ -207,4 +207,3 @@ class HeuristicQueryExpander:
                 seen.add(key)
                 deduplicated.append(variant)
         return tuple(deduplicated)
-

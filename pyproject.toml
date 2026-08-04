@@ -10,10 +10,17 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
   "numpy>=1.26",
+  "python-dotenv>=1.0",
 ]
 
 [project.optional-dependencies]
 asr = ["faster-whisper>=1.1"]
+phowhisper = [
+  "faster-whisper>=1.1",
+  "ctranslate2>=4.5",
+  "transformers[torch]>=4.41,<6",
+  "accelerate>=1.0",
+]
 gemini = ["google-genai>=1.0"]
 semantic = ["sentence-transformers>=3.0"]
 vision = ["open-clip-torch>=2.30", "torch>=2.2", "Pillow>=10"]
@@ -24,6 +31,9 @@ video = ["opencv-python>=4.10"]
 dev = ["pytest>=8", "pytest-cov>=5", "ruff>=0.9"]
 all = [
   "faster-whisper>=1.1",
+  "ctranslate2>=4.5",
+  "transformers[torch]>=4.41,<6",
+  "accelerate>=1.0",
   "google-genai>=1.0",
   "sentence-transformers>=3.0",
   "open-clip-torch>=2.30",
@@ -47,3 +57,7 @@ addopts = "-ra"
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+exclude = ["audio_to_json.ipynb"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

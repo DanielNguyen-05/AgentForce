@@ -8,7 +8,7 @@ FAISS indexes to replace transparent NumPy indexes without changing task code.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Mapping, Sequence
+from typing import Any, Mapping, Sequence
 
 from agentforce.embeddings.encoders import TextEncoder
 from agentforce.indexing.numpy_index import NumpyIndex
@@ -27,6 +27,51 @@ class SearchField:
     weight: float = 1.0
 
 
+def canonical_fusion_id(vector_id: str, metadata: Mapping[str, Any]) -> str:
+    """Resolve one cross-modal candidate ID from trusted index metadata.
+
+    Window indexes use ``*_W...`` vector IDs while visual keyframes use
+    ``*_K...`` IDs. Both point at the same moment through the representative
+    keyframe UID, which therefore has priority for fusion.
+    """
+
+    for key in ("representative_keyframe_uid", "keyframe_uid"):
+        value = metadata.get(key)
+        if value is not None and str(value).strip():
+            return str(value).strip()
+    if not str(vector_id).strip():
+        raise ValueError("vector_id must not be empty")
+    return str(vector_id).strip()
+
+
+def _canonical_search_hit(
+    *,
+    vector_id: str,
+    score: float,
+    rank: int,
+    modality: str,
+    metadata: Mapping[str, Any],
+) -> SearchHit:
+    """Build a canonical hit without losing source row provenance/context."""
+
+    preserved = dict(metadata)
+    preserved["vector_id"] = vector_id
+    preserved.setdefault(f"{modality}_vector_id", vector_id)
+    window_id = preserved.get("window_id")
+    if window_id is not None and str(window_id).strip():
+        preserved.setdefault(f"{modality}_window_id", str(window_id))
+    context = preserved.get("text")
+    if context is not None and str(context).strip():
+        preserved.setdefault(f"{modality}_text", context)
+    return SearchHit(
+        candidate_id=canonical_fusion_id(vector_id, preserved),
+        score=score,
+        rank=rank,
+        modality=modality,
+        metadata=preserved,
+    )
+
+
 class IndexTextSearcher:
     """Adapter used by task solvers that own fusion and temporal logic."""
 
@@ -36,8 +81,8 @@ class IndexTextSearcher:
     def search(self, text: str, *, k: int) -> Sequence[SearchHit]:
         query = self.field.encoder.encode([text])[0]
         return tuple(
-            SearchHit(
-                candidate_id=hit.vector_id,
+            _canonical_search_hit(
+                vector_id=hit.vector_id,
                 score=hit.score,
                 rank=rank,
                 modality=self.field.name,
@@ -83,15 +128,16 @@ class MultimodalSearchEngine:
             query = field.encoder.encode([variant.text])[0]
             for rank, hit in enumerate(field.index.search(query, field.top_k), 1):
                 score = hit.score * variant.weight
-                previous = best.get(hit.vector_id)
+                candidate = _canonical_search_hit(
+                    vector_id=hit.vector_id,
+                    score=score,
+                    rank=rank,
+                    modality=field.name,
+                    metadata=hit.metadata,
+                )
+                previous = best.get(candidate.candidate_id)
                 if previous is None or score > previous.score:
-                    best[hit.vector_id] = SearchHit(
-                        candidate_id=hit.vector_id,
-                        score=score,
-                        rank=rank,
-                        modality=field.name,
-                        metadata=hit.metadata,
-                    )
+                    best[candidate.candidate_id] = candidate
         return sorted(best.values(), key=lambda item: (-item.score, item.candidate_id))
 
     def search(

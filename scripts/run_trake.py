@@ -69,6 +69,10 @@ def solve_trake(
             top_k=limit,
             rank_constant=config.retrieval.rrf_k,
             modality_weights=weights,
+            strict_order=config.trake.strict_order,
+            min_event_gap_seconds=config.trake.min_event_gap_seconds,
+            max_event_gap_seconds=config.trake.max_event_gap_seconds,
+            transition_penalty=config.trake.transition_penalty,
         ),
     )
     answers = solver.solve(query)

@@ -13,4 +13,5 @@ htmlcov/
 dist/
 build/
 .DS_Store
-tests/
+models/
+outputs/smoke/

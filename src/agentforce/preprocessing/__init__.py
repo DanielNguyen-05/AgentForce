@@ -4,11 +4,12 @@ from .asr import (
     ASRConfig,
     ASRDependencyError,
     FasterWhisperAdapter,
+    TranscriptSchemaError,
+    migrate_transcript,
     read_transcript,
     write_transcript,
 )
 from .audio import AudioExtractionConfig, FFmpegError, MediaProbe, extract_audio, probe_media
-from .captions import CaptionProcessor, CaptionRecord, GeminiCaptionBackend
 from .objects import classwise_nms, load_object_frame, normalize_object_files
 from .ocr import (
     EasyOCREngine,
@@ -31,12 +32,10 @@ __all__ = [
     "ASRConfig",
     "ASRDependencyError",
     "AudioExtractionConfig",
-    "CaptionProcessor",
-    "CaptionRecord",
     "EasyOCREngine",
     "FFmpegError",
     "FasterWhisperAdapter",
-    "GeminiCaptionBackend",
+    "TranscriptSchemaError",
     "MediaProbe",
     "OCRDependencyError",
     "OCRProcessor",
@@ -51,6 +50,7 @@ __all__ = [
     "extract_audio",
     "interval_overlap",
     "load_object_frame",
+    "migrate_transcript",
     "normalize_object_files",
     "normalize_ocr_text",
     "probe_media",

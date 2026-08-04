@@ -6,20 +6,20 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-from pathlib import Path
 import re
 import sys
-from typing import Sequence
+from collections.abc import Sequence
+from pathlib import Path
 
 from _bootstrap import DEFAULT_CONFIG, project_path
 
 from agentforce.config import load_config
 from agentforce.data.manifest import build_manifest
-from agentforce.data.schemas import DatasetManifest, VideoRecord
+from agentforce.data.schemas import DatasetManifest
+from agentforce.data.scope import assert_exact_scope, select_videos
 from agentforce.data.timeline import timeline_from_manifest
 from agentforce.logging_utils import configure_logging
 from agentforce.preprocessing.ocr import EasyOCREngine, OCRProcessor, TesseractOCREngine
-
 
 LOGGER = logging.getLogger("scripts.run_ocr")
 
@@ -31,23 +31,6 @@ def _manifest(config) -> DatasetManifest:
     )
 
 
-def _select_videos(
-    manifest: DatasetManifest, video_id: str | None, all_videos: bool, limit: int | None
-) -> list[VideoRecord]:
-    if limit is not None and limit < 1:
-        raise ValueError("--limit must be positive")
-    if video_id:
-        video = manifest.by_video_id().get(video_id.upper())
-        if video is None:
-            raise ValueError(f"Unknown video ID: {video_id}")
-        selected = [video]
-    elif all_videos:
-        selected = list(manifest.videos)
-    else:
-        raise ValueError("Specify --video-id or --all")
-    return selected if limit is None else selected[:limit]
-
-
 def _easyocr_languages(raw: str) -> tuple[str, ...]:
     aliases = {"vie": "vi", "eng": "en"}
     values = [item for item in re.split(r"[+,]", raw) if item]
@@ -57,9 +40,18 @@ def _easyocr_languages(raw: str) -> tuple[str, ...]:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", default=str(DEFAULT_CONFIG))
-    selection = parser.add_mutually_exclusive_group(required=True)
-    selection.add_argument("--video-id", help="OCR one video, e.g. L21_V001")
-    selection.add_argument("--all", action="store_true", help="OCR every video")
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument(
+        "--video-ids",
+        "--video-id",
+        dest="video_ids",
+        nargs="+",
+        metavar="VIDEO_ID",
+        help="OCR an explicit subset inside the configured scope",
+    )
+    selection.add_argument(
+        "--all", action="store_true", help="OCR the complete configured scope"
+    )
     parser.add_argument("--limit", type=int, help="Limit selected videos for a smoke run")
     parser.add_argument("--frame-limit", type=int, help="Limit keyframes per video")
     parser.add_argument("--output-dir", help="OCR JSONL directory")
@@ -68,6 +60,20 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--minimum-confidence", type=float)
     parser.add_argument("--tesseract-psm", type=int, default=11)
     parser.add_argument("--gpu", action="store_true", help="Use GPU with EasyOCR")
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=1,
+        help=(
+            "EasyOCR keyframes per detector batch (default: 1; batched images must "
+            "have equal dimensions)"
+        ),
+    )
+    parser.add_argument(
+        "--show-backend-warnings",
+        action="store_true",
+        help="Show repetitive low-level EasyOCR/PyTorch warnings for debugging",
+    )
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("-v", "--verbose", action="count", default=0)
     return parser
@@ -80,13 +86,33 @@ def main(argv: Sequence[str] | None = None) -> int:
         raise ValueError("--frame-limit must be positive")
     if args.tesseract_psm < 0:
         raise ValueError("--tesseract-psm cannot be negative")
+    if args.batch_size < 1:
+        raise ValueError("--batch-size must be positive")
     configure_logging(args.verbose)
     config = load_config(project_path(args.config))
     manifest = _manifest(config)
-    videos = _select_videos(manifest, args.video_id, args.all, args.limit)
-    output_dir = (
-        project_path(args.output_dir) if args.output_dir else config.paths.artifacts_root / "ocr"
+    videos = select_videos(
+        manifest,
+        configured_ids=config.scope.video_ids,
+        requested_ids=args.video_ids,
+        all_configured=args.all,
+        limit=args.limit,
     )
+    canonical_output_dir = config.paths.artifacts_root / "ocr"
+    output_dir = project_path(args.output_dir) if args.output_dir else canonical_output_dir
+    if output_dir.resolve() == canonical_output_dir.resolve():
+        if args.limit is not None:
+            raise ValueError("--limit requires an explicit non-canonical --output-dir")
+        if args.frame_limit is not None:
+            raise ValueError("--frame-limit requires an explicit non-canonical --output-dir")
+        expected_ids = config.scope.video_ids or tuple(
+            video.video_id for video in manifest.videos
+        )
+        assert_exact_scope(
+            (video.video_id for video in videos),
+            expected_ids,
+            label="Canonical OCR artifacts",
+        )
     backend = args.backend or config.ocr.backend
     languages = args.languages or config.ocr.languages
     minimum_confidence = (
@@ -99,7 +125,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             language=languages, config=f"--psm {args.tesseract_psm}"
         )
     else:
-        engine = EasyOCREngine(languages=_easyocr_languages(languages), gpu=args.gpu)
+        engine = EasyOCREngine(
+            languages=_easyocr_languages(languages),
+            gpu=args.gpu,
+            batch_size=args.batch_size,
+            suppress_pin_memory_warnings=not args.show_backend_warnings,
+        )
     processor = OCRProcessor(engine, min_confidence=minimum_confidence)
 
     completed = skipped = 0

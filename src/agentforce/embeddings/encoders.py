@@ -50,9 +50,15 @@ class HashingTextEncoder:
 
 
 class SentenceTransformerEncoder:
-    """Multilingual text encoder for ASR/OCR/caption/metadata fields."""
+    """Multilingual text encoder for ASR/OCR/object/metadata fields."""
 
-    def __init__(self, model_name: str, *, device: str | None = None) -> None:
+    def __init__(
+        self,
+        model_name: str,
+        *,
+        device: str | None = None,
+        local_files_only: bool = False,
+    ) -> None:
         try:
             from sentence_transformers import SentenceTransformer
         except ImportError as exc:
@@ -60,8 +66,17 @@ class SentenceTransformerEncoder:
                 "SentenceTransformerEncoder requires `pip install -e '.[semantic]'`"
             ) from exc
         self.model_name = model_name
-        self._model = SentenceTransformer(model_name, device=device)
-        self.dimension = int(self._model.get_sentence_embedding_dimension())
+        self._model = SentenceTransformer(
+            model_name,
+            device=device,
+            local_files_only=local_files_only,
+        )
+        dimension_getter = getattr(
+            self._model,
+            "get_embedding_dimension",
+            self._model.get_sentence_embedding_dimension,
+        )
+        self.dimension = int(dimension_getter())
 
     def encode(self, texts: Sequence[str]) -> np.ndarray:
         matrix = self._model.encode(
@@ -107,4 +122,3 @@ class OpenCLIPTextEncoder:
         with self._torch.inference_mode():
             features = self._model.encode_text(tokens, normalize=True)
         return features.detach().cpu().numpy().astype(np.float32, copy=False)
-

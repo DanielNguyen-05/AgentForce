@@ -12,20 +12,15 @@ import os
 from pathlib import Path
 
 from agentforce.config import AppConfig
+from agentforce.data.scope import assert_exact_scope, load_configured_manifest, scope_hash
 from agentforce.data.schemas import DatasetManifest
 from agentforce.engine import IndexTextSearcher, MultimodalSearchEngine, SearchField
 
 
 def load_dataset_manifest(config: AppConfig) -> DatasetManifest:
-    """Load the persisted dataset manifest, or build one when it is absent."""
+    """Load a manifest constrained to the configured experiment scope."""
 
-    manifest_path = config.paths.artifacts_root / "manifests" / "dataset.json"
-    if manifest_path.exists():
-        return DatasetManifest.read_json(manifest_path)
-
-    from agentforce.data.manifest import build_manifest
-
-    return build_manifest(config.paths.dataset_root, validate=False)
+    return load_configured_manifest(config)
 
 
 def _read_index_manifest(index_root: Path, name: str) -> tuple[dict[str, object], Path]:
@@ -51,6 +46,24 @@ def _resolve_index_paths(
     index_root = config.paths.artifacts_root / "indexes"
     manifest, manifest_path = _read_index_manifest(index_root, name)
 
+    if config.scope.video_ids:
+        artifact_video_ids = manifest.get("video_ids")
+        if not isinstance(artifact_video_ids, list):
+            raise ValueError(
+                f"Index manifest has no video scope: {manifest_path}. Rebuild the index."
+            )
+        assert_exact_scope(
+            (str(item) for item in artifact_video_ids),
+            config.scope.video_ids,
+            label=f"Index {name!r}",
+        )
+        artifact_scope_hash = manifest.get("scope_hash")
+        expected_scope_hash = scope_hash(config.scope.video_ids)
+        if artifact_scope_hash != expected_scope_hash:
+            raise ValueError(
+                f"Index {name!r} has a stale scope fingerprint; rebuild it"
+            )
+
     if name.startswith("visual"):
         expected_encoder = manifest.get("expected_encoder")
         configured_encoder = {
@@ -61,8 +74,16 @@ def _resolve_index_paths(
             raise ValueError(
                 f"Visual query encoder in the config does not match {manifest_path}"
             )
-    elif manifest.get("encoder_model") not in {None, config.embeddings.text_model}:
-        raise ValueError(f"Text query encoder in the config does not match {manifest_path}")
+    else:
+        if manifest.get("encoder") != "SentenceTransformerEncoder":
+            raise ValueError(
+                f"Index {name!r} was not built with a production semantic encoder; "
+                "rebuild it with --encoder sentence-transformer"
+            )
+        if manifest.get("encoder_model") != config.embeddings.text_model:
+            raise ValueError(
+                f"Text query encoder in the config does not match {manifest_path}"
+            )
 
     if name.endswith("_windows"):
         windows_manifest_path = (
@@ -74,6 +95,15 @@ def _resolve_index_paths(
                 "`python scripts/build_windows.py` and rebuild the window indexes."
             )
         windows_manifest = json.loads(windows_manifest_path.read_text(encoding="utf-8"))
+        if config.scope.video_ids:
+            window_video_ids = windows_manifest.get("video_ids")
+            if not isinstance(window_video_ids, list):
+                raise ValueError("Temporal-window manifest has no configured video scope")
+            assert_exact_scope(
+                (str(item) for item in window_video_ids),
+                config.scope.video_ids,
+                label="Temporal windows",
+            )
         if manifest.get("window_records_hash") != windows_manifest.get(
             "canonical_records_hash"
         ):
@@ -101,13 +131,13 @@ def load_search_fields(config: AppConfig) -> list[SearchField]:
     index_root = config.paths.artifacts_root / "indexes"
     fields: list[SearchField] = []
 
-    visual_window_vectors = index_root / "visual_windows.npy"
-    visual_keyframe_vectors = index_root / "visual_keyframes.npy"
-    visual_name: str | None = None
-    if visual_window_vectors.is_file():
-        visual_name = "visual_windows"
-    elif visual_keyframe_vectors.is_file():
-        visual_name = "visual_keyframes"
+    visual_name = (
+        "visual_keyframes"
+        if config.retrieval.visual_level == "keyframe"
+        else "visual_windows"
+    )
+    if not (index_root / f"{visual_name}.npy").is_file():
+        visual_name = None
 
     if visual_name is not None:
         vectors_path, metadata_path = _resolve_index_paths(config, visual_name)
@@ -131,13 +161,14 @@ def load_search_fields(config: AppConfig) -> list[SearchField]:
 
     text_modalities = tuple(
         name
-        for name in ("asr", "ocr", "caption", "objects", "metadata")
+        for name in ("asr", "ocr", "objects", "metadata")
         if (index_root / f"{name}_windows.npy").is_file()
     )
     if text_modalities:
         encoder = SentenceTransformerEncoder(
             config.embeddings.text_model,
             device=config.embeddings.device,
+            local_files_only=config.embeddings.query_local_files_only,
         )
         for name in text_modalities:
             vectors_path, metadata_path = _resolve_index_paths(config, f"{name}_windows")
@@ -195,20 +226,25 @@ def build_gemini_verifier(config: AppConfig):
     api_key = os.getenv(config.gemini.api_key_env)
     if not api_key:
         raise ValueError(
-            f"Environment variable {config.gemini.api_key_env} is not set. "
-            "Set it before running run_qa.py."
+            f"Environment variable {config.gemini.api_key_env} is missing or empty. "
+            "Copy .env.example to the project-root .env file, fill the API key, "
+            "then run run_qa.py again."
         )
     client = GeminiQAClient(
         GeminiClientConfig(
             model=config.gemini.model,
             max_attempts=config.gemini.max_attempts,
         ),
-        transport=GoogleGenAITransport(api_key=api_key),
+        transport=GoogleGenAITransport(
+            api_key=api_key,
+            timeout_seconds=config.gemini.timeout_seconds,
+        ),
     )
     return QAVerifier(
         client,
         cache=JsonFileCache(config.paths.artifacts_root / "gemini" / "cache"),
         audit_path=config.paths.artifacts_root / "gemini" / "calls.jsonl",
+        prompt_version=config.gemini.prompt_version,
     )
 
 

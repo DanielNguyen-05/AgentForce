@@ -19,8 +19,8 @@ class QAConfig:
     def __post_init__(self) -> None:
         if not 1 <= self.max_candidates <= 64:
             raise ValueError("max_candidates must be between 1 and 64")
-        if not 1 <= self.batch_size <= self.max_candidates:
-            raise ValueError("batch_size must be between 1 and max_candidates")
+        if self.batch_size < 1:
+            raise ValueError("batch_size must be positive")
 
 
 @dataclass(frozen=True, slots=True)
@@ -81,7 +81,6 @@ class QACandidateBuilder:
                     retrieval_score=float(getattr(candidate, "score", 0.0)),
                     asr_text=str(metadata.get("asr_text", "")),
                     ocr_text=str(metadata.get("ocr_text", "")),
-                    caption_text=str(metadata.get("caption_text", "")),
                 )
             )
             if len(frames) >= limit:
@@ -111,6 +110,8 @@ class QASolver:
         retrieval_context: str,
         candidates: Sequence[Any],
     ) -> QAVerification:
+        """Make one grounded Gemini call for cheap/single-answer smoke tests."""
+
         frames = self.builder.build(candidates, limit=self.config.max_candidates)
         request = QAVerificationRequest(
             query_id=query_id,
@@ -129,11 +130,11 @@ class QASolver:
         retrieval_context: str,
         candidates: Sequence[Any],
     ) -> list[RankedQAAnswer]:
-        """Verify disjoint candidate batches to retain alternative answers.
+        """Competition mode for retaining alternative ranked answers.
 
-        A single all-candidate call is best for top-1, but scoring also rewards
-        correct alternatives lower in the ranking. Independent batches provide
-        those alternatives without sending one paid request per frame.
+        This intentionally makes one Gemini call per disjoint batch. Every batch
+        comes exclusively from candidates that local retrieval selected and the
+        local manifest resolved to trusted frame paths and IDs.
         """
 
         frames = self.builder.build(candidates, limit=self.config.max_candidates)

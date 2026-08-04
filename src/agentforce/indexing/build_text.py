@@ -1,4 +1,4 @@
-"""Batch builder for ASR/OCR/caption/metadata text indexes."""
+"""Batch builder for ASR/OCR/object/metadata text indexes."""
 
 from __future__ import annotations
 

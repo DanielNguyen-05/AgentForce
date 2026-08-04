@@ -4,11 +4,10 @@ from __future__ import annotations
 
 from .schemas import QAVerificationRequest
 
-
 PROMPT_VERSION = "qa-multiframe-v1"
 
-SYSTEM_INSTRUCTION = """You are a visual question-answering verifier.
-Use only the supplied candidate frames and their local ASR/OCR/caption context.
+SYSTEM_INSTRUCTION = """You are the final visual question-answering stage of a local video retrieval system.
+Use only the supplied candidate frames and their local ASR/OCR context.
 Never use outside knowledge or invent content hidden outside a frame.
 If evidence is insufficient, set answerable to false.
 Choose exactly one candidate ID that most directly supports an answer.
@@ -18,7 +17,11 @@ For visible text, preserve the text shown in the evidence.
 """
 
 
-def build_qa_prompt(request: QAVerificationRequest) -> str:
+def build_qa_prompt(
+    request: QAVerificationRequest,
+    *,
+    prompt_version: str = PROMPT_VERSION,
+) -> str:
     """Build the text portion of a multimodal request.
 
     The transport inserts each image immediately after its corresponding
@@ -26,8 +29,11 @@ def build_qa_prompt(request: QAVerificationRequest) -> str:
     duplicated here because it is supplied through structured-output config.
     """
 
+    version = prompt_version.strip()
+    if not version:
+        raise ValueError("prompt_version must not be empty")
     lines = [
-        f"Prompt version: {PROMPT_VERSION}",
+        f"Prompt version: {version}",
         f"Query ID: {request.query_id}",
         f"Answer language: {request.language}",
         f"Question: {request.question}",
@@ -53,7 +59,6 @@ def build_qa_prompt(request: QAVerificationRequest) -> str:
                 ),
                 f"ASR: {candidate.asr_text.strip() or '[none]'}",
                 f"OCR: {candidate.ocr_text.strip() or '[none]'}",
-                f"Caption hint: {candidate.caption_text.strip() or '[none]'}",
             ]
         )
     lines.extend(

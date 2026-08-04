@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterable, Mapping
 from pathlib import Path
-from typing import Any
-
 from agentforce.errors import OptionalDependencyError
 from .refinement import DecodedFrame
 
@@ -87,4 +85,3 @@ class OpenCVFrameSource:
                 frame_idx = actual + 1
         finally:
             capture.release()
-

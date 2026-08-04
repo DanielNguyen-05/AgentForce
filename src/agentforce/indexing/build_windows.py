@@ -124,7 +124,7 @@ def build_visual_window_index(
             metadata = {
                 key: value
                 for key, value in window.items()
-                if key not in {"asr_text", "ocr_text", "caption_text", "metadata_text"}
+                if key not in {"asr_text", "ocr_text", "metadata_text"}
             }
             metadata["vector_id"] = str(window["window_id"])
             metadata["representative_keyframe_uid"] = f"{video_id}_K{int(mapping['n']):06d}"
@@ -164,7 +164,6 @@ def build_window_text_indexes(
     fields: tuple[str, ...] = (
         "asr_text",
         "ocr_text",
-        "caption_text",
         "object_labels",
         "metadata_text",
     ),

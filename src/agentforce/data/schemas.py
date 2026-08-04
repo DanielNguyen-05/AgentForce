@@ -279,7 +279,6 @@ class TemporalWindow(JsonRecord):
     asr_segment_ids: list[int] = field(default_factory=list)
     asr_text: str = ""
     ocr_text: str = ""
-    caption_text: str = ""
     object_labels: list[str] = field(default_factory=list)
     metadata_text: str = ""
 

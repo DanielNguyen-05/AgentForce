@@ -158,7 +158,10 @@ def ordered_viterbi(
         indices=tuple(path),
         positions=tuple(float(timeline[index]) for index in path),
         event_scores=tuple(float(scores[event, index]) for event, index in enumerate(path)),
-        total_score=float(sum(scores[event, index] for event, index in enumerate(path))),
+        # ``previous_scores`` already includes every transition penalty.  Do
+        # not recompute a raw sum here or the reported score would disagree
+        # with the path that the dynamic program actually optimized.
+        total_score=float(previous_scores[path[-1]]),
     )
 
 
@@ -232,4 +235,3 @@ def align_ordered_candidates(
     return AlignmentResult(
         video_id=inferred_video, candidates=tuple(selected), score=total_score
     )
-

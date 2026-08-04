@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import hashlib
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-from datetime import datetime, timezone
 
 from .cache import JsonFileCache, build_cache_key
 from .client import GeminiQAClient, GeminiResponseError
 from .prompts import PROMPT_VERSION, SYSTEM_INSTRUCTION, build_qa_prompt
-from .schemas import FrameCandidate, QAVerification, QAVerificationRequest
+from .schemas import QAVerification, QAVerificationRequest
 
 
 class QAVerifier:
@@ -21,10 +21,14 @@ class QAVerifier:
         *,
         cache: JsonFileCache | None = None,
         audit_path: str | Path | None = None,
+        prompt_version: str = PROMPT_VERSION,
     ) -> None:
         self.client = client
         self.cache = cache
         self.audit_path = Path(audit_path) if audit_path is not None else None
+        self.prompt_version = prompt_version.strip()
+        if not self.prompt_version:
+            raise ValueError("prompt_version must not be empty")
         self.last_diagnostics: dict[str, Any] = {}
 
     def _audit(self, request: QAVerificationRequest, *, cache_hit: bool) -> None:
@@ -61,7 +65,7 @@ class QAVerifier:
     def _cache_key(self, request: QAVerificationRequest, prompt: str) -> str:
         payload: dict[str, Any] = {
             "model": self.client.config.model,
-            "prompt_version": PROMPT_VERSION,
+            "prompt_version": self.prompt_version,
             "system_instruction": SYSTEM_INSTRUCTION,
             "prompt": prompt,
             "query_id": request.query_id,
@@ -100,7 +104,7 @@ class QAVerifier:
         return result.with_local_support(candidate, cache_hit=cache_hit)
 
     def verify(self, request: QAVerificationRequest) -> QAVerification:
-        prompt = build_qa_prompt(request)
+        prompt = build_qa_prompt(request, prompt_version=self.prompt_version)
         cache_key: str | None = None
         if self.cache is not None:
             cache_key = self._cache_key(request, prompt)
@@ -128,7 +132,7 @@ class QAVerifier:
                 cache_key,
                 {
                     "model": self.client.config.model,
-                    "prompt_version": PROMPT_VERSION,
+                    "prompt_version": self.prompt_version,
                     "query_id": request.query_id,
                     "response": response,
                     "diagnostics": self.client.last_diagnostics,

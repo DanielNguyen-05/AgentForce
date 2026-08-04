@@ -40,7 +40,6 @@ class FrameCandidate:
     retrieval_score: float | None = None
     asr_text: str = ""
     ocr_text: str = ""
-    caption_text: str = ""
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "candidate_id", _required_text(self.candidate_id, "candidate_id"))
@@ -71,7 +70,6 @@ class FrameCandidate:
             "retrieval_score": self.retrieval_score,
             "asr_text": self.asr_text,
             "ocr_text": self.ocr_text,
-            "caption_text": self.caption_text,
         }
 
 

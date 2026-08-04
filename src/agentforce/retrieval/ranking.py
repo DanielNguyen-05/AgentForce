@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import math
 from collections import Counter, defaultdict
 from collections.abc import Sequence
 from typing import Any
@@ -171,4 +170,3 @@ def diversify_candidates(
         selected.append(chosen)
         video_counts[str(chosen.metadata.get("video_id", ""))] += 1
     return selected
-

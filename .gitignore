@@ -1,1 +1,3 @@
 aws_credentials.json
+*.log
+.venv

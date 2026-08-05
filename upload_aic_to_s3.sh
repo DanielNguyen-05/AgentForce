@@ -1,15 +1,41 @@
+```bash
 #!/usr/bin/env bash
-# Chạy trên EC2 (cùng region với bucket): tải các zip AIC, giải nén,
-# upload lên S3 theo cấu trúc dataset/videos/L##/ và dataset/keyframes/L##/
+# Chạy trên EC2:
+#   ./upload_aic_to_s3.sh s3://ten-bucket
 #
-# Cách dùng:   ./upload_aic_to_s3.sh s3://ten-bucket
-# Chạy nền:    nohup ./upload_aic_to_s3.sh s3://ten-bucket > upload.log 2>&1 &
+# Chạy nền:
+#   nohup ./upload_aic_to_s3.sh s3://ten-bucket > upload.log 2>&1 &
 
-set -euo pipefail
+set -e
+set -u
+if [ -n "${BASH_VERSION:-}" ]; then
+  set -o pipefail
+fi
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LOG_FILE="${LOG_FILE:-$SCRIPT_DIR/upload.log}"
+mkdir -p "$(dirname "$LOG_FILE")"
+exec >>"$LOG_FILE" 2>&1
+
+echo "=== Starting upload_aic_to_s3.sh at $(date '+%Y-%m-%d %H:%M:%S') ==="
 
 BUCKET="${1:?Cách dùng: $0 s3://ten-bucket}"
 BUCKET="${BUCKET%/}"
+
 WORKDIR="${WORKDIR:-$HOME/aic_ingest}"
+
+# =========================
+# Tuning
+# =========================
+
+# Mỗi ZIP chỉ dùng từng này connection
+DOWNLOAD_CONNECTIONS="${DOWNLOAD_CONNECTIONS:-4}"
+
+# Segment size
+DOWNLOAD_SPLIT_SIZE="${DOWNLOAD_SPLIT_SIZE:-1M}"
+
+# S3 concurrent upload
+S3_CONCURRENT_REQUESTS="${S3_CONCURRENT_REQUESTS:-32}"
 
 LINKS=(
   https://aic-data.ledo.io.vn/Keyframes_L21.zip
@@ -26,6 +52,7 @@ LINKS=(
   https://aic-data.ledo.io.vn/Keyframes_L28.zip
   https://aic-data.ledo.io.vn/Keyframes_L29.zip
   https://aic-data.ledo.io.vn/Keyframes_L30.zip
+
   https://aic-data.ledo.io.vn/Videos_L21_a.zip
   https://aic-data.ledo.io.vn/Videos_L22_a.zip
   https://aic-data.ledo.io.vn/Videos_L23_a.zip
@@ -42,64 +69,225 @@ LINKS=(
   https://aic-data.ledo.io.vn/Videos_L30_a.zip
 )
 
-command -v unzip >/dev/null || { echo "Thiếu unzip. Cài: sudo dnf install -y unzip (hoặc yum/apt)"; exit 1; }
-command -v aws   >/dev/null || { echo "Thiếu aws cli"; exit 1; }
+# =========================
+# Check dependencies
+# =========================
 
-# Tăng số kết nối song song lên S3 (keyframes là hàng vạn file jpg nhỏ)
-aws configure set default.s3.max_concurrent_requests 32
+command -v unzip >/dev/null || {
+  echo "ERROR: thiếu unzip"
+  echo "Cài bằng: sudo apt install -y unzip"
+  exit 1
+}
+
+command -v aws >/dev/null || {
+  echo "ERROR: thiếu aws cli"
+  exit 1
+}
+
+command -v aria2c >/dev/null || {
+  echo "ERROR: thiếu aria2c"
+  echo "Cài bằng: sudo apt install -y aria2"
+  exit 1
+}
+
+# =========================
+# AWS CLI tuning
+# =========================
+
+aws configure set default.s3.max_concurrent_requests "$S3_CONCURRENT_REQUESTS"
 aws configure set default.s3.multipart_chunksize 64MB
 
-mkdir -p "$WORKDIR"
+# =========================
+# Prepare
+# =========================
+
+mkdir -p "$WORKDIR/downloads"
 cd "$WORKDIR"
 
 total=${#LINKS[@]}
+
+echo "=========================================="
+echo "AIC Dataset -> S3"
+echo "=========================================="
+echo "Bucket:              $BUCKET"
+echo "Workdir:             $WORKDIR"
+echo "Connections / file:  $DOWNLOAD_CONNECTIONS"
+echo "Total files:         $total"
+echo "=========================================="
+
+# ============================================================
+# STEP 1 -> 3:
+# Download -> Extract -> Upload từng file
+#
+# Chỉ xử lý 1 ZIP tại một thời điểm.
+# ============================================================
+
 i=0
+
 for url in "${LINKS[@]}"; do
   i=$((i + 1))
-  f=$(basename "$url")                       # vd: Videos_L26_a.zip
-  lname=$(grep -oE 'L[0-9]+' <<<"$f" | head -1)   # vd: L26
+
+  f=$(basename "$url")
+  zip="$WORKDIR/downloads/$f"
+
+  # =========================
+  # Determine S3 destination
+  # =========================
+
+  lname=$(grep -oE 'L[0-9]+' <<< "$f" | head -1)
 
   case "$f" in
-    Videos_*)    prefix="dataset/videos/$lname" ;;
-    Keyframes_*) prefix="dataset/keyframes/$lname" ;;
-    *)           prefix="dataset/other/${f%.zip}" ;;
+    Videos_*)
+      prefix="dataset/videos/$lname"
+      ;;
+
+    Keyframes_*)
+      prefix="dataset/keyframes/$lname"
+      ;;
+
+    *)
+      prefix="dataset/other/${f%.zip}"
+      ;;
   esac
+
   dest="$BUCKET/$prefix/"
 
-  # Đã xử lý xong ở lần chạy trước thì bỏ qua (cho phép chạy lại an toàn)
+  echo
+  echo "=========================================="
+  echo "[$i/$total] $f"
+  echo "Destination: $dest"
+  echo "=========================================="
+
+  # =========================
+  # Check already completed
+  # =========================
+
   if aws s3 ls "$BUCKET/dataset/.done/$f" >/dev/null 2>&1; then
-    echo "[$i/$total] $f — đã xong trước đó, bỏ qua"
+    echo "[SKIP] $f — đã upload trước đó"
     continue
   fi
 
-  echo "[$i/$total] $f  ->  $dest"
+  # ==========================================================
+  # DOWNLOAD
+  # ==========================================================
 
-  # aria2c: 8 connection/file để né server bóp băng thông từng connection,
-  # tự resume file dở; fallback curl có chống treo (dưới 50KB/s trong 60s thì cắt và retry)
-  if command -v aria2c >/dev/null; then
-    aria2c -x16 -s16 -c --max-tries=0 --retry-wait=10 \
-           --timeout=60 --lowest-speed-limit=0 -o "$f" "$url"
-  else
-    curl -fL --retry 10 --retry-delay 10 -C - \
-         --speed-limit 51200 --speed-time 60 -o "$f" "$url"
+  echo
+  echo "[DOWNLOAD] $f"
+
+  aria2c \
+    --continue=true \
+    --max-connection-per-server="$DOWNLOAD_CONNECTIONS" \
+    --split="$DOWNLOAD_CONNECTIONS" \
+    --min-split-size="$DOWNLOAD_SPLIT_SIZE" \
+    --file-allocation=none \
+    --max-tries=10 \
+    --retry-wait=10 \
+    --timeout=60 \
+    --connect-timeout=20 \
+    --lowest-speed-limit=0 \
+    --auto-file-renaming=false \
+    --allow-overwrite=false \
+    --summary-interval=5 \
+    --console-log-level=notice \
+    --dir="$WORKDIR/downloads" \
+    --out="$f" \
+    "$url"
+
+  # =========================
+  # Verify ZIP exists
+  # =========================
+
+  if [ ! -f "$zip" ]; then
+    echo "ERROR: download xong nhưng không tìm thấy:"
+    echo "$zip"
+    exit 1
   fi
 
-  rm -rf extracted
-  mkdir extracted
-  unzip -q "$f" -d extracted
+  echo "[DOWNLOAD OK] $f"
 
-  # Nếu zip có 1 folder bọc ngoài (vd Keyframes_L21/) thì đi sâu vào trong
-  # để key trên S3 không bị lặp tên folder
-  src="extracted"
-  while [ "$(find "$src" -mindepth 1 -maxdepth 1 | wc -l)" -eq 1 ] \
-        && [ -d "$src/$(ls "$src")" ]; do
-    src="$src/$(ls "$src")"
+  # ==========================================================
+  # EXTRACT
+  # ==========================================================
+
+  rm -rf "$WORKDIR/extracted"
+  mkdir -p "$WORKDIR/extracted"
+
+  echo
+  echo "[EXTRACT] $f"
+
+  unzip -q "$zip" -d "$WORKDIR/extracted"
+
+  # Nếu ZIP có 1 folder bọc ngoài thì đi xuống folder đó.
+  #
+  # extracted/
+  #   Keyframes_L21/
+  #       xxx.jpg
+  #
+  # -> src = extracted/Keyframes_L21
+
+  src="$WORKDIR/extracted"
+
+  while true; do
+    count=$(find "$src" -mindepth 1 -maxdepth 1 -print | wc -l)
+
+    if [ "$count" -ne 1 ]; then
+      break
+    fi
+
+    child=$(find "$src" -mindepth 1 -maxdepth 1 -print -quit)
+
+    if [ -d "$child" ]; then
+      src="$child"
+    else
+      break
+    fi
   done
 
-  aws s3 sync "$src" "$dest" --only-show-errors
+  echo "[EXTRACT OK] Source: $src"
 
-  echo done | aws s3 cp - "$BUCKET/dataset/.done/$f"
-  rm -rf "$f" extracted
+  # ==========================================================
+  # UPLOAD
+  # ==========================================================
+
+  echo
+  echo "[UPLOAD] $src -> $dest"
+
+  aws s3 sync \
+    "$src" \
+    "$dest" \
+    --only-show-errors
+
+  echo "[UPLOAD OK] $f"
+
+  # ==========================================================
+  # MARK DONE
+  # ==========================================================
+
+  echo "done" | aws s3 cp - "$BUCKET/dataset/.done/$f"
+
+  echo "[DONE] $f"
+
+  # ==========================================================
+  # CLEANUP
+  # ==========================================================
+
+  echo "[CLEANUP] $f"
+
+  rm -rf "$zip"
+  rm -rf "$WORKDIR/extracted"
+
+  echo
+  echo "=========================================="
+  echo "Completed [$i/$total]: $f"
+  echo "=========================================="
+
 done
 
-echo "=== HOÀN TẤT. Kiểm tra: aws s3 ls $BUCKET/dataset/ --recursive --summarize | tail -3"
+echo
+echo "=========================================="
+echo "HOÀN TẤT"
+echo "=========================================="
+
+echo "Kiểm tra:"
+echo "aws s3 ls $BUCKET/dataset/ --recursive --summarize | tail -3"
+```

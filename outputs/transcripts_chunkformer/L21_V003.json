@@ -1,0 +1,616 @@
+{
+  "source_video": "L21_V003.mp4",
+  "generated_at": "2026-08-07T19:13:14",
+  "pipeline_config": {
+    "asr_model": "khanhld/chunkformer-ctc-large-vie",
+    "architecture": "chunkformer-ctc",
+    "device": "cpu",
+    "chunk_size": 64,
+    "left_context_size": 128,
+    "right_context_size": 128,
+    "total_batch_duration": 1800,
+    "max_silence_duration": 0.5
+  },
+  "segments": [
+    {
+      "segment_id": 1,
+      "time_range": {
+        "start": 3.84,
+        "end": 12.4
+      },
+      "audio_metadata": {
+        "raw_text": "kính chào quý vị đây là chương trình sáu mươi giây sáng của đài truyền hình thành phố hồ chí minh chương trình hôm nay sẽ có những nội dung đáng chú ý sau đây",
+        "clean_text": "Kính chào quý vị đây là chương trình sáu mươi giây sáng của đài truyền hình thành phố hồ chí minh chương trình hôm nay sẽ có những nội dung đáng chú ý sau đây.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 2,
+      "time_range": {
+        "start": 13.84,
+        "end": 19.28
+      },
+      "audio_metadata": {
+        "raw_text": "chính phủ yêu cầu các thủy điện miền bắc tiếp tục xả lũ",
+        "clean_text": "Chính phủ yêu cầu các thủy điện miền bắc tiếp tục xả lũ.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 3,
+      "time_range": {
+        "start": 19.92,
+        "end": 24.88
+      },
+      "audio_metadata": {
+        "raw_text": "thảo cầm viên sài gòn làm tiệc thôi nôi cho bé hà mã tên ca",
+        "clean_text": "Thảo cầm viên sài gòn làm tiệc thôi nôi cho bé hà mã tên ca.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 4,
+      "time_range": {
+        "start": 25.28,
+        "end": 29.6
+      },
+      "audio_metadata": {
+        "raw_text": "ngôi xích đu này có thể ngắm toàn cảnh bác lin",
+        "clean_text": "Ngôi xích đu này có thể ngắm toàn cảnh bác lin.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 5,
+      "time_range": {
+        "start": 31.28,
+        "end": 57.12
+      },
+      "audio_metadata": {
+        "raw_text": "sau khi yêu cầu các hồ thủy điện mở cửa xả lũ vào sáng hai tháng tám bộ trưởng bộ nông nghiệp và phát triển nông thôn lại tiếp tục yêu cầu hồ thủy điện sơn la mở thêm một cửa xả lũ hồ thủy điện tuyên quang mở hai cửa xả lũ với việc các hồ thủy điện lớn ở phía bắc đều đang tăng xả lũ mực nước hạ lưu sông lô và sông hồng sẽ lên nhanh người dân cần chủ động chuẩn bị các phương án ứng phó để phòng ngập úng",
+        "clean_text": "Sau khi yêu cầu các hồ thủy điện mở cửa xả lũ vào sáng hai tháng tám bộ trưởng bộ nông nghiệp và phát triển nông thôn lại tiếp tục yêu cầu hồ thủy điện sơn la mở thêm một cửa xả lũ hồ thủy điện tuyên quang mở hai cửa xả lũ với việc các hồ thủy điện lớn ở phía bắc đều đang tăng xả lũ mực nước hạ lưu sông lô và sông hồng sẽ lên nhanh người dân cần chủ động chuẩn bị các phương án ứng phó để phòng ngập úng.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 6,
+      "time_range": {
+        "start": 57.44,
+        "end": 90.88
+      },
+      "audio_metadata": {
+        "raw_text": "như vậy đến mười tám giờ ngày hai tháng tám hồ thủy điện hòa bình sẽ mở hai cửa xả lũ còn hồ thủy điện sơn la và thủy điện tuyên quang sẽ mở ba cửa bộ trưởng bộ nông nghiệp và phát triển nông thôn yêu cầu các địa phương hồ thủy điện theo dõi chặt chẽ diễn biến mưa lũ an toàn công trình lưu lượng đến hồ mực nước thượng hạ lưu hồ chứa kịp thời báo cáo về bộ đồng thời thông báo ngay đến các cấp chính quyền người dân các tổ chức có hoạt động trên sông cơ sở nuôi trồng thủy sản phương tiện dẫn tải thủy biết thông tin xả lũ hồ thủy điện sơn la hòa bình tuyên quang để chủ động các biện pháp phòng tránh",
+        "clean_text": "Như vậy đến mười tám giờ ngày hai tháng tám hồ thủy điện hòa bình sẽ mở hai cửa xả lũ còn hồ thủy điện sơn la và thủy điện tuyên quang sẽ mở ba cửa bộ trưởng bộ nông nghiệp và phát triển nông thôn yêu cầu các địa phương hồ thủy điện theo dõi chặt chẽ diễn biến mưa lũ an toàn công trình lưu lượng đến hồ mực nước thượng hạ lưu hồ chứa kịp thời báo cáo về bộ đồng thời thông báo ngay đến các cấp chính quyền người dân các tổ chức có hoạt động trên sông cơ sở nuôi trồng thủy sản phương tiện dẫn tải thủy biết thông tin xả lũ hồ thủy điện sơn la hòa bình tuyên quang để chủ động các biện pháp phòng tránh.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 7,
+      "time_range": {
+        "start": 91.52,
+        "end": 104.24
+      },
+      "audio_metadata": {
+        "raw_text": "liên quan vụ ngập cao tốc phan thiết dầu dây tại huyện hàm tân tỉnh bình thuận xảy ra một năm trước mới đây đơn vị quản lý cao tốc đang cho xây dựng hai bức tường kiên cố cùng trạm bơm để phòng chống ngập",
+        "clean_text": "Liên quan vụ ngập cao tốc phan thiết dầu dây tại huyện hàm tân tỉnh bình thuận xảy ra một năm trước mới đây đơn vị quản lý cao tốc đang cho xây dựng hai bức tường kiên cố cùng trạm bơm để phòng chống ngập.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 8,
+      "time_range": {
+        "start": 104.8,
+        "end": 169.68
+      },
+      "audio_metadata": {
+        "raw_text": "theo đó các đơn vị liên quan đang làm hai bức tường chống ngập cao tốc phan thiết dầu dây tại lý trình ki lô mét hai mươi lăm cộng bốn trăm quyền hàm tân tại vị trí này một năm trước từng xảy ra ngập cục bộ khi mưa lớn kéo dài nước sông phan dâng cao bức tường bên phải tuyến được xây dựng kiên cố bằng đá chẽ bê tông cốt thép dài khoảng một trăm mét để nối từ đầu dốc bên đây đến đầu dốc bên kia theo hình dỏng song với tuyến chính cao tốc một cán bộ kỹ thuật tiết lộ cao độ bức tường này theo tính toán là khoảng bốn mươi lăm phẩy năm mét so với mực nước biển nếu tính từ vị trí cống ngang bức tường xây cao nhất gần hai mét các đơn vị liên quan còn đào hố sâu làm hồ điều hòa bên cạnh tuyến chính cao tốc và hệ thống đặt trạm bơm nước giám đốc điều hành dự án cao tốc phan thiết dầu dây đặng hùng thái thông tin việc xây dựng hệ thống tường ngăn trạm bơm nước là vấn đề phát sinh sau khi xảy ra vụ ngập một năm trước theo ông việc xây dựng này do các đơn vị liên quan như tư vấn thiết kế nhà thầu xây dựng cùng chung tay làm không sử dụng nguồn ngân sách từ dự án",
+        "clean_text": "Theo đó các đơn vị liên quan đang làm hai bức tường chống ngập cao tốc phan thiết dầu dây tại lý trình ki lô mét hai mươi lăm cộng bốn trăm quyền hàm tân tại vị trí này một năm trước từng xảy ra ngập cục bộ khi mưa lớn kéo dài nước sông phan dâng cao bức tường bên phải tuyến được xây dựng kiên cố bằng đá chẽ bê tông cốt thép dài khoảng một trăm mét để nối từ đầu dốc bên đây đến đầu dốc bên kia theo hình dỏng song với tuyến chính cao tốc một cán bộ kỹ thuật tiết lộ cao độ bức tường này theo tính toán là khoảng bốn mươi lăm phẩy năm mét so với mực nước biển nếu tính từ vị trí cống ngang bức tường xây cao nhất gần hai mét các đơn vị liên quan còn đào hố sâu làm hồ điều hòa bên cạnh tuyến chính cao tốc và hệ thống đặt trạm bơm nước giám đốc điều hành dự án cao tốc phan thiết dầu dây đặng hùng thái thông tin việc xây dựng hệ thống tường ngăn trạm bơm nước là vấn đề phát sinh sau khi xảy ra vụ ngập một năm trước theo ông việc xây dựng này do các đơn vị liên quan như tư vấn thiết kế nhà thầu xây dựng cùng chung tay làm không sử dụng nguồn ngân sách từ dự án.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 9,
+      "time_range": {
+        "start": 170.24,
+        "end": 186.56
+      },
+      "audio_metadata": {
+        "raw_text": "thảo công viên sài gòn tại quận một thành phố hồ chí minh vừa tổ chức bữa tiệc sinh nhật tròn một tuổi cho bé hà mã tên ca buổi lễ có sự tham gia của nhiều du khách ai nấy đều thấy thích thú khi chứng kiến khoảnh khắc hai mẹ con hà mã vui đùa ăn uống và cùng nhau lặn xuống nước",
+        "clean_text": "Thảo công viên sài gòn tại quận một thành phố hồ chí minh vừa tổ chức bữa tiệc sinh nhật tròn một tuổi cho bé hà mã tên ca buổi lễ có sự tham gia của nhiều du khách ai nấy đều thấy thích thú khi chứng kiến khoảnh khắc hai mẹ con hà mã vui đùa ăn uống và cùng nhau lặn xuống nước.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 10,
+      "time_range": {
+        "start": 187.2,
+        "end": 221.52
+      },
+      "audio_metadata": {
+        "raw_text": "bé hà mã tên ca chào đời vào ngày ba tháng tám năm hai ngàn hai mươi ba dì ghép đôi sinh sản thành công bé hà mã ca là một trong những thành công lớn của thảo cầm viên sài gòn hà mã ca vừa tròn một tuổi có hà mã cha tên là chia mẹ là bo và hai anh trai ca tên đầy đủ là ca na đa do ông bê d rát ba ca ni tổng lãnh sự ca na đa tại thành phố hồ chí minh đặt nhằm kỷ niệm cột mốc vàng năm mươi năm thiết lập quan hệ ngoại giao việt nam ca na đa ngày hai mươi mốt tháng tám năm một ngàn chín trăm bảy mươi ba hai mươi mốt tháng tám năm hai ngàn hai mươi ba",
+        "clean_text": "Bé hà mã tên ca chào đời vào ngày ba tháng tám năm hai ngàn hai mươi ba dì ghép đôi sinh sản thành công bé hà mã ca là một trong những thành công lớn của thảo cầm viên sài gòn hà mã ca vừa tròn một tuổi có hà mã cha tên là chia mẹ là bo và hai anh trai ca tên đầy đủ là ca na đa do ông bê d rát ba ca ni tổng lãnh sự ca na đa tại thành phố hồ chí minh đặt nhằm kỷ niệm cột mốc vàng năm mươi năm thiết lập quan hệ ngoại giao việt nam ca na đa ngày hai mươi mốt tháng tám năm một ngàn chín trăm bảy mươi ba hai mươi mốt tháng tám năm hai ngàn hai mươi ba.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 11,
+      "time_range": {
+        "start": 222.24,
+        "end": 230.8
+      },
+      "audio_metadata": {
+        "raw_text": "mẹ nó sinh ra con cá thì mẹ luôn mình không có thể nào mà lại qua thời gian mình làm trong",
+        "clean_text": "Mẹ nó sinh ra con cá thì mẹ luôn mình không có thể nào mà lại qua thời gian mình làm trong.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 12,
+      "time_range": {
+        "start": 231.6,
+        "end": 252.48
+      },
+      "audio_metadata": {
+        "raw_text": "hà mã là loài động vật lớn thứ ba sống trên cạn hà mã cái sẽ không tăng trọng nhiều sau khi đạt được kích cỡ trung bình của loài khoảng từ một ngàn ba trăm đến một nghìn năm trăm ký hà mã đực vẫn tăng trọng sau khi đã đạt kích thước trung bình của loài này là một nghìn năm trăm đến một nghìn tám trăm ký do đó chúng có thể đạt tối đa từ ba ngàn đến bốn ngàn ký",
+        "clean_text": "Hà mã là loài động vật lớn thứ ba sống trên cạn hà mã cái sẽ không tăng trọng nhiều sau khi đạt được kích cỡ trung bình của loài khoảng từ một ngàn ba trăm đến một nghìn năm trăm ký hà mã đực vẫn tăng trọng sau khi đã đạt kích thước trung bình của loài này là một nghìn năm trăm đến một nghìn tám trăm ký do đó chúng có thể đạt tối đa từ ba ngàn đến bốn ngàn ký.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 13,
+      "time_range": {
+        "start": 252.96,
+        "end": 262.8
+      },
+      "audio_metadata": {
+        "raw_text": "ngày hai tháng tám ban quản lý khu bảo tồn biển hòn cau thuộc huyện tuy phong tỉnh bình thuận cho biết vừa cứu hộ thành công ổ rùa biển quý hiếm với bảy mươi tám trứng",
+        "clean_text": "Ngày hai tháng tám ban quản lý khu bảo tồn biển hòn cau thuộc huyện tuy phong tỉnh bình thuận cho biết vừa cứu hộ thành công ổ rùa biển quý hiếm với bảy mươi tám trứng.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 14,
+      "time_range": {
+        "start": 263.36,
+        "end": 318.96
+      },
+      "audio_metadata": {
+        "raw_text": "trước đó giờ đêm hôm qua khu vực đảo hòn cau xuất hiện cơn mưa lớn đến sáng nay các nhân viên khu bảo tồn biển tuần tra thì phát hiện một ổ trứng rùa vừa mới đẻ tại bãi tràngảoo các nhân viên khu bảo tồn sau đó đã cẩn thận thu gom ổ trứng rùa và cứu hộ được về bãi ấp trứng của đội tuần tra kiểm soát đảo hòn cau theo nhân viên khu bảo tồn biển hòn cau do không thấy được rùa mẹ nên không biết được trứng rùa thuộc họ nào tuy nhiên trên hòn đảo hòn cau các ổ trứng thường được phát hiện là loài vít một trong những loài rùa quý hiếm cần được bảo vệ đây cũng là ổ trứng rùa đầu tiên được phát hiện trong năm hai ngàn không trăm hai mươi bốn tại đảo hòn cau rùa biển thường kéo lên đảo này đẻ trứng vào mùa gió nam từ tháng năm đến tháng mười hằng năm các nhân viên khu bảo tồn khi phát hiện bãi trứng rùa thường cứu hộ gom về bãi đẻ để trứng được nở an toàn tránh bị lấy trộm trước khi thả rùa con về lại dưới biển",
+        "clean_text": "Trước đó giờ đêm hôm qua khu vực đảo hòn cau xuất hiện cơn mưa lớn đến sáng nay các nhân viên khu bảo tồn biển tuần tra thì phát hiện một ổ trứng rùa vừa mới đẻ tại bãi tràngảoo các nhân viên khu bảo tồn sau đó đã cẩn thận thu gom ổ trứng rùa và cứu hộ được về bãi ấp trứng của đội tuần tra kiểm soát đảo hòn cau theo nhân viên khu bảo tồn biển hòn cau do không thấy được rùa mẹ nên không biết được trứng rùa thuộc họ nào tuy nhiên trên hòn đảo hòn cau các ổ trứng thường được phát hiện là loài vít một trong những loài rùa quý hiếm cần được bảo vệ đây cũng là ổ trứng rùa đầu tiên được phát hiện trong năm hai ngàn không trăm hai mươi bốn tại đảo hòn cau rùa biển thường kéo lên đảo này đẻ trứng vào mùa gió nam từ tháng năm đến tháng mười hằng năm các nhân viên khu bảo tồn khi phát hiện bãi trứng rùa thường cứu hộ gom về bãi đẻ để trứng được nở an toàn tránh bị lấy trộm trước khi thả rùa con về lại dưới biển.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 15,
+      "time_range": {
+        "start": 319.44,
+        "end": 334.56
+      },
+      "audio_metadata": {
+        "raw_text": "những ngày qua ảnh hưởng của mưa bão mực nước sông mê công dâng cao tại nhiều nơi ở đồng bằng sông cửu long nước lũ tràn đồng cá linh xuất hiện nhiều người dân các vùng đầu gù sông mê công như tỉnh an giang đồng tháp tranh thủ đánh bắt cá linh",
+        "clean_text": "Những ngày qua ảnh hưởng của mưa bão mực nước sông mê công dâng cao tại nhiều nơi ở đồng bằng sông cửu long nước lũ tràn đồng cá linh xuất hiện nhiều người dân các vùng đầu gù sông mê công như tỉnh an giang đồng tháp tranh thủ đánh bắt cá linh.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 16,
+      "time_range": {
+        "start": 335.12,
+        "end": 372.48
+      },
+      "audio_metadata": {
+        "raw_text": "tài chợ thực phẩm tam nông đồng tháp cá linh được bán với giá dao động từ hai trăm ngàn đến hai trăm năm mươi ngàn đồng một kí theo các tiểu thương năm nay cá linh non từ thượng nguồn sông mê công đổi về sớm hơn mọi năm khoảng nửa tháng tuy nhiên giá bán không cao thấp hơn cùng kỳ khoảng từ ba mươi ngàn đồng một ký do nhu cầu tiêu thụ thấp ở chợ chỉ có vài người bán loại sản vật đầu mùa nước nổi mỗi người chỉ bán từ năm đến bảy kí cá linh non người nào bán nhiều nhất cũng chỉ trên mười ký cá linh được xem là sản vật ở vùng sông nước cửu long có nhiều rau mùa nước nổi với đặc trưng là xương mềm thịt ngọt chế biến được nhiều món cá linh được thực khách khắp nơi tìm mua để thưởng thức",
+        "clean_text": "Tài chợ thực phẩm tam nông đồng tháp cá linh được bán với giá dao động từ hai trăm ngàn đến hai trăm năm mươi ngàn đồng một kí theo các tiểu thương năm nay cá linh non từ thượng nguồn sông mê công đổi về sớm hơn mọi năm khoảng nửa tháng tuy nhiên giá bán không cao thấp hơn cùng kỳ khoảng từ ba mươi ngàn đồng một ký do nhu cầu tiêu thụ thấp ở chợ chỉ có vài người bán loại sản vật đầu mùa nước nổi mỗi người chỉ bán từ năm đến bảy kí cá linh non người nào bán nhiều nhất cũng chỉ trên mười ký cá linh được xem là sản vật ở vùng sông nước cửu long có nhiều rau mùa nước nổi với đặc trưng là xương mềm thịt ngọt chế biến được nhiều món cá linh được thực khách khắp nơi tìm mua để thưởng thức.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 17,
+      "time_range": {
+        "start": 372.64,
+        "end": 389.28
+      },
+      "audio_metadata": {
+        "raw_text": "tại tỉnh quảng ngãi đã diễn ra lễ khai mạc hội thi diễn xướng dân gian văn hóa các dân tộc năm hai ngàn không trăm hai mươi bốn sự kiện thu hút rất đông các nghệ nhân nghệ sĩ diễn viên trên khắp cả nước tham gia với mong muốn giữ gìn lan tỏa và tôn vinh các giá trị văn hóa truyền thống",
+        "clean_text": "Tại tỉnh quảng ngãi đã diễn ra lễ khai mạc hội thi diễn xướng dân gian văn hóa các dân tộc năm hai ngàn không trăm hai mươi bốn sự kiện thu hút rất đông các nghệ nhân nghệ sĩ diễn viên trên khắp cả nước tham gia với mong muốn giữ gìn lan tỏa và tôn vinh các giá trị văn hóa truyền thống.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 18,
+      "time_range": {
+        "start": 390.0,
+        "end": 424.08
+      },
+      "audio_metadata": {
+        "raw_text": "ngay sau lễ ích khai mạc là phần thi trình diễn trang phục dân tộc và giữ sướng xuân san đặc sắc của các đoàn trong các ngày mùng hai và mùng ba sẽ diễn ra các phần thi trình diễn nghi lễ truyền thống và thi ẩm thực khi trình diễn dân ca dân vũ và trang phục dân tộc sự kiện nhằm giới thiệu quảng bá các theo giá trị di sản văn hóa phi vật thể phong thục tập quán lễ hội truyền thống dân ca dân vũ trang phục ẩm thực của các dân tộc trên toàn quốc đây cũng là dịp để các nghệ nhân nghệ sĩ từ hai mươi mốt tỉnh thành hội tụ sâu lưu trao đổi kinh nghiệm sưu tầm sáng tạo trong lao động nghệ thuật hội thi diễn ra đến hết ngày bốn tháng tám",
+        "clean_text": "Ngay sau lễ ích khai mạc là phần thi trình diễn trang phục dân tộc và giữ sướng xuân san đặc sắc của các đoàn trong các ngày mùng hai và mùng ba sẽ diễn ra các phần thi trình diễn nghi lễ truyền thống và thi ẩm thực khi trình diễn dân ca dân vũ và trang phục dân tộc sự kiện nhằm giới thiệu quảng bá các theo giá trị di sản văn hóa phi vật thể phong thục tập quán lễ hội truyền thống dân ca dân vũ trang phục ẩm thực của các dân tộc trên toàn quốc đây cũng là dịp để các nghệ nhân nghệ sĩ từ hai mươi mốt tỉnh thành hội tụ sâu lưu trao đổi kinh nghiệm sưu tầm sáng tạo trong lao động nghệ thuật hội thi diễn ra đến hết ngày bốn tháng tám.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 19,
+      "time_range": {
+        "start": 424.8,
+        "end": 432.16
+      },
+      "audio_metadata": {
+        "raw_text": "ở phần an ninh trật tự nhanh chóng dập tắt xe ô tô cháy trong hầm vượt sông sài gòn",
+        "clean_text": "Ở phần an ninh trật tự nhanh chóng dập tắt xe ô tô cháy trong hầm vượt sông sài gòn.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 20,
+      "time_range": {
+        "start": 433.76,
+        "end": 439.52
+      },
+      "audio_metadata": {
+        "raw_text": "và ô tô mất lái tôm sáu xe máy ở đà nẵng",
+        "clean_text": "Và ô tô mất lái tôm sáu xe máy ở đà nẵng.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 21,
+      "time_range": {
+        "start": 442.4,
+        "end": 454.48
+      },
+      "audio_metadata": {
+        "raw_text": "tối ngày hai tháng tám một chiếc ô tô lưu thông qua hầm vượt sông sài gòn thì bốc cháy vụ việc là một hướng hầm chui bị phong tỏa giao thông ùn tắc",
+        "clean_text": "Tối ngày hai tháng tám một chiếc ô tô lưu thông qua hầm vượt sông sài gòn thì bốc cháy vụ việc là một hướng hầm chui bị phong tỏa giao thông ùn tắc.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 22,
+      "time_range": {
+        "start": 454.8,
+        "end": 489.04
+      },
+      "audio_metadata": {
+        "raw_text": "khoảng mười tám giờ ba mươi phút ô tô năm chỗ biển số tỉnh lâm đồng chạy qua hầm dược sông sài gòn hướng từ quận một sang thành phố thủ đức khi đến giữa hầm thì bất ngờ bốc cháy ở phía trước xe nên tài xế nhanh chóng dừng lại nhận tin báo từ lượng chữa cháy tại chỗ nhanh chóng có mặt xử lý đám cháy sau đó ít phút ngọn lửa được dập tắt rất may nhờ được dập lửa kịp thời nên chiếc ô tô không hư hỏng nhiều tới gần hai mươi giờ phương tiện được di dời các xe được cho qua lại bình thường tuy nhiên do ảnh hưởng vụ diệt khiến đường võ văn kiệt ùn tắc kéo dài",
+        "clean_text": "Khoảng mười tám giờ ba mươi phút ô tô năm chỗ biển số tỉnh lâm đồng chạy qua hầm dược sông sài gòn hướng từ quận một sang thành phố thủ đức khi đến giữa hầm thì bất ngờ bốc cháy ở phía trước xe nên tài xế nhanh chóng dừng lại nhận tin báo từ lượng chữa cháy tại chỗ nhanh chóng có mặt xử lý đám cháy sau đó ít phút ngọn lửa được dập tắt rất may nhờ được dập lửa kịp thời nên chiếc ô tô không hư hỏng nhiều tới gần hai mươi giờ phương tiện được di dời các xe được cho qua lại bình thường tuy nhiên do ảnh hưởng vụ diệt khiến đường võ văn kiệt ùn tắc kéo dài.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 23,
+      "time_range": {
+        "start": 490.96,
+        "end": 520.0
+      },
+      "audio_metadata": {
+        "raw_text": "khoảng không giờ sáng nay ba tháng tám xe ô tô chạy trên đường nguyễn hữu thọ hướng huyện nhà bè đi quận bảy thành phố hồ chí minh đoạn giữa câu bà chiêm xã nhân đức huyện nhà bè thì bất ngờ phát nổ rồi bốc cháy tài xế dừng xe tìm cách dập lửa nhưng không thành lửa lan ra bao trùm khiến cả chiếc xe bốc cháy ngùn ngụt trong đêm nhận tin báo cảnh sát phòng cháy chữa cháy quyền nhà bè quy động xe chuyên dụng và các cán bộ chiến sĩ tới hiện trường dập tắt ngọn lửa nguyên nhân dù việc đang được điều tra làm rõ",
+        "clean_text": "Khoảng không giờ sáng nay ba tháng tám xe ô tô chạy trên đường nguyễn hữu thọ hướng huyện nhà bè đi quận bảy thành phố hồ chí minh đoạn giữa câu bà chiêm xã nhân đức huyện nhà bè thì bất ngờ phát nổ rồi bốc cháy tài xế dừng xe tìm cách dập lửa nhưng không thành lửa lan ra bao trùm khiến cả chiếc xe bốc cháy ngùn ngụt trong đêm nhận tin báo cảnh sát phòng cháy chữa cháy quyền nhà bè quy động xe chuyên dụng và các cán bộ chiến sĩ tới hiện trường dập tắt ngọn lửa nguyên nhân dù việc đang được điều tra làm rõ.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 24,
+      "time_range": {
+        "start": 520.56,
+        "end": 534.64
+      },
+      "audio_metadata": {
+        "raw_text": "ngày hai tháng tám đội cảnh sát giao thông an sương đã làm việc với ông tê sinh năm một nghìn chín trăm bảy mươi ba ngụ quận tân phú ông là tài xế điều khiển xe buýt tuyến số mười ba vượt đèn đỏ khiến người đi đường bức xúc chiều ba mươi tháng bảy",
+        "clean_text": "Ngày hai tháng tám đội cảnh sát giao thông an sương đã làm việc với ông tê sinh năm một nghìn chín trăm bảy mươi ba ngụ quận tân phú ông là tài xế điều khiển xe buýt tuyến số mười ba vượt đèn đỏ khiến người đi đường bức xúc chiều ba mươi tháng bảy.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 25,
+      "time_range": {
+        "start": 534.96,
+        "end": 567.04
+      },
+      "audio_metadata": {
+        "raw_text": "ông này đã thừa nhận hành vi phạm và sẽ bị xử phạt với mức tiền từ bốn triệu đến sáu triệu đồng tước giấy phép lái xe từ một đến ba tháng trước đó ngày một tháng tám đội cảnh sát giao thông an sương tiếp nhận một đoạn cờ líp dài khoảng năm mươi bảy giây phản ánh xe buýt biển số năm mươi mốt bê hai một sáu bảy tám lưu thông trên đường quốc lộ hai mươi hai vực đèn đỏ đơn vị sau đó xác định chủ phương tiện xe buýt nói trên là hợp tác xã vận tải mười chín tháng năm và mời đại diện chủ phương tiện đến cơ quan làm việc xác định ông t là tài xế đã chỉ chuyến xe bị phản ánh",
+        "clean_text": "Ông này đã thừa nhận hành vi phạm và sẽ bị xử phạt với mức tiền từ bốn triệu đến sáu triệu đồng tước giấy phép lái xe từ một đến ba tháng trước đó ngày một tháng tám đội cảnh sát giao thông an sương tiếp nhận một đoạn cờ líp dài khoảng năm mươi bảy giây phản ánh xe buýt biển số năm mươi mốt bê hai một sáu bảy tám lưu thông trên đường quốc lộ hai mươi hai vực đèn đỏ đơn vị sau đó xác định chủ phương tiện xe buýt nói trên là hợp tác xã vận tải mười chín tháng năm và mời đại diện chủ phương tiện đến cơ quan làm việc xác định ông t là tài xế đã chỉ chuyến xe bị phản ánh.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 26,
+      "time_range": {
+        "start": 567.44,
+        "end": 577.12
+      },
+      "audio_metadata": {
+        "raw_text": "đang di chuyển trên đường xe ô tô lao vào sáu xe máy đang đậu bên lề đường khiến một người bị thương vụ việc xảy ra chiều qua ở quận thanh khê đà nẵng",
+        "clean_text": "Đang di chuyển trên đường xe ô tô lao vào sáu xe máy đang đậu bên lề đường khiến một người bị thương vụ việc xảy ra chiều qua ở quận thanh khê đà nẵng.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 27,
+      "time_range": {
+        "start": 577.68,
+        "end": 618.24
+      },
+      "audio_metadata": {
+        "raw_text": "theo thông tin ban đầu lúc mười bảy giờ bốn mươi hai phút ngày hai tháng tám nam tài xế điều khiển xe ô tô màu trắng trên đường dũng sĩ thanh khê phường thanh khê tây quận thanh khê đà nẵng theo hướng ra đường biển nguyễn tất thành khi tới số nhà một trăm hai mươi bốn a xe ô tô bất ngờ tông sáu xe máy đang đậu bên lề đường theo người dân chứng kiến sau khi gây tai nạn tài xế cho xe ô tô tấp vào lề đường rồi xuống quan sát sau đó rời khỏi hiện trường tại hiện trường sáu xe máy bị hư hỏng nằm la liệt dưới lòng đường vụ tai nạn khiến một người bị thương được đưa đi bệnh viện cấp cứu nhận được tin báo lực lượng chức năng đã có mặt tại hiện trường để điều tiết giao thông và điều tra nguyên nhân tai nạn",
+        "clean_text": "Theo thông tin ban đầu lúc mười bảy giờ bốn mươi hai phút ngày hai tháng tám nam tài xế điều khiển xe ô tô màu trắng trên đường dũng sĩ thanh khê phường thanh khê tây quận thanh khê đà nẵng theo hướng ra đường biển nguyễn tất thành khi tới số nhà một trăm hai mươi bốn a xe ô tô bất ngờ tông sáu xe máy đang đậu bên lề đường theo người dân chứng kiến sau khi gây tai nạn tài xế cho xe ô tô tấp vào lề đường rồi xuống quan sát sau đó rời khỏi hiện trường tại hiện trường sáu xe máy bị hư hỏng nằm la liệt dưới lòng đường vụ tai nạn khiến một người bị thương được đưa đi bệnh viện cấp cứu nhận được tin báo lực lượng chức năng đã có mặt tại hiện trường để điều tiết giao thông và điều tra nguyên nhân tai nạn.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 28,
+      "time_range": {
+        "start": 618.64,
+        "end": 633.28
+      },
+      "audio_metadata": {
+        "raw_text": "những ngày qua người dân ở thành phố mỹ tho tiền giang khu vực gần chân cầu rạch miễu kêu trời vì nắng thì bụi bay mịt mù mưa thì đường bị trơn trượt tình trạng này đã diễn ra trong hơn hai tháng gây mất an toàn giao thông",
+        "clean_text": "Những ngày qua người dân ở thành phố mỹ tho tiền giang khu vực gần chân cầu rạch miễu kêu trời vì nắng thì bụi bay mịt mù mưa thì đường bị trơn trượt tình trạng này đã diễn ra trong hơn hai tháng gây mất an toàn giao thông.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 29,
+      "time_range": {
+        "start": 633.68,
+        "end": 668.0
+      },
+      "audio_metadata": {
+        "raw_text": "nguyên nhân là do các đất rơi vãi từ các loại xe ra vào một công trình đang thi công đường ở khu phố một phường sáu theo ghi nhận hàng ngày có rất nhiều phương tiện ra vào công trình thi công đường trong lúc xe di chuyển kéo theo đất cát dính ở bánh xe rơi giải kéo dài hàng trăm mét trên đường mặc dù công trình này có bố trí người thu gom dọn đất cát nhưng chỉ dọn qua loa một đoạn ngắn khoảng mười lăm mét trước điểm tiếp giáp của công trình với đường lê thị hồng gấm trong khi đó đất cát rơi rải trên đường hàng trăm mét không ai thu dọn gây nguy hiểm cho người tham gia giao thông tìm ẩn nguy cơ xảy ra tai nạn là rất cao",
+        "clean_text": "Nguyên nhân là do các đất rơi vãi từ các loại xe ra vào một công trình đang thi công đường ở khu phố một phường sáu theo ghi nhận hàng ngày có rất nhiều phương tiện ra vào công trình thi công đường trong lúc xe di chuyển kéo theo đất cát dính ở bánh xe rơi giải kéo dài hàng trăm mét trên đường mặc dù công trình này có bố trí người thu gom dọn đất cát nhưng chỉ dọn qua loa một đoạn ngắn khoảng mười lăm mét trước điểm tiếp giáp của công trình với đường lê thị hồng gấm trong khi đó đất cát rơi rải trên đường hàng trăm mét không ai thu dọn gây nguy hiểm cho người tham gia giao thông tìm ẩn nguy cơ xảy ra tai nạn là rất cao.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 30,
+      "time_range": {
+        "start": 668.4,
+        "end": 678.96
+      },
+      "audio_metadata": {
+        "raw_text": "công an tỉnh vĩnh long cho biết đơn vị vừa phối hợp với công an huyện long hồ và công an xã tân hạnh triệt xóa nhóm đối tượng có liên quan đến hành vi đánh bạc trên địa bàn",
+        "clean_text": "Công an tỉnh vĩnh long cho biết đơn vị vừa phối hợp với công an huyện long hồ và công an xã tân hạnh triệt xóa nhóm đối tượng có liên quan đến hành vi đánh bạc trên địa bàn.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 31,
+      "time_range": {
+        "start": 679.44,
+        "end": 724.88
+      },
+      "audio_metadata": {
+        "raw_text": "trước đó vào khoảng mười bốn giờ mười phút mười một tháng tám lực lượng công an kiểm tra khu đất trống nằm ven quốc lộ một a thuộc khu vực ấp tân thuận xã tân hành huyện long hồ thì phát hiện có nhiều đối tượng tụ tập đánh bạc giấy hình thức đá gà qua mạng in tơ nét và lắc tài xỉu ăn thua bằng tiền khi thấy lực lượng công an các đối tượng bỏ chạy sau đó mười bốn đối tượng có liên quan bị bắt giữ tam dật tạm giữ gồm một bộ dụng cụ dùng để lắc tài xỉu mười bốn điện thoại di động chín xe mô tô cùng số tiền trên người nhóm đối tượng hơn hai mươi lăm triệu đồng qua làm việc các đối tượng thừa nhận tham gia đánh bạc số tiền thắng thua sẽ được chuyển khoản ngay khi kết thúc các trận cá cược công an đang tiếp tục xác minh làm rõ để xử lý các đối tượng theo quy định pháp luật",
+        "clean_text": "Trước đó vào khoảng mười bốn giờ mười phút mười một tháng tám lực lượng công an kiểm tra khu đất trống nằm ven quốc lộ một a thuộc khu vực ấp tân thuận xã tân hành huyện long hồ thì phát hiện có nhiều đối tượng tụ tập đánh bạc giấy hình thức đá gà qua mạng in tơ nét và lắc tài xỉu ăn thua bằng tiền khi thấy lực lượng công an các đối tượng bỏ chạy sau đó mười bốn đối tượng có liên quan bị bắt giữ tam dật tạm giữ gồm một bộ dụng cụ dùng để lắc tài xỉu mười bốn điện thoại di động chín xe mô tô cùng số tiền trên người nhóm đối tượng hơn hai mươi lăm triệu đồng qua làm việc các đối tượng thừa nhận tham gia đánh bạc số tiền thắng thua sẽ được chuyển khoản ngay khi kết thúc các trận cá cược công an đang tiếp tục xác minh làm rõ để xử lý các đối tượng theo quy định pháp luật.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 32,
+      "time_range": {
+        "start": 725.28,
+        "end": 735.12
+      },
+      "audio_metadata": {
+        "raw_text": "cơ quan cảnh sát điều tra công an thành phố nha trang vừa thi hành lệnh bắt người bị giữ trong trường hợp khẩn cấp một nghi phạm để điều tra hành vi trộm cắp tài sản",
+        "clean_text": "Cơ quan cảnh sát điều tra công an thành phố nha trang vừa thi hành lệnh bắt người bị giữ trong trường hợp khẩn cấp một nghi phạm để điều tra hành vi trộm cắp tài sản.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 33,
+      "time_range": {
+        "start": 735.6,
+        "end": 777.84
+      },
+      "audio_metadata": {
+        "raw_text": "nghi phạm bị bắt là đặng quốc thắng hai mươi chín tuổi trú tại xã vĩnh ngọc thành phố nha trang trước đó vào ba giờ sáng ngày một tháng tám thắng dùng xà beng cậy bung khóa cửa ngôi nhà trên đường lê hồng phong rồi đột nhập vào bên trong lấy đi ba máy tính xách tay một xe máy và nhiều công cụ xây dựng thắng sau đó gọi cho nghi can khác tên luân mang số tài sản trên về nhà cất giấu rồi mang đi bán chỉ chưa đầy bốn giờ đồng hồ gây án các trinh sát đội cảnh sát hình sự công an thành phố nha trang đã bắt được thắng tại cơ quan bước đầu nghi phạm khai nhận đã gây ra vụ trộm trên và hai vụ trộm cắp tài sản có giá trị khác vào ngày hai mươi bảy và ngày ba mươi tháng bảy tại nha trang hiện công an đang truy tìm nghi phạm tình luân",
+        "clean_text": "Nghi phạm bị bắt là đặng quốc thắng hai mươi chín tuổi trú tại xã vĩnh ngọc thành phố nha trang trước đó vào ba giờ sáng ngày một tháng tám thắng dùng xà beng cậy bung khóa cửa ngôi nhà trên đường lê hồng phong rồi đột nhập vào bên trong lấy đi ba máy tính xách tay một xe máy và nhiều công cụ xây dựng thắng sau đó gọi cho nghi can khác tên luân mang số tài sản trên về nhà cất giấu rồi mang đi bán chỉ chưa đầy bốn giờ đồng hồ gây án các trinh sát đội cảnh sát hình sự công an thành phố nha trang đã bắt được thắng tại cơ quan bước đầu nghi phạm khai nhận đã gây ra vụ trộm trên và hai vụ trộm cắp tài sản có giá trị khác vào ngày hai mươi bảy và ngày ba mươi tháng bảy tại nha trang hiện công an đang truy tìm nghi phạm tình luân.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 34,
+      "time_range": {
+        "start": 778.56,
+        "end": 786.72
+      },
+      "audio_metadata": {
+        "raw_text": "ở phần thế giới cập nhật sáng nay hãng lin theo sẽ cắt giảm mười lăm ngàn việc làm để tiết kiệm chi phí",
+        "clean_text": "Ở phần thế giới cập nhật sáng nay hãng lin theo sẽ cắt giảm mười lăm ngàn việc làm để tiết kiệm chi phí.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 35,
+      "time_range": {
+        "start": 787.92,
+        "end": 794.56
+      },
+      "audio_metadata": {
+        "raw_text": "hàng trăm xe cộ lội nước lần cuối trên kênh đào am sờ tếc đam trước khi nghỉ hưu",
+        "clean_text": "Hàng trăm xe cộ lội nước lần cuối trên kênh đào am sờ tếc đam trước khi nghỉ hưu.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 36,
+      "time_range": {
+        "start": 796.88,
+        "end": 815.68
+      },
+      "audio_metadata": {
+        "raw_text": "tập đoàn in intel cho biết sẽ cắt giảm mười lăm ngàn việc làm để tiết kiệm chi phí đây sẽ là đợt cắt giảm nhân sự lớn nhất của nhà sản xuất chip nổi tiếng này vừa được công bố trong bối cảnh vừa ghi nhận kết quả kinh doanh đáng thất vọng trong quý hai trong khi môi trường cạnh tranh chip bán dẫn ngày càng gay gắt",
+        "clean_text": "Tập đoàn in intel cho biết sẽ cắt giảm mười lăm ngàn việc làm để tiết kiệm chi phí đây sẽ là đợt cắt giảm nhân sự lớn nhất của nhà sản xuất chip nổi tiếng này vừa được công bố trong bối cảnh vừa ghi nhận kết quả kinh doanh đáng thất vọng trong quý hai trong khi môi trường cạnh tranh chip bán dẫn ngày càng gay gắt.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 37,
+      "time_range": {
+        "start": 816.24,
+        "end": 864.8
+      },
+      "audio_metadata": {
+        "raw_text": "thông báo của in theo cho biết hãng này lên kế hoạch tiết kiệm mười tỷ đô la mỹ chi phí trong năm hai ngàn hai mươi lăm trong đó có việc cắt giảm mười lăm ngàn nhân sự tương đương mười lăm phần trăm tổng nguồn nhân lực tuy nhiên chiến lược phát triển tổng thể của tập đoàn này sẽ không thay đổi cho dù thời gian tới sẽ còn nhiều khó khăn theo kế hoạch trong tuần tới in intel sẽ bắt đầu đưa ra các ưu đãi nghỉ hưu sớm và mua lại cổ phần của nhân viên ngoài ra hãng sẽ ngừng trả cổ tức bắt đầu từ quý sau doanh thu in intel đạt mười hai tỷ tám trăm triệu đô la trong quý hai vừa qua giảm một phần trăm so với cùng kỳ năm ngoái cùng với mức lỗ ròng lên tới một phẩy sáu tỷ đô la mỹ trong phiên giao dịch gần nhất cổ phiếu của tập đoàn này đã bốc hơi hai mươi ba phẩy năm mươi sáu đô la mỹ xuống sát mức đáy trong hơn một thập niên khi giá trị cổ phiếu giảm đến tới mười chín phần trăm",
+        "clean_text": "Thông báo của in theo cho biết hãng này lên kế hoạch tiết kiệm mười tỷ đô la mỹ chi phí trong năm hai ngàn hai mươi lăm trong đó có việc cắt giảm mười lăm ngàn nhân sự tương đương mười lăm phần trăm tổng nguồn nhân lực tuy nhiên chiến lược phát triển tổng thể của tập đoàn này sẽ không thay đổi cho dù thời gian tới sẽ còn nhiều khó khăn theo kế hoạch trong tuần tới in intel sẽ bắt đầu đưa ra các ưu đãi nghỉ hưu sớm và mua lại cổ phần của nhân viên ngoài ra hãng sẽ ngừng trả cổ tức bắt đầu từ quý sau doanh thu in intel đạt mười hai tỷ tám trăm triệu đô la trong quý hai vừa qua giảm một phần trăm so với cùng kỳ năm ngoái cùng với mức lỗ ròng lên tới một phẩy sáu tỷ đô la mỹ trong phiên giao dịch gần nhất cổ phiếu của tập đoàn này đã bốc hơi hai mươi ba phẩy năm mươi sáu đô la mỹ xuống sát mức đáy trong hơn một thập niên khi giá trị cổ phiếu giảm đến tới mười chín phần trăm.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 38,
+      "time_range": {
+        "start": 865.44,
+        "end": 879.76
+      },
+      "audio_metadata": {
+        "raw_text": "mới đây bài viết về nghiên cứu hiện trạng của các sông băng trên thế giới trên tạp chí sai ânn ngày một tháng tám đã xác định rằng lần đầu tiên trong lịch sử văn minh loài người sông băng trên giày an đét xảy ra hiện tượng tan chảy",
+        "clean_text": "Mới đây bài viết về nghiên cứu hiện trạng của các sông băng trên thế giới trên tạp chí sai ânn ngày một tháng tám đã xác định rằng lần đầu tiên trong lịch sử văn minh loài người sông băng trên giày an đét xảy ra hiện tượng tan chảy.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 39,
+      "time_range": {
+        "start": 880.32,
+        "end": 906.24
+      },
+      "audio_metadata": {
+        "raw_text": "chúng tôi dự đoán việc này sẽ xảy ra trong nhiều thập kỷ nữa kết quả sau khi xác định niên đại của nền băng mới lộ ra do sự tan chảy cho thấy nền băng này chưa từng lộ ra kể từ kỷ ho lô sen cách đây khoảng mười một ngàn bảy trăm năm và có thể còn lâu hơn nữa ông go rin cho biết điều này cảnh báo rằng con người đang vượt quá các ngưỡng điều kiện khí hậu quen thuộc khi xây dựng nền văn minh nhân loại",
+        "clean_text": "Chúng tôi dự đoán việc này sẽ xảy ra trong nhiều thập kỷ nữa kết quả sau khi xác định niên đại của nền băng mới lộ ra do sự tan chảy cho thấy nền băng này chưa từng lộ ra kể từ kỷ ho lô sen cách đây khoảng mười một ngàn bảy trăm năm và có thể còn lâu hơn nữa ông go rin cho biết điều này cảnh báo rằng con người đang vượt quá các ngưỡng điều kiện khí hậu quen thuộc khi xây dựng nền văn minh nhân loại.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 40,
+      "time_range": {
+        "start": 906.32,
+        "end": 929.52
+      },
+      "audio_metadata": {
+        "raw_text": "đây là dấu hiệu rõ ràng cho thấy tình trạng này sắp tới sẽ xảy ra ở mọi nơi và nhiều khi sớm hơn chúng ta tưởng tượng nghiên cứu đã thu thập dữ liệu từ bốn sông băng trên dãy and đét nơi chiếm chín mươi chín phần trăm tổng số sông băng nhiệt đới trên thế giới những sông băng này dễ bị ảnh hưởng bởi thời tiết vì chúng luôn ở mức nhiệt độ đóng băng hoặc gần như đóng băng",
+        "clean_text": "Đây là dấu hiệu rõ ràng cho thấy tình trạng này sắp tới sẽ xảy ra ở mọi nơi và nhiều khi sớm hơn chúng ta tưởng tượng nghiên cứu đã thu thập dữ liệu từ bốn sông băng trên dãy and đét nơi chiếm chín mươi chín phần trăm tổng số sông băng nhiệt đới trên thế giới những sông băng này dễ bị ảnh hưởng bởi thời tiết vì chúng luôn ở mức nhiệt độ đóng băng hoặc gần như đóng băng.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 41,
+      "time_range": {
+        "start": 930.08,
+        "end": 943.36
+      },
+      "audio_metadata": {
+        "raw_text": "tại vườn thú chét tơ nước anh các nhà bảo tồn động vật đã tổ chức lễ kỷ niệm sự ra đời của chú lừa hoang châu á đây là một trong những loài động vật quý hiếm vì số lượng của chúng ngoài tự nhiên chỉ còn không hơn sáu trăm con",
+        "clean_text": "Tại vườn thú chét tơ nước anh các nhà bảo tồn động vật đã tổ chức lễ kỷ niệm sự ra đời của chú lừa hoang châu á đây là một trong những loài động vật quý hiếm vì số lượng của chúng ngoài tự nhiên chỉ còn không hơn sáu trăm con.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 42,
+      "time_range": {
+        "start": 943.84,
+        "end": 998.48
+      },
+      "audio_metadata": {
+        "raw_text": "nhân viên dường thú cho biết chú lừa quang này là một con đực và họ đã đặt tên cho nó là trát bơ một cái tên có nguồn gốc từ ba tư mang ý nghĩa người mang bảo vật trát bơ ra đời vào tháng sáu qua đây là loài lừa hoang giả châu á chỉ sinh sống ở các vùng bán sa mạc của i răng mông cổ và trung quốc hiện nay lừa quang hiện chỉ tồn tại trong hai khu vực bảo tồn nhỏ tại i răng số lượng của loài này đã giảm hơn năm mươi phần trăm chỉ trong hai thập niên qua do nạn săn bắn trái phép thiếu thốn nguồn thức ăn thời tiết hạn hán và bệnh dịch từ gia súc do đó lừa quang đã được liên minh quốc tế bảo tồn thiên nhiên i u c en nờ liệt kê vào danh sách các loài nguy cấp đang đối mặt với nguy cơ tuyệt chủng rất cao dân thú chét tơ vườn thú duy nhất ở anh và là một trong số ít vườn thú trên thế giới nằm trong chương trình nhân giống bảo tồn toàn châu âu đang nỗ lực nhằm bảo vệ loài này khỏi bờ vực tuyệt chủng",
+        "clean_text": "Nhân viên dường thú cho biết chú lừa quang này là một con đực và họ đã đặt tên cho nó là trát bơ một cái tên có nguồn gốc từ ba tư mang ý nghĩa người mang bảo vật trát bơ ra đời vào tháng sáu qua đây là loài lừa hoang giả châu á chỉ sinh sống ở các vùng bán sa mạc của i răng mông cổ và trung quốc hiện nay lừa quang hiện chỉ tồn tại trong hai khu vực bảo tồn nhỏ tại i răng số lượng của loài này đã giảm hơn năm mươi phần trăm chỉ trong hai thập niên qua do nạn săn bắn trái phép thiếu thốn nguồn thức ăn thời tiết hạn hán và bệnh dịch từ gia súc do đó lừa quang đã được liên minh quốc tế bảo tồn thiên nhiên i u c en nờ liệt kê vào danh sách các loài nguy cấp đang đối mặt với nguy cơ tuyệt chủng rất cao dân thú chét tơ vườn thú duy nhất ở anh và là một trong số ít vườn thú trên thế giới nằm trong chương trình nhân giống bảo tồn toàn châu âu đang nỗ lực nhằm bảo vệ loài này khỏi bờ vực tuyệt chủng.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 43,
+      "time_range": {
+        "start": 999.04,
+        "end": 1015.6
+      },
+      "audio_metadata": {
+        "raw_text": "mỗi năm cộng đồng yêu thích xe lội nước tại châu âu lại tập hợp lại để lái cùng nhau trong một tuần sự kiện năm nay tại hà lan trở nên đặc biệt hơn vì đây là lần cuối mọi người được sử dụng loại xe này do nước này sẽ áp dụng các quy định môi trường mới từ năm hai ngàn không trăm hai mươi lăm",
+        "clean_text": "Mỗi năm cộng đồng yêu thích xe lội nước tại châu âu lại tập hợp lại để lái cùng nhau trong một tuần sự kiện năm nay tại hà lan trở nên đặc biệt hơn vì đây là lần cuối mọi người được sử dụng loại xe này do nước này sẽ áp dụng các quy định môi trường mới từ năm hai ngàn không trăm hai mươi lăm.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 44,
+      "time_range": {
+        "start": 1016.4,
+        "end": 1041.84
+      },
+      "audio_metadata": {
+        "raw_text": "hàng trăm xe lội nước đã lướt trên các kênh đào am sờ tê đam sự kiện đánh dấu kết thúc một chuyến hành trình dài năm ngày qua các thành phố của hà lan năm nay chúng tôi có một nhóm lớn như vậy vì đây sẽ là lần cuối cùng bởi vì từ năm sau am sê đam sẽ bắt đầu áp dụng trong số quy định về động cơ tuy nhiên nhiều thủ xe cũng bày tỏ sự tiếc nuối về các quy định môi trường mới",
+        "clean_text": "Hàng trăm xe lội nước đã lướt trên các kênh đào am sờ tê đam sự kiện đánh dấu kết thúc một chuyến hành trình dài năm ngày qua các thành phố của hà lan năm nay chúng tôi có một nhóm lớn như vậy vì đây sẽ là lần cuối cùng bởi vì từ năm sau am sê đam sẽ bắt đầu áp dụng trong số quy định về động cơ tuy nhiên nhiều thủ xe cũng bày tỏ sự tiếc nuối về các quy định môi trường mới.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 45,
+      "time_range": {
+        "start": 1041.92,
+        "end": 1063.92
+      },
+      "audio_metadata": {
+        "raw_text": "tất nhiên chúng tôi hiểu mọi người đều phải nghĩ về môi trường nhưng chúng tôi thấy rất tiếc vì không thể biến những chiếc xe này thành xe điện như vậy chúng tôi sẽ tận hưởng lần cuối cùng này người dân và du khách đủ mọi lứa tuổi tại thành phố am sờster đam đã đứng trên các cây cầu và dọc theo các con kênh để chào đón cũng như ngắm nhìn đoàn xe lần cuối cùng",
+        "clean_text": "Tất nhiên chúng tôi hiểu mọi người đều phải nghĩ về môi trường nhưng chúng tôi thấy rất tiếc vì không thể biến những chiếc xe này thành xe điện như vậy chúng tôi sẽ tận hưởng lần cuối cùng này người dân và du khách đủ mọi lứa tuổi tại thành phố am sờster đam đã đứng trên các cây cầu và dọc theo các con kênh để chào đón cũng như ngắm nhìn đoàn xe lần cuối cùng.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 46,
+      "time_range": {
+        "start": 1064.72,
+        "end": 1076.24
+      },
+      "audio_metadata": {
+        "raw_text": "chơi xích đu nhưng cách mặt đất một trăm hai mươi mét hoạt động mới này tại thủ đô béc lin của đức đang thu hút nhiều người đến trải nghiệm dĩ nhiên không phải là những người sợ độ cao",
+        "clean_text": "Chơi xích đu nhưng cách mặt đất một trăm hai mươi mét hoạt động mới này tại thủ đô béc lin của đức đang thu hút nhiều người đến trải nghiệm dĩ nhiên không phải là những người sợ độ cao.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 47,
+      "time_range": {
+        "start": 1076.88,
+        "end": 1130.4
+      },
+      "audio_metadata": {
+        "raw_text": "đu đôi chân hoặc thậm chí ngả lưng về sau nhiều người thích thú khi vừa ngồi xích đu vừa nhìn ngắm thành phố ngay dưới chân mình dĩ nhiên họ được cài dây an toàn những xích đu này nằm trên nóc tòa nhà khách sạn pắc in từ đây người trải nghiệm có thể bắt gặp các địa điểm nổi tiếng của béc lin từ quảng trường a le san đơ bờ lát ngay bên dưới cho đến tòa thị chính và tháp truyền hình béc lin cảm giác rất tuyệt đầu tiên có thể bạn sẽ thấy sợ nhưng sau đó sẽ thấy thoải mái hơn rồi cứ tận hưởng khung cảnh xung quanh thôi ai cũng biết đến xích đu sân chơi hay công viên nào cũng có nhưng những xích đu đã có chỉ ở trên mặt đất giờ thì mọi người được trải nghiệm xích đu ở độ cao lớn hơn nhiều theo vi dịch béc lin cơ quan tiếp thị chính thức của thành phố béc lin đây là trải nghiệm xích đu cao nhất ở châu âu",
+        "clean_text": "Đu đôi chân hoặc thậm chí ngả lưng về sau nhiều người thích thú khi vừa ngồi xích đu vừa nhìn ngắm thành phố ngay dưới chân mình dĩ nhiên họ được cài dây an toàn những xích đu này nằm trên nóc tòa nhà khách sạn pắc in từ đây người trải nghiệm có thể bắt gặp các địa điểm nổi tiếng của béc lin từ quảng trường a le san đơ bờ lát ngay bên dưới cho đến tòa thị chính và tháp truyền hình béc lin cảm giác rất tuyệt đầu tiên có thể bạn sẽ thấy sợ nhưng sau đó sẽ thấy thoải mái hơn rồi cứ tận hưởng khung cảnh xung quanh thôi ai cũng biết đến xích đu sân chơi hay công viên nào cũng có nhưng những xích đu đã có chỉ ở trên mặt đất giờ thì mọi người được trải nghiệm xích đu ở độ cao lớn hơn nhiều theo vi dịch béc lin cơ quan tiếp thị chính thức của thành phố béc lin đây là trải nghiệm xích đu cao nhất ở châu âu.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 48,
+      "time_range": {
+        "start": 1130.64,
+        "end": 1144.48
+      },
+      "audio_metadata": {
+        "raw_text": "thông tin cập nhật phó tổng thống mỹ ca ba la ha rít đã giành được đủ số phiếu đại biểu để trở thành ứng cử viên tổng thống của đảng dân chủ bà là người phụ nữ da màu đầu tiên đại diện một chính đảng ra tranh cử tổng thống ở mỹ",
+        "clean_text": "Thông tin cập nhật phó tổng thống mỹ ca ba la ha rít đã giành được đủ số phiếu đại biểu để trở thành ứng cử viên tổng thống của đảng dân chủ bà là người phụ nữ da màu đầu tiên đại diện một chính đảng ra tranh cử tổng thống ở mỹ.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 49,
+      "time_range": {
+        "start": 1144.88,
+        "end": 1178.24
+      },
+      "audio_metadata": {
+        "raw_text": "chủ tịch ủy ban quốc gia đảng dân chủ giê mi ha ri sân cho biết quy trình bỏ phiếu trực tuyến tới ngày năm tháng tám mới kết thúc nhưng bà ha rít đã giành được đa số phiếu đại biểu đã trở thành ứng cử viên của đảng đối đầu với ứng cử viên tổng thống đảng cộng hòa đô nanồ trăm vào tháng mười một tới ông ha ri sen nói rằng tốc độ mà đảng dân chủ đã đoàn kết xung quanh bà ha rít là chưa từng có đồng thời tuyên bố đảng sẽ tập hợp xung quanh bà và chứng minh sức mạnh tại đại hội toàn quốc của đảng dân chủ đại hội sẽ diễn ra tại thành phố chi ca gô từ ngày mười chín tháng tám tới ngày hai mươi hai tháng tám",
+        "clean_text": "Chủ tịch ủy ban quốc gia đảng dân chủ giê mi ha ri sân cho biết quy trình bỏ phiếu trực tuyến tới ngày năm tháng tám mới kết thúc nhưng bà ha rít đã giành được đa số phiếu đại biểu đã trở thành ứng cử viên của đảng đối đầu với ứng cử viên tổng thống đảng cộng hòa đô nanồ trăm vào tháng mười một tới ông ha ri sen nói rằng tốc độ mà đảng dân chủ đã đoàn kết xung quanh bà ha rít là chưa từng có đồng thời tuyên bố đảng sẽ tập hợp xung quanh bà và chứng minh sức mạnh tại đại hội toàn quốc của đảng dân chủ đại hội sẽ diễn ra tại thành phố chi ca gô từ ngày mười chín tháng tám tới ngày hai mươi hai tháng tám.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 50,
+      "time_range": {
+        "start": 1178.56,
+        "end": 1192.96
+      },
+      "audio_metadata": {
+        "raw_text": "thông tin vừa rồi cũng đã khép lại chương trình sáu mươi giây sáng nay cảm ơn quý vị đã quan tâm theo dõi chúc quý vị ngày thứ bảy nhiều niềm vui bên người thân và gia đình hẹn gặp lại quý vị trong chương trình sáu mươi giây chiều nay với những thông tin cập nhật trong ngày xin kính chào tạm biệt",
+        "clean_text": "Thông tin vừa rồi cũng đã khép lại chương trình sáu mươi giây sáng nay cảm ơn quý vị đã quan tâm theo dõi chúc quý vị ngày thứ bảy nhiều niềm vui bên người thân và gia đình hẹn gặp lại quý vị trong chương trình sáu mươi giây chiều nay với những thông tin cập nhật trong ngày xin kính chào tạm biệt.",
+        "confidence": null
+      }
+    }
+  ]
+}

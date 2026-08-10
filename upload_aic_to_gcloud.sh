@@ -1,10 +1,9 @@
-```bash
 #!/usr/bin/env bash
-# Chạy trên EC2:
-#   ./upload_aic_to_s3.sh s3://ten-bucket
+# Cách dùng:
+#   ./upload_aic_to_gcloud.sh gs://ten-bucket
 #
 # Chạy nền:
-#   nohup ./upload_aic_to_s3.sh s3://ten-bucket > upload.log 2>&1 &
+#   nohup ./upload_aic_to_gcloud.sh gs://ten-bucket > /dev/null 2>&1 &
 
 set -e
 set -u
@@ -13,13 +12,13 @@ if [ -n "${BASH_VERSION:-}" ]; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-LOG_FILE="${LOG_FILE:-$SCRIPT_DIR/upload.log}"
+LOG_FILE="${LOG_FILE:-$SCRIPT_DIR/upload_gcloud.log}"
 mkdir -p "$(dirname "$LOG_FILE")"
 exec >>"$LOG_FILE" 2>&1
 
-echo "=== Starting upload_aic_to_s3.sh at $(date '+%Y-%m-%d %H:%M:%S') ==="
+echo "=== Starting upload_aic_to_gcloud.sh at $(date '+%Y-%m-%d %H:%M:%S') ==="
 
-BUCKET="${1:?Cách dùng: $0 s3://ten-bucket}"
+BUCKET="${1:?Cách dùng: $0 gs://ten-bucket}"
 BUCKET="${BUCKET%/}"
 
 WORKDIR="${WORKDIR:-$HOME/aic_ingest}"
@@ -28,45 +27,13 @@ WORKDIR="${WORKDIR:-$HOME/aic_ingest}"
 # Tuning
 # =========================
 
-# Mỗi ZIP chỉ dùng từng này connection
 DOWNLOAD_CONNECTIONS="${DOWNLOAD_CONNECTIONS:-4}"
-
-# Segment size
 DOWNLOAD_SPLIT_SIZE="${DOWNLOAD_SPLIT_SIZE:-1M}"
 
-# S3 concurrent upload
-S3_CONCURRENT_REQUESTS="${S3_CONCURRENT_REQUESTS:-32}"
-
 LINKS=(
-  https://aic-data.ledo.io.vn/Keyframes_L21.zip
-  https://aic-data.ledo.io.vn/Keyframes_L22.zip
-  https://aic-data.ledo.io.vn/Keyframes_L23.zip
-  https://aic-data.ledo.io.vn/Keyframes_L24.zip
-  https://aic-data.ledo.io.vn/Keyframes_L25.zip
-  https://aic-data.ledo.io.vn/Keyframes_L26_a.zip
-  https://aic-data.ledo.io.vn/Keyframes_L26_b.zip
-  https://aic-data.ledo.io.vn/Keyframes_L26_c.zip
-  https://aic-data.ledo.io.vn/Keyframes_L26_d.zip
-  https://aic-data.ledo.io.vn/Keyframes_L26_e.zip
-  https://aic-data.ledo.io.vn/Keyframes_L27.zip
-  https://aic-data.ledo.io.vn/Keyframes_L28.zip
-  https://aic-data.ledo.io.vn/Keyframes_L29.zip
-  https://aic-data.ledo.io.vn/Keyframes_L30.zip
-
-  https://aic-data.ledo.io.vn/Videos_L21_a.zip
-  https://aic-data.ledo.io.vn/Videos_L22_a.zip
-  https://aic-data.ledo.io.vn/Videos_L23_a.zip
-  https://aic-data.ledo.io.vn/Videos_L24_a.zip
-  https://aic-data.ledo.io.vn/Videos_L25_a.zip
-  https://aic-data.ledo.io.vn/Videos_L26_a.zip
-  https://aic-data.ledo.io.vn/Videos_L26_b.zip
-  https://aic-data.ledo.io.vn/Videos_L26_c.zip
-  https://aic-data.ledo.io.vn/Videos_L26_d.zip
-  https://aic-data.ledo.io.vn/Videos_L26_e.zip
-  https://aic-data.ledo.io.vn/Videos_L27_a.zip
-  https://aic-data.ledo.io.vn/Videos_L28_a.zip
-  https://aic-data.ledo.io.vn/Videos_L29_a.zip
-  https://aic-data.ledo.io.vn/Videos_L30_a.zip
+  https://aic-data.ledo.io.vn/map-keyframes-aic25-b1.zip
+  https://aic-data.ledo.io.vn/media-info-aic25-b1.zip
+  https://aic-data.ledo.io.vn/objects-aic25-b1.zip
 )
 
 # =========================
@@ -75,27 +42,19 @@ LINKS=(
 
 command -v unzip >/dev/null || {
   echo "ERROR: thiếu unzip"
-  echo "Cài bằng: sudo apt install -y unzip"
   exit 1
 }
 
-command -v aws >/dev/null || {
-  echo "ERROR: thiếu aws cli"
+command -v gcloud >/dev/null || {
+  echo "ERROR: thiếu gcloud CLI"
   exit 1
 }
 
 command -v aria2c >/dev/null || {
   echo "ERROR: thiếu aria2c"
-  echo "Cài bằng: sudo apt install -y aria2"
+  echo "Cài bằng: brew install aria2 (macOS) hoặc sudo apt install -y aria2"
   exit 1
 }
-
-# =========================
-# AWS CLI tuning
-# =========================
-
-aws configure set default.s3.max_concurrent_requests "$S3_CONCURRENT_REQUESTS"
-aws configure set default.s3.multipart_chunksize 64MB
 
 # =========================
 # Prepare
@@ -107,20 +66,13 @@ cd "$WORKDIR"
 total=${#LINKS[@]}
 
 echo "=========================================="
-echo "AIC Dataset -> S3"
+echo "AIC Dataset -> GCS"
 echo "=========================================="
 echo "Bucket:              $BUCKET"
 echo "Workdir:             $WORKDIR"
 echo "Connections / file:  $DOWNLOAD_CONNECTIONS"
 echo "Total files:         $total"
 echo "=========================================="
-
-# ============================================================
-# STEP 1 -> 3:
-# Download -> Extract -> Upload từng file
-#
-# Chỉ xử lý 1 ZIP tại một thời điểm.
-# ============================================================
 
 i=0
 
@@ -131,18 +83,27 @@ for url in "${LINKS[@]}"; do
   zip="$WORKDIR/downloads/$f"
 
   # =========================
-  # Determine S3 destination
+  # Determine GCS destination
   # =========================
-
-  lname=$(grep -oE 'L[0-9]+' <<< "$f" | head -1)
+  #
+  # map-keyframes / media-info: file nằm thẳng trong folder cha
+  #   dataset/map-keyframes/L21_V001.csv
+  #   dataset/media-info/L21_V001.json
+  #
+  # objects: giữ cấu trúc con L21_V001/, L21_V002/, ...
+  #   dataset/objects/L21_V001/0001.json
 
   case "$f" in
-    Videos_*)
-      prefix="dataset/videos/$lname"
+    map-keyframes-*)
+      prefix="dataset/map-keyframes"
       ;;
 
-    Keyframes_*)
-      prefix="dataset/keyframes/$lname"
+    media-info-*)
+      prefix="dataset/media-info"
+      ;;
+
+    objects-*)
+      prefix="dataset/objects"
       ;;
 
     *)
@@ -150,19 +111,19 @@ for url in "${LINKS[@]}"; do
       ;;
   esac
 
-  dest="$BUCKET/$prefix/"
+  dest="$BUCKET/$prefix"
 
   echo
   echo "=========================================="
   echo "[$i/$total] $f"
-  echo "Destination: $dest"
+  echo "Destination: $dest/"
   echo "=========================================="
 
   # =========================
   # Check already completed
   # =========================
 
-  if aws s3 ls "$BUCKET/dataset/.done/$f" >/dev/null 2>&1; then
+  if gcloud storage ls "$BUCKET/dataset/.done/$f" >/dev/null 2>&1; then
     echo "[SKIP] $f — đã upload trước đó"
     continue
   fi
@@ -193,10 +154,6 @@ for url in "${LINKS[@]}"; do
     --out="$f" \
     "$url"
 
-  # =========================
-  # Verify ZIP exists
-  # =========================
-
   if [ ! -f "$zip" ]; then
     echo "ERROR: download xong nhưng không tìm thấy:"
     echo "$zip"
@@ -217,13 +174,8 @@ for url in "${LINKS[@]}"; do
 
   unzip -q "$zip" -d "$WORKDIR/extracted"
 
-  # Nếu ZIP có 1 folder bọc ngoài thì đi xuống folder đó.
-  #
-  # extracted/
-  #   Keyframes_L21/
-  #       xxx.jpg
-  #
-  # -> src = extracted/Keyframes_L21
+  # Nếu ZIP có folder bọc ngoài (vd extracted/map-keyframes/...)
+  # thì đi xuống folder trong cùng còn chứa nhiều hơn 1 mục.
 
   src="$WORKDIR/extracted"
 
@@ -250,12 +202,11 @@ for url in "${LINKS[@]}"; do
   # ==========================================================
 
   echo
-  echo "[UPLOAD] $src -> $dest"
+  echo "[UPLOAD] $src -> $dest/"
 
-  aws s3 sync \
+  gcloud storage rsync -r \
     "$src" \
-    "$dest" \
-    --only-show-errors
+    "$dest"
 
   echo "[UPLOAD OK] $f"
 
@@ -263,7 +214,7 @@ for url in "${LINKS[@]}"; do
   # MARK DONE
   # ==========================================================
 
-  echo "done" | aws s3 cp - "$BUCKET/dataset/.done/$f"
+  echo "done" | gcloud storage cp - "$BUCKET/dataset/.done/$f"
 
   echo "[DONE] $f"
 
@@ -289,5 +240,4 @@ echo "HOÀN TẤT"
 echo "=========================================="
 
 echo "Kiểm tra:"
-echo "aws s3 ls $BUCKET/dataset/ --recursive --summarize | tail -3"
-```
+echo "gcloud storage ls -r $BUCKET/dataset/ | tail -5"

@@ -31,10 +31,18 @@ class QAVerifier:
             raise ValueError("prompt_version must not be empty")
         self.last_diagnostics: dict[str, Any] = {}
 
-    def _audit(self, request: QAVerificationRequest, *, cache_hit: bool) -> None:
+    def _audit(
+        self,
+        request: QAVerificationRequest,
+        *,
+        cache_hit: bool,
+        status: str = "success",
+        error: BaseException | None = None,
+    ) -> None:
         self.last_diagnostics = {
             **dict(self.client.last_diagnostics),
             "cache_hit": cache_hit,
+            "status": status,
         }
         if self.audit_path is None:
             return
@@ -46,6 +54,9 @@ class QAVerifier:
             "candidate_count": len(request.candidates),
             **self.last_diagnostics,
         }
+        if error is not None:
+            row["error_type"] = type(error).__name__
+            row["error"] = str(error)[:1000]
         with self.audit_path.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n")
 
@@ -65,6 +76,12 @@ class QAVerifier:
     def _cache_key(self, request: QAVerificationRequest, prompt: str) -> str:
         payload: dict[str, Any] = {
             "model": self.client.config.model,
+            "generation": {
+                "temperature": self.client.config.temperature,
+                "max_output_tokens": self.client.config.max_output_tokens,
+                "max_retry_output_tokens": self.client.config.max_retry_output_tokens,
+                "thinking_level": self.client.config.thinking_level,
+            },
             "prompt_version": self.prompt_version,
             "system_instruction": SYSTEM_INSTRUCTION,
             "prompt": prompt,
@@ -119,13 +136,19 @@ class QAVerifier:
                 self._audit(request, cache_hit=True)
                 return self._resolve_support(result, request, cache_hit=True)
 
-        response = self.client.generate(
-            prompt=prompt,
-            system_instruction=SYSTEM_INSTRUCTION,
-            frames=request.candidates,
-        )
-        result = QAVerification.from_mapping(response)
-        resolved = self._resolve_support(result, request, cache_hit=False)
+        try:
+            response = self.client.generate(
+                prompt=prompt,
+                system_instruction=SYSTEM_INSTRUCTION,
+                frames=request.candidates,
+            )
+            result = QAVerification.from_mapping(response)
+            resolved = self._resolve_support(result, request, cache_hit=False)
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except Exception as exc:
+            self._audit(request, cache_hit=False, status="error", error=exc)
+            raise
         self._audit(request, cache_hit=False)
         if self.cache is not None and cache_key is not None:
             self.cache.set(

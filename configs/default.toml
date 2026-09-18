@@ -59,6 +59,9 @@ model = "gemini-3.6-flash"
 api_key_env = "GEMINI_API_KEY"
 timeout_seconds = 60.0
 max_attempts = 3
+max_output_tokens = 2048
+max_retry_output_tokens = 8192
+thinking_level = "minimal"
 prompt_version = "qa-multiframe-v1"
 max_candidates = 12
 

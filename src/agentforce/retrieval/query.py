@@ -14,9 +14,11 @@ _SEQUENCE_PATTERN = re.compile(
     r"kế tiếp|ke tiep|finally|then|next)\b)\s*",
     flags=re.IGNORECASE,
 )
+_EVENT_MARKER = r"(?:E(?:VENT)?\s*\d+|\d+[.)]|[-*])"
 _NUMBERED_EVENT_PATTERN = re.compile(
-    r"(?:^|\n)\s*(?:\d+[.)]|[-*])\s+(.+?)(?=(?:\n\s*(?:\d+[.)]|[-*])\s+)|$)",
-    flags=re.DOTALL,
+    rf"(?:^|\n)\s*{_EVENT_MARKER}(?:[.):\-])?\s+(.+?)"
+    rf"(?=(?:\n\s*{_EVENT_MARKER}(?:[.):\-])?\s+)|$)",
+    flags=re.DOTALL | re.IGNORECASE,
 )
 _VIETNAMESE_MARKERS = {
     "cảnh",
@@ -32,9 +34,7 @@ _VIETNAMESE_MARKERS = {
 
 
 class QueryParser(Protocol):
-    def parse(
-        self, text: str, *, task_type: TaskType | str | None = None
-    ) -> ParsedQuery: ...
+    def parse(self, text: str, *, task_type: TaskType | str | None = None) -> ParsedQuery: ...
 
 
 class QueryExpander(Protocol):
@@ -72,13 +72,11 @@ def _modality_hints(text: str) -> dict[str, float]:
     lowered = text.casefold()
     hints = {"visual": 1.0}
     if any(
-        term in lowered
-        for term in ("ghi gì", "viết gì", "dòng chữ", "biển hiệu", "logo", "ocr")
+        term in lowered for term in ("ghi gì", "viết gì", "dòng chữ", "biển hiệu", "logo", "ocr")
     ):
         hints["ocr"] = 2.0
     if any(
-        term in lowered
-        for term in ("nói gì", "phát biểu", "nghe thấy", "lời thoại", "âm thanh")
+        term in lowered for term in ("nói gì", "phát biểu", "nghe thấy", "lời thoại", "âm thanh")
     ):
         hints["asr"] = 2.0
     if any(term in lowered for term in ("tiêu đề", "mô tả video", "kênh", "chương trình")):
@@ -91,7 +89,10 @@ def _modality_hints(text: str) -> dict[str, float]:
 def _split_events(text: str) -> tuple[QueryEvent, ...]:
     numbered = [match.strip(" .") for match in _NUMBERED_EVENT_PATTERN.findall(text)]
     fragments = numbered if len(numbered) >= 2 else _SEQUENCE_PATTERN.split(text)
-    fragments = [fragment.strip(" ,.;:\n") for fragment in fragments if fragment.strip()]
+    # Filter after punctuation trimming. A sentence ending in the ordinary
+    # phrase "các cột tiếp theo." previously left a lone "." fragment, which
+    # then became an invalid empty QueryEvent.
+    fragments = [cleaned for fragment in fragments if (cleaned := fragment.strip(" ,.;:\n"))]
     if len(fragments) < 2:
         return ()
     return tuple(
@@ -116,15 +117,15 @@ def _split_qa_context(text: str) -> tuple[str, str]:
 class HeuristicQueryParser:
     """Conservative parser that works offline and can later be replaced by an LLM."""
 
-    def parse(
-        self, text: str, *, task_type: TaskType | str | None = None
-    ) -> ParsedQuery:
+    def parse(self, text: str, *, task_type: TaskType | str | None = None) -> ParsedQuery:
         cleaned = " ".join(text.strip().split())
         if not cleaned:
             raise ValueError("query text must not be empty")
 
         explicit_type = TaskType(task_type) if task_type is not None else None
-        events = _split_events(text)
+        # An explicit KIS/QA task must keep its complete prose intact. Sequence
+        # words inside a scene description are not TRAKE event declarations.
+        events = _split_events(text) if explicit_type in {None, TaskType.TRAKE} else ()
         answer_type = _expected_answer_type(cleaned)
         inferred_type = (
             TaskType.TRAKE
@@ -184,19 +185,14 @@ class HeuristicQueryExpander:
         if self._translator:
             translated = self._translator(query.retrieval_text)
             if translated and translated.strip():
-                variants.append(
-                    QueryVariant(translated.strip(), weight=0.9, kind="translation")
-                )
+                variants.append(QueryVariant(translated.strip(), weight=0.9, kind="translation"))
         if self._paraphraser:
             for text in self._paraphraser(query.retrieval_text)[: self._max_paraphrases]:
                 if text and text.strip():
-                    variants.append(
-                        QueryVariant(text.strip(), weight=0.8, kind="paraphrase")
-                    )
+                    variants.append(QueryVariant(text.strip(), weight=0.8, kind="paraphrase"))
         if query.task_type == TaskType.TRAKE:
             variants.extend(
-                QueryVariant(event.description, weight=0.85, kind="event")
-                for event in query.events
+                QueryVariant(event.description, weight=0.85, kind="event") for event in query.events
             )
 
         deduplicated: list[QueryVariant] = []

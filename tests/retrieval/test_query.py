@@ -5,9 +5,7 @@ from agentforce.retrieval.types import TaskType
 def test_parser_detects_qa_context_and_answer_type() -> None:
     parser = HeuristicQueryParser()
 
-    parsed = parser.parse(
-        "Cảnh một phụ nữ mặc váy đỏ đang cầm ly.\nChiếc ly màu gì?"
-    )
+    parsed = parser.parse("Cảnh một phụ nữ mặc váy đỏ đang cầm ly.\nChiếc ly màu gì?")
 
     assert parsed.task_type == TaskType.QA
     assert parsed.retrieval_text.startswith("Cảnh một phụ nữ")
@@ -34,6 +32,35 @@ def test_parser_supports_numbered_event_lines() -> None:
     assert [event.order for event in parsed.events] == [1, 2, 3]
 
 
+def test_parser_supports_official_e_numbered_event_lines_after_context() -> None:
+    parsed = HeuristicQueryParser().parse(
+        "Cảnh mở đầu không phải event.\n"
+        "E1 Hai con rồng vàng xuất hiện đầy đủ.\n"
+        "E2 Con lân hoàn tất cú xoay.\n"
+        "E3 Dùi chạm vào kẻng đồng.",
+        task_type="trake",
+    )
+
+    assert [event.description for event in parsed.events] == [
+        "Hai con rồng vàng xuất hiện đầy đủ",
+        "Con lân hoàn tất cú xoay",
+        "Dùi chạm vào kẻng đồng",
+    ]
+
+
+def test_explicit_kis_does_not_parse_sequence_words_as_trake_events() -> None:
+    text = (
+        "Con lân nhảy qua hai chiếc cột. "
+        "Cảnh quay kết thúc khi con lân tiếp tục nhảy sang các cột tiếp theo."
+    )
+
+    parsed = HeuristicQueryParser().parse(text, task_type="kis")
+
+    assert parsed.task_type == TaskType.KIS
+    assert parsed.retrieval_text == text
+    assert parsed.events == ()
+
+
 def test_expander_deduplicates_callbacks() -> None:
     parsed = HeuristicQueryParser().parse("người đang đi xe đạp", task_type="kis")
     expander = HeuristicQueryExpander(
@@ -48,4 +75,3 @@ def test_expander_deduplicates_callbacks() -> None:
         "translation",
         "paraphrase",
     ]
-

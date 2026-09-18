@@ -134,7 +134,7 @@ canonical `artifacts/indexes/`.
 | PhoWhisper transcript một video | JSON |
 | Timeline, OCR, object, windows, row metadata | JSONL |
 | Embedding matrices | NPY float16/float32 |
-| Gemini cache/audit và task results | JSON/JSONL |
+| Gemini cache, success/failure audit và task results | JSON/JSONL |
 | Keyframe retrieval gallery | Standalone HTML dưới `artifacts/visualizations/` |
 | Submission | CSV theo task |
 
@@ -169,9 +169,17 @@ Gemini trả `supporting_candidate_id`; hệ thống không tin `video_id` hoặ
 `frame_idx` tự sinh. Verifier map candidate ID về registry local, validate JSON
 schema, cache response và lưu audit diagnostics.
 
+Cache chỉ chứa response JSON đã parse, validate schema và resolve candidate
+thành công. Audit JSONL vẫn phải có record khi request thất bại; record ghi
+`status`, lỗi, số attempt, output budget, `finish_reason` và token diagnostics
+khi SDK cung cấp. Với `finish_reason = MAX_TOKENS`, output budget được tăng gấp
+đôi từ mặc định `2048` tới tối đa `8192`; không tăng budget vì loại lỗi khác.
+`thinking_level = "minimal"` là mặc định cho VQA cấu trúc ngắn.
+
 API key chỉ được đọc từ biến `GEMINI_API_KEY` do project `.env` cung cấp trong
 workflow chuẩn. Model Gemini là config data ở `[gemini].model`, không nằm trong
-artifact và không hardcode trong task solver.
+artifact và không hardcode trong task solver. Gemini chỉ là final QA verifier,
+không phải caption model và không tạo dữ liệu preprocessing.
 
 ## Artifact validation contract
 

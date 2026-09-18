@@ -249,6 +249,7 @@ class QAVerification:
                 "evidence": {
                     "type": "array",
                     "items": {"type": "string"},
+                    "maxItems": 3,
                     "description": "At most three short observations grounded in supplied inputs.",
                 },
                 "uncertainty_reason": {

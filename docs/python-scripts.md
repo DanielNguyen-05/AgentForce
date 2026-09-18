@@ -15,6 +15,10 @@ Với scope này, các preprocessing script không có cờ chọn video sẽ t�
 ba video. `--all` cũng chỉ chọn đủ ba video configured. `--video-ids` dùng để
 chọn subset bên trong scope, chủ yếu cho output smoke không canonical.
 
+Batch 1 KIS là luồng riêng: `scripts/run_kis_batch.py` mặc định dùng
+`configs/batch1_full.toml` và `artifacts/batch1_full/` trên toàn dataset, không
+dùng hay thay đổi scope ba video của `configs/default.toml`.
+
 ## Bảng entry files
 
 | Việc cần làm | File/lệnh trực tiếp | Output mặc định |
@@ -33,6 +37,7 @@ chọn subset bên trong scope, chủ yếu cho output smoke không canonical.
 | Build text indexes | `python scripts/build_text_indexes.py` | `artifacts/indexes/*_windows.*` |
 | Xem retrieval thô | `python scripts/run_search.py --query "..."` | stdout hoặc `--output` |
 | KIS | `python scripts/run_kis.py --query "..."` | stdout hoặc `--output` |
+| Batch 1 KIS | `python scripts/run_kis_batch.py` | JSON: `outputs/query_batch1/kis/`; CSV: `artifacts/submissions/batch1/submission/` |
 | Q&A + Gemini final | `python scripts/run_qa.py --query "..." --question "..."` | stdout hoặc `--output` |
 | Q&A request đã chuẩn bị | `python scripts/verify_qa_request.py --request ...` | stdout hoặc `--output` |
 | TRAKE | `python scripts/run_trake.py --query "event 1, sau đó event 2"` | stdout hoặc `--output` |
@@ -237,6 +242,21 @@ python scripts/run_kis.py \
   --output outputs/KIS001.json
 ```
 
+Batch 1 KIS:
+
+```bash
+python scripts/run_kis_batch.py
+```
+
+Script mặc định dùng `configs/batch1_full.toml`, đọc
+`query_batch1/*-kis.txt`, đồng thời bỏ qua mọi file query Q&A và TRAKE. Rich
+JSON phục vụ kiểm tra được ghi vào `outputs/query_batch1/kis/`. CSV chính thức
+được ghi vào `artifacts/submissions/batch1/submission/`; mỗi file không có
+header và mỗi dòng đúng hai trường `<video_name>,<frame_id>`.
+
+Chưa ZIP thư mục `submission/` cho đến khi đã hoàn tất đủ các task KIS, Q&A và
+TRAKE.
+
 Q&A, sau khi `.env` có `GEMINI_API_KEY`:
 
 ```bash
@@ -254,7 +274,11 @@ python scripts/run_qa.py \
 retrieval chọn, rồi script xếp hạng các dự đoán cho R@1/5/20/50/100. Mọi Gemini
 call chỉ nhìn các frame trong batch local tương ứng; API không caption dataset.
 Để smoke test rẻ bằng đúng một Gemini call, thêm `--single-answer`. Gemini model
-lấy từ `[gemini].model` (hiện là `gemini-3.6-flash`).
+lấy từ `[gemini].model` (hiện là `gemini-3.6-flash`). Structured VQA mặc định
+dùng `thinking_level="minimal"`, output budget `2048` và trần retry `8192`.
+Chỉ `finish_reason=MAX_TOKENS` làm attempt sau tăng gấp đôi budget; audit ghi
+finish reason/token usage cho cả success và failure. Một `--single-answer` vẫn
+có thể có nhiều API attempt nội bộ theo `max_attempts`.
 
 TRAKE:
 

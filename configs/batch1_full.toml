@@ -1,0 +1,40 @@
+# Full-dataset retrieval config for official query batches.
+# It deliberately uses a separate artifact root so the earlier three-video
+# experiment remains intact and cannot be mixed into submission results.
+
+[paths]
+dataset_root = "dataset"
+artifacts_root = "artifacts/batch1_full"
+outputs_root = "outputs/query_batch1"
+
+[scope]
+# Empty means the complete dataset discovered from dataset/. Builders must be
+# invoked explicitly with --all before this config is used for retrieval.
+video_ids = []
+
+[windows]
+length_seconds = 10.0
+stride_seconds = 5.0
+
+[retrieval]
+top_keyframes = 1000
+top_windows = 200
+top_videos = 100
+rrf_k = 60
+duplicate_seconds = 2.0
+visual_level = "keyframe"
+
+[retrieval.weights]
+visual = 1.0
+asr = 0.8
+ocr = 0.8
+metadata = 0.5
+objects = 0.3
+
+[embeddings]
+clip_model = "ViT-B-32-quickgelu"
+clip_pretrained = "openai"
+text_model = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+device = "cpu"
+batch_size = 128
+query_local_files_only = true

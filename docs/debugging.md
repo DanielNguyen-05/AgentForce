@@ -253,6 +253,39 @@ Checklist:
 5. Kiểm tra quota, rate limit và timeout.
 6. Xem cache/audit dưới `artifacts/gemini/`.
 
+Config mặc định dành cho câu trả lời VQA JSON ngắn:
+
+```toml
+thinking_level = "minimal"
+max_output_tokens = 2048
+max_retry_output_tokens = 8192
+```
+
+Nếu SDK báo `finish_reason = MAX_TOKENS`, client xem response JSON là bị cắt và
+tăng gấp đôi budget cho attempt kế tiếp, tối đa `8192`. Client không tăng budget
+cho lỗi quota, timeout, schema hoặc JSON hỏng mà không có `MAX_TOKENS`; các lỗi
+đó vẫn dùng retry/backoff bình thường khi phù hợp.
+
+Audit JSONL dưới `artifacts/gemini/` ghi cả request thành công lẫn thất bại. Khi
+debug, đối chiếu `finish_reason`, budget của attempt, token output/total/thoughts
+(nếu SDK trả về), `status` và `error`. Failed response không được đưa vào cache.
+
+Chạy lại đúng request đã lỗi trong log:
+
+```bash
+python scripts/run_qa.py \
+  --query "một xe đầu kéo lưu thông trên đường tránh phía tây thành phố Buôn Ma Thuột" \
+  --question "Loại xe nào xuất hiện trong cảnh?" \
+  --query-id QA001 \
+  --max-candidates 12 \
+  --single-answer \
+  --output outputs/QA001.json
+```
+
+`--single-answer` là một lượt xác minh QA, nhưng client vẫn có thể retry cùng
+request theo `max_attempts`. Gemini ở đây chỉ trả lời sau khi local retrieval đã
+chọn frame; không dùng Gemini để captioning hay build index.
+
 Test một request đã chuẩn bị:
 
 ```bash

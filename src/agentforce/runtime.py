@@ -234,6 +234,9 @@ def build_gemini_verifier(config: AppConfig):
         GeminiClientConfig(
             model=config.gemini.model,
             max_attempts=config.gemini.max_attempts,
+            max_output_tokens=config.gemini.max_output_tokens,
+            max_retry_output_tokens=config.gemini.max_retry_output_tokens,
+            thinking_level=config.gemini.thinking_level,
         ),
         transport=GoogleGenAITransport(
             api_key=api_key,

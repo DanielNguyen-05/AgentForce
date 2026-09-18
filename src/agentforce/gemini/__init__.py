@@ -8,6 +8,7 @@ from .cache import JsonFileCache, build_cache_key
 from .client import (
     GeminiClientConfig,
     GeminiDependencyError,
+    GeminiOutputTruncatedError,
     GeminiQAClient,
     GeminiResponseError,
     GoogleGenAITransport,
@@ -19,6 +20,7 @@ __all__ = [
     "FrameCandidate",
     "GeminiClientConfig",
     "GeminiDependencyError",
+    "GeminiOutputTruncatedError",
     "GeminiQAClient",
     "GeminiResponseError",
     "GoogleGenAITransport",

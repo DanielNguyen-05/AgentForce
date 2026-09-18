@@ -20,6 +20,21 @@ class GeminiDependencyError(RuntimeError):
 class GeminiResponseError(RuntimeError):
     """Raised when Gemini returns an unusable structured response."""
 
+    def __init__(
+        self,
+        message: str,
+        *,
+        diagnostics: Mapping[str, Any] | None = None,
+        retryable: bool = True,
+    ) -> None:
+        super().__init__(message)
+        self.diagnostics = dict(diagnostics or {})
+        self.retryable = retryable
+
+
+class GeminiOutputTruncatedError(GeminiResponseError):
+    """Raised when Gemini stops at the configured output-token limit."""
+
 
 @dataclass(frozen=True, slots=True)
 class GeminiClientConfig:
@@ -28,8 +43,14 @@ class GeminiClientConfig:
     initial_backoff_seconds: float = 1.0
     max_backoff_seconds: float = 8.0
     jitter_ratio: float = 0.1
-    temperature: float = 0.0
-    max_output_tokens: int = 512
+    # Gemini 3.6 no longer accepts sampling parameters. Keep this optional for
+    # compatibility with older models, but omit it from the default request.
+    temperature: float | None = None
+    max_output_tokens: int = 2048
+    max_retry_output_tokens: int = 8192
+    # VQA is short factual classification, so minimal thinking is enough and
+    # leaves the output budget available for the structured answer.
+    thinking_level: str | None = "minimal"
 
     def __post_init__(self) -> None:
         if not self.model.strip():
@@ -42,6 +63,10 @@ class GeminiClientConfig:
             raise ValueError("jitter_ratio must be between 0 and 1")
         if self.max_output_tokens < 1:
             raise ValueError("max_output_tokens must be positive")
+        if self.max_retry_output_tokens < self.max_output_tokens:
+            raise ValueError("max_retry_output_tokens must be >= max_output_tokens")
+        if self.thinking_level not in {None, "minimal", "low", "medium", "high"}:
+            raise ValueError("thinking_level must be minimal, low, medium, high, or None")
 
 
 class GeminiTransport(Protocol):
@@ -55,8 +80,9 @@ class GeminiTransport(Protocol):
         system_instruction: str,
         frames: Sequence[FrameCandidate],
         response_schema: Mapping[str, Any],
-        temperature: float,
+        temperature: float | None,
         max_output_tokens: int,
+        thinking_level: str | None,
     ) -> Mapping[str, Any] | str:
         ...
 
@@ -112,6 +138,89 @@ class GoogleGenAITransport:
             return guessed
         raise ValueError(f"Unsupported candidate image type: {path}")
 
+    @staticmethod
+    def _enum_value(value: object) -> str | None:
+        if value is None:
+            return None
+        raw = getattr(value, "value", value)
+        text = str(raw)
+        # Be tolerant of older/fake SDK objects whose str() is
+        # ``FinishReason.MAX_TOKENS`` rather than simply ``MAX_TOKENS``.
+        return text.rsplit(".", 1)[-1]
+
+    @classmethod
+    def _response_diagnostics(
+        cls,
+        response: object,
+        *,
+        latency_ms: float,
+        max_output_tokens: int,
+    ) -> dict[str, Any]:
+        usage = getattr(response, "usage_metadata", None)
+        usage_fields = (
+            "prompt_token_count",
+            "candidates_token_count",
+            "total_token_count",
+            "cached_content_token_count",
+            "thoughts_token_count",
+        )
+        candidate_rows: list[dict[str, Any]] = []
+        for index, candidate in enumerate(getattr(response, "candidates", None) or []):
+            row = {
+                "index": getattr(candidate, "index", index),
+                "finish_reason": cls._enum_value(getattr(candidate, "finish_reason", None)),
+                "finish_message": getattr(candidate, "finish_message", None),
+                "token_count": getattr(candidate, "token_count", None),
+            }
+            candidate_rows.append({key: value for key, value in row.items() if value is not None})
+
+        prompt_feedback = getattr(response, "prompt_feedback", None)
+        feedback: dict[str, Any] = {}
+        if prompt_feedback is not None:
+            block_reason = cls._enum_value(getattr(prompt_feedback, "block_reason", None))
+            block_message = getattr(prompt_feedback, "block_reason_message", None)
+            if block_reason is not None:
+                feedback["block_reason"] = block_reason
+            if block_message is not None:
+                feedback["block_reason_message"] = str(block_message)
+
+        diagnostics: dict[str, Any] = {
+            "latency_ms": round(latency_ms, 3),
+            "requested_max_output_tokens": max_output_tokens,
+            "usage": {
+                field: getattr(usage, field, None)
+                for field in usage_fields
+                if usage is not None and getattr(usage, field, None) is not None
+            },
+            "candidates": candidate_rows,
+        }
+        if candidate_rows:
+            # Mirror the primary candidate at the top level for quick audit
+            # inspection while retaining the full list for future multi-candidate
+            # compatibility.
+            if "finish_reason" in candidate_rows[0]:
+                diagnostics["finish_reason"] = candidate_rows[0]["finish_reason"]
+            if "finish_message" in candidate_rows[0]:
+                diagnostics["finish_message"] = candidate_rows[0]["finish_message"]
+        for field in ("response_id", "model_version"):
+            value = getattr(response, field, None)
+            if value is not None:
+                diagnostics[field] = str(value)
+        if feedback:
+            diagnostics["prompt_feedback"] = feedback
+        return diagnostics
+
+    @staticmethod
+    def _parsed_mapping(value: object) -> dict[str, Any] | None:
+        if isinstance(value, Mapping):
+            return dict(value)
+        model_dump = getattr(value, "model_dump", None)
+        if callable(model_dump):
+            dumped = model_dump(mode="json")
+            if isinstance(dumped, Mapping):
+                return dict(dumped)
+        return None
+
     def generate(
         self,
         *,
@@ -120,9 +229,13 @@ class GoogleGenAITransport:
         system_instruction: str,
         frames: Sequence[FrameCandidate],
         response_schema: Mapping[str, Any],
-        temperature: float,
+        temperature: float | None,
         max_output_tokens: int,
+        thinking_level: str | None,
     ) -> Mapping[str, Any] | str:
+        # Never attribute diagnostics from a previous call to a request that
+        # fails before the SDK returns a response.
+        self.last_diagnostics = {}
         client, types = self._get_client()
         contents: list[Any] = [types.Part.from_text(text=prompt)]
         for frame in frames:
@@ -141,40 +254,92 @@ class GoogleGenAITransport:
             )
             contents.append(types.Part.from_bytes(data=image_bytes, mime_type=self._mime_type(path)))
 
+        generation_config: dict[str, Any] = {
+            "system_instruction": system_instruction,
+            "max_output_tokens": max_output_tokens,
+            "response_mime_type": "application/json",
+            "response_json_schema": dict(response_schema),
+        }
+        if temperature is not None:
+            generation_config["temperature"] = temperature
+        if thinking_level is not None:
+            generation_config["thinking_config"] = {"thinking_level": thinking_level}
+
         started = time.perf_counter()
         response = client.models.generate_content(  # type: ignore[attr-defined]
             model=model,
             contents=contents,
-            config={
-                "system_instruction": system_instruction,
-                "temperature": temperature,
-                "max_output_tokens": max_output_tokens,
-                "response_mime_type": "application/json",
-                "response_json_schema": dict(response_schema),
-            },
+            config=generation_config,
         )
-        usage = getattr(response, "usage_metadata", None)
-        usage_fields = (
-            "prompt_token_count",
-            "candidates_token_count",
-            "total_token_count",
-            "cached_content_token_count",
-            "thoughts_token_count",
+        self.last_diagnostics = self._response_diagnostics(
+            response,
+            latency_ms=(time.perf_counter() - started) * 1000,
+            max_output_tokens=max_output_tokens,
         )
-        self.last_diagnostics = {
-            "latency_ms": round((time.perf_counter() - started) * 1000, 3),
-            "usage": {
-                field: getattr(usage, field, None)
-                for field in usage_fields
-                if usage is not None and getattr(usage, field, None) is not None
-            },
-        }
-        parsed = getattr(response, "parsed", None)
-        if isinstance(parsed, Mapping):
+
+        parsed = self._parsed_mapping(getattr(response, "parsed", None))
+        if parsed is not None:
             return parsed
-        text = getattr(response, "text", None)
+
+        try:
+            text = getattr(response, "text", None)
+        except Exception as exc:  # SDK property can fail for blocked/no-content responses.
+            text = None
+            self.last_diagnostics["response_text_error"] = (
+                f"{type(exc).__name__}: {str(exc)[:500]}"
+            )
+        if isinstance(text, str):
+            self.last_diagnostics["response_text_chars"] = len(text)
+
+        candidate_rows = self.last_diagnostics.get("candidates", [])
+        first_finish_reason = (
+            candidate_rows[0].get("finish_reason") if candidate_rows else None
+        )
+        if first_finish_reason == "MAX_TOKENS":
+            # A response can theoretically finish exactly at the boundary and
+            # still be valid. Accept that rare case; never try to patch partial
+            # JSON by inventing closing quotes/braces.
+            if isinstance(text, str) and text.strip():
+                try:
+                    complete = json.loads(text)
+                except json.JSONDecodeError:
+                    complete = None
+                if isinstance(complete, Mapping):
+                    return dict(complete)
+            raise GeminiOutputTruncatedError(
+                "Gemini stopped at MAX_TOKENS before completing structured JSON "
+                f"(max_output_tokens={max_output_tokens})",
+                diagnostics=self.last_diagnostics,
+            )
+
+        terminal_reasons = {
+            "SAFETY",
+            "RECITATION",
+            "LANGUAGE",
+            "BLOCKLIST",
+            "PROHIBITED_CONTENT",
+            "SPII",
+            "MALFORMED_FUNCTION_CALL",
+            "IMAGE_SAFETY",
+            "UNEXPECTED_TOOL_CALL",
+            "IMAGE_PROHIBITED_CONTENT",
+            "NO_IMAGE",
+            "IMAGE_RECITATION",
+        }
+        if first_finish_reason in terminal_reasons:
+            message = candidate_rows[0].get("finish_message") if candidate_rows else None
+            detail = f": {message}" if message else ""
+            raise GeminiResponseError(
+                f"Gemini stopped with finish_reason={first_finish_reason}{detail}",
+                diagnostics=self.last_diagnostics,
+                retryable=False,
+            )
         if not isinstance(text, str) or not text.strip():
-            raise GeminiResponseError("Gemini returned neither parsed JSON nor response text")
+            raise GeminiResponseError(
+                "Gemini returned neither parsed JSON nor response text"
+                + (f" (finish_reason={first_finish_reason})" if first_finish_reason else ""),
+                diagnostics=self.last_diagnostics,
+            )
         return text
 
 
@@ -227,7 +392,11 @@ class GeminiQAClient:
         frames: Sequence[FrameCandidate],
     ) -> dict[str, Any]:
         last_error: BaseException | None = None
+        attempts_made = 0
+        max_output_tokens = self.config.max_output_tokens
+        attempt_history: list[dict[str, Any]] = []
         for attempt in range(1, self.config.max_attempts + 1):
+            attempts_made = attempt
             try:
                 response = self.transport.generate(
                     model=self.config.model,
@@ -236,15 +405,34 @@ class GeminiQAClient:
                     frames=frames,
                     response_schema=QAVerification.json_schema(),
                     temperature=self.config.temperature,
-                    max_output_tokens=self.config.max_output_tokens,
+                    max_output_tokens=max_output_tokens,
+                    thinking_level=self.config.thinking_level,
                 )
                 parsed = self._parse_response(response)
                 # Validate here so a schema-compliant but semantically invalid
                 # model answer is retried before reaching the orchestrator.
-                QAVerification.from_mapping(parsed)
+                try:
+                    QAVerification.from_mapping(parsed)
+                except (TypeError, ValueError) as exc:
+                    raise GeminiResponseError(
+                        f"Gemini response failed semantic validation: {exc}"
+                    ) from exc
+                transport_diagnostics = dict(
+                    getattr(self.transport, "last_diagnostics", {}) or {}
+                )
+                attempt_history.append(
+                    {
+                        "attempt": attempt,
+                        "max_output_tokens": max_output_tokens,
+                        "status": "success",
+                        "transport": transport_diagnostics,
+                    }
+                )
                 self.last_diagnostics = {
-                    **dict(getattr(self.transport, "last_diagnostics", {}) or {}),
+                    **transport_diagnostics,
                     "attempts": attempt,
+                    "max_output_tokens": max_output_tokens,
+                    "attempt_history": attempt_history,
                 }
                 return parsed
             except GeminiDependencyError:
@@ -253,8 +441,49 @@ class GeminiQAClient:
                 raise
             except Exception as exc:
                 last_error = exc
-                if attempt < self.config.max_attempts:
-                    self._sleep(self._delay(attempt))
-        raise GeminiResponseError(
-            f"Gemini request failed after {self.config.max_attempts} attempt(s): {last_error}"
-        ) from last_error
+                transport_diagnostics = dict(
+                    getattr(exc, "diagnostics", None)
+                    or getattr(self.transport, "last_diagnostics", {})
+                    or {}
+                )
+                attempt_history.append(
+                    {
+                        "attempt": attempt,
+                        "max_output_tokens": max_output_tokens,
+                        "status": "error",
+                        "error_type": type(exc).__name__,
+                        "error": str(exc)[:1000],
+                        "transport": transport_diagnostics,
+                    }
+                )
+                self.last_diagnostics = {
+                    **transport_diagnostics,
+                    "status": "error",
+                    "attempts": attempt,
+                    "max_output_tokens": max_output_tokens,
+                    "attempt_history": attempt_history,
+                }
+
+                retryable = getattr(exc, "retryable", True)
+                if isinstance(exc, (ValueError, TypeError, OSError)) and not isinstance(
+                    exc, GeminiResponseError
+                ):
+                    retryable = False
+                if not retryable or attempt >= self.config.max_attempts:
+                    break
+
+                if isinstance(exc, GeminiOutputTruncatedError):
+                    max_output_tokens = min(
+                        self.config.max_retry_output_tokens,
+                        max_output_tokens * 2,
+                    )
+                self._sleep(self._delay(attempt))
+
+        assert last_error is not None
+        diagnostics = dict(self.last_diagnostics)
+        final_error = GeminiResponseError(
+            f"Gemini request failed after {attempts_made} attempt(s): {last_error}",
+            diagnostics=diagnostics,
+            retryable=bool(getattr(last_error, "retryable", True)),
+        )
+        raise final_error from last_error

@@ -142,11 +142,18 @@ Gemini chỉ tồn tại ở nhánh Q&A cuối:
    competition mode mặc định, còn `--single-answer` dành cho smoke test một call.
 4. Structured response phải trả `supporting_candidate_id` thuộc request.
 5. `video_id` và `frame_idx` cuối được resolve lại từ registry local.
-6. Request/response được cache và audit trong `artifacts/gemini/`.
+6. Response hợp lệ được cache; mọi outcome, kể cả failure, được audit trong
+   `artifacts/gemini/` cùng finish reason và token diagnostics.
 
 API key được nạp từ `.env`; model lấy từ `[gemini].model` (hiện là
 `gemini-3.6-flash`) và có thể đổi bằng config. Gemini không được dùng để
 caption, dịch toàn dataset hay tạo index.
+
+VQA JSON ngắn dùng `thinking_level = "minimal"` và output budget ban đầu
+`2048`. Chỉ tín hiệu `finish_reason = MAX_TOKENS` kích hoạt tăng gấp đôi budget
+cho attempt sau, với trần `8192`; retry do lỗi khác giữ nguyên budget. Boundary
+này tránh lặp ba request cùng giới hạn đã làm JSON bị cắt, đồng thời không biến
+Gemini thành một bước captioning.
 
 ## Artifact invalidation và smoke safety
 

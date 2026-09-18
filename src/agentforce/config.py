@@ -112,6 +112,9 @@ class GeminiConfig:
     api_key_env: str = "GEMINI_API_KEY"
     timeout_seconds: float = 60.0
     max_attempts: int = 3
+    max_output_tokens: int = 2048
+    max_retry_output_tokens: int = 8192
+    thinking_level: str | None = "minimal"
     prompt_version: str = "qa-multiframe-v1"
     max_candidates: int = 12
 
@@ -219,6 +222,16 @@ def _validate_config(config: AppConfig) -> None:
         raise ConfigurationError("gemini.max_attempts must be at least 1")
     if config.gemini.timeout_seconds <= 0:
         raise ConfigurationError("gemini.timeout_seconds must be positive")
+    if config.gemini.max_output_tokens < 1:
+        raise ConfigurationError("gemini.max_output_tokens must be positive")
+    if config.gemini.max_retry_output_tokens < config.gemini.max_output_tokens:
+        raise ConfigurationError(
+            "gemini.max_retry_output_tokens must be >= gemini.max_output_tokens"
+        )
+    if config.gemini.thinking_level not in {None, "minimal", "low", "medium", "high"}:
+        raise ConfigurationError(
+            "gemini.thinking_level must be minimal, low, medium, high, or null"
+        )
     if not config.gemini.prompt_version.strip():
         raise ConfigurationError("gemini.prompt_version must not be empty")
     if not 1 <= config.gemini.max_candidates <= 64:

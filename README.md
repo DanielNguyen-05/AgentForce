@@ -36,11 +36,17 @@ Muốn đổi experiment, sửa `[scope].video_ids` rồi rebuild toàn bộ can
 artifacts. Runtime và `validate_artifacts.py` kiểm tra scope/hash để không vô
 tình trộn index của hai experiment.
 
+Riêng Batch 1 KIS dùng `configs/batch1_full.toml` và bộ artifacts
+`artifacts/batch1_full/` tách biệt để truy xuất trên toàn dataset. Script batch
+không thay đổi scope thử nghiệm ba video trong `configs/default.toml`.
+
 ## Cấu trúc chính
 
 ```text
 AgentForce/
-├── configs/default.toml            # Scope và toàn bộ tham số runtime
+├── configs/default.toml            # Scope thử nghiệm ba video
+├── configs/batch1_full.toml        # Scope toàn dataset riêng cho Batch 1
+├── query_batch1/                   # Các query chính thức dạng .txt
 ├── scripts/                        # Các entry file chạy bằng python
 │   ├── prepare_phowhisper.py       # Download/convert PhoWhisper một lần
 │   ├── check_environment.py
@@ -56,6 +62,7 @@ AgentForce/
 │   ├── build_text_indexes.py
 │   ├── run_search.py
 │   ├── run_kis.py
+│   ├── run_kis_batch.py           # Chạy toàn bộ query Batch 1 KIS
 │   ├── run_qa.py
 │   ├── run_trake.py
 │   ├── visualize_results.py       # HTML gallery cho query/result keyframes
@@ -144,6 +151,13 @@ Gemini chỉ được gọi ở bước trả lời cuối của Q&A, sau khi re
 frame. Gemini không caption keyframe, không tạo text cho dataset và không xây
 index. Config hiện đặt `[gemini].model = "gemini-3.6-flash"`; có thể đổi giá trị
 này theo model mà tài khoản API hỗ trợ. `run_qa.py` không hardcode model.
+
+Q&A cấu trúc ngắn mặc định dùng `thinking_level = "minimal"`,
+`max_output_tokens = 2048` và trần retry `max_retry_output_tokens = 8192`.
+Client chỉ tăng gấp đôi output budget khi SDK báo `finish_reason = MAX_TOKENS`;
+các lỗi khác không tự tăng budget. Audit lưu finish reason và token usage của
+từng lần thử, kể cả request thất bại, để phân biệt response bị cắt với lỗi
+schema/quota. Chỉ response JSON đã validate mới được cache.
 
 ## Chuẩn bị PhoWhisper
 
@@ -403,6 +417,24 @@ python scripts/run_kis.py \
 Thêm `--dense-refine` để decode video quanh các coarse hit và chấm lại exact
 frame bằng OpenCV/OpenCLIP.
 
+### Batch 1 KIS theo format nộp chính thức
+
+```bash
+python scripts/run_kis_batch.py
+```
+
+Lệnh này mặc định dùng `configs/batch1_full.toml`, đọc duy nhất các file
+`query_batch1/*-kis.txt` và bỏ qua query Q&A/TRAKE. Mỗi query sinh hai loại kết
+quả:
+
+- JSON giàu metadata để debug tại `outputs/query_batch1/kis/`.
+- CSV nộp bài tại `artifacts/submissions/batch1/submission/`, không có header,
+  mỗi dòng đúng dạng `<video_name>,<frame_id>`.
+
+Chưa ZIP thư mục `submission/` khi các task Q&A và TRAKE chưa hoàn tất. Việc
+tách config và artifacts giúp batch toàn dataset không trộn với experiment ba
+video mặc định.
+
 ### Q&A
 
 Sau khi điền `GEMINI_API_KEY` trong `.env`:
@@ -434,7 +466,9 @@ nhận một batch frame do local retrieval đã chọn và registry local đã 
 Mặc định script giữ các câu trả lời đã xác minh thành danh sách xếp hạng để phù
 hợp cách chấm R@1/5/20/50/100. Khi chỉ smoke test API, thêm `--single-answer` để
 gọi Gemini đúng một lần. Model API được lấy từ `[gemini].model`; đổi giá trị đó
-nếu muốn dùng model khác.
+nếu muốn dùng model khác. Một call có thể có nhiều attempt kỹ thuật: riêng khi
+`finish_reason = MAX_TOKENS`, budget tăng `2048 → 4096 → 8192` trong giới hạn
+`max_attempts`; điều này không làm Gemini caption frame.
 
 ### TRAKE
 
@@ -456,10 +490,10 @@ Chạy query local và tạo ngay một HTML gallery tự chứa ảnh:
 
 ```bash
 python scripts/visualize_results.py \
-  --query "một xe đầu kéo lưu thông trên đường ở Buôn Ma Thuột" \
+  --query "Nhóm 5 người đang chơi đùa bên cạnh một con vật màu vàng. Một trong số đó đã mang một vật trông như trái bí đỏ đi giấu. Người đàn ông thức dậy không thấy quả bí đỏ đâu nên đánh thức con vật dậy." \
   --task kis \
-  --max-results 20 \
-  --output artifacts/visualizations/xe_dau_keo.html
+  --max-results 100 \
+  --output artifacts/visualizations/q1.html
 ```
 
 Query mode chỉ chạy retrieval local, kể cả khi `--task qa`; nó không gọi Gemini.

@@ -1,0 +1,73 @@
+[paths]
+dataset_root = "dataset"
+artifacts_root = "artifacts"
+outputs_root = "outputs"
+
+[scope]
+video_ids = ["L21_V001", "L21_V002", "L21_V003"]
+
+[windows]
+length_seconds = 10.0
+stride_seconds = 5.0
+
+[retrieval]
+top_keyframes = 500
+top_windows = 200
+top_videos = 30
+rrf_k = 60
+duplicate_seconds = 2.0
+visual_level = "keyframe"
+
+[retrieval.weights]
+visual = 1.0
+asr = 0.8
+ocr = 0.8
+metadata = 0.5
+objects = 0.3
+
+[embeddings]
+clip_model = "ViT-B-32-quickgelu"
+clip_pretrained = "openai"
+text_model = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+device = "cpu"
+batch_size = 128
+query_local_files_only = true
+
+[asr]
+model = "models/phowhisper-large-ct2"
+device = "cpu"
+compute_type = "int8"
+language = "vi"
+beam_size = 5
+vad_filter = true
+vad_min_silence_duration_ms = 500
+word_timestamps = true
+condition_on_previous_text = true
+hotwords = []
+audio_sample_rate = 16000
+audio_channels = 1
+normalize_lufs = true
+integrated_loudness = -16.0
+
+[ocr]
+backend = "easyocr"
+languages = "vi,en"
+minimum_confidence = 0.30
+
+[gemini]
+model = "gemini-3.6-flash"
+api_key_env = "GEMINI_API_KEY"
+timeout_seconds = 60.0
+max_attempts = 3
+max_output_tokens = 2048
+max_retry_output_tokens = 8192
+thinking_level = "minimal"
+prompt_version = "qa-multiframe-v1"
+max_candidates = 12
+
+[trake]
+dense_fps = 12.5
+refine_radius_seconds = 3.0
+strict_order = true
+min_event_gap_seconds = 0.0
+transition_penalty = 0.0

@@ -1,0 +1,18 @@
+{
+  "query_id": "QA001",
+  "retrieval_context": "Người phụ nữ mặc váy đỏ đang cầm một chiếc ly.",
+  "question": "Chiếc ly có màu gì?",
+  "language": "vi",
+  "candidates": [
+    {
+      "candidate_id": "C01",
+      "video_id": "L21_V001",
+      "frame_idx": 0,
+      "timestamp": 0.0,
+      "image_path": "dataset/keyframes/L21/L21_V001/001.jpg",
+      "retrieval_score": 0.91,
+      "asr_text": "",
+      "ocr_text": ""
+    }
+  ]
+}

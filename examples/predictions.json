@@ -1,0 +1,12 @@
+{
+  "KIS001": [
+    {"video_id": "L01_V001", "frame_ids": [505], "score": 0.91}
+  ],
+  "QA001": [
+    {"video_id": "L05_V005", "frame_ids": [888], "answer": "xanh", "score": 0.88}
+  ],
+  "TRAKE001": [
+    {"video_id": "L10_V010", "frame_ids": [101, 151, 203], "score": 0.84}
+  ]
+}
+

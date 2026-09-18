@@ -1,0 +1,25 @@
+{
+  "KIS001": {
+    "task_type": "kis",
+    "relevant_intervals": [
+      {"video_id": "L01_V001", "start_frame": 500, "end_frame": 510}
+    ]
+  },
+  "QA001": {
+    "task_type": "qa",
+    "relevant_intervals": [
+      {"video_id": "L05_V005", "start_frame": 800, "end_frame": 900}
+    ],
+    "accepted_answers": ["màu xanh", "xanh", "blue"]
+  },
+  "TRAKE001": {
+    "task_type": "trake",
+    "video_id": "L10_V010",
+    "events": [
+      {"intervals": [{"start_frame": 95, "end_frame": 105}]},
+      {"intervals": [{"start_frame": 145, "end_frame": 155}]},
+      {"intervals": [{"start_frame": 195, "end_frame": 205}]}
+    ]
+  }
+}
+

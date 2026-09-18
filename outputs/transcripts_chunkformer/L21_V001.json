@@ -1,0 +1,604 @@
+{
+  "source_video": "L21_V001.mp4",
+  "generated_at": "2026-08-07T19:09:28",
+  "pipeline_config": {
+    "asr_model": "khanhld/chunkformer-ctc-large-vie",
+    "architecture": "chunkformer-ctc",
+    "device": "cpu",
+    "chunk_size": 64,
+    "left_context_size": 128,
+    "right_context_size": 128,
+    "total_batch_duration": 1800,
+    "max_silence_duration": 0.5
+  },
+  "segments": [
+    {
+      "segment_id": 1,
+      "time_range": {
+        "start": 3.92,
+        "end": 11.68
+      },
+      "audio_metadata": {
+        "raw_text": "chào mừng quý vị đến với chương trình sáu mươi giây của đài truyền hình thành phố hồ chí minh chương trình sáng nay có những thông tin nổi bật sau đây",
+        "clean_text": "Chào mừng quý vị đến với chương trình sáu mươi giây của đài truyền hình thành phố hồ chí minh chương trình sáng nay có những thông tin nổi bật sau đây.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 2,
+      "time_range": {
+        "start": 13.28,
+        "end": 29.44
+      },
+      "audio_metadata": {
+        "raw_text": "đồng bằng sông cửu long với tình trạng sụt lún gấp gần hai mươi lần so với nước việt nhân vận chuyển cấp tốc trái tim từ hà nội về huế ghép cho bệnh nhân châu âu chống chọi với nhiệt độ nóng như thiêu đốt cùng những đám cháy rừng",
+        "clean_text": "Đồng bằng sông cửu long với tình trạng sụt lún gấp gần hai mươi lần so với nước việt nhân vận chuyển cấp tốc trái tim từ hà nội về huế ghép cho bệnh nhân châu âu chống chọi với nhiệt độ nóng như thiêu đốt cùng những đám cháy rừng.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 3,
+      "time_range": {
+        "start": 30.64,
+        "end": 63.12
+      },
+      "audio_metadata": {
+        "raw_text": "sụt lún đang là vấn đề cấp bách với đồng bằng sông cửu long khi có nơi sụt lún trung bình lên tới năm phẩy bảy xen ti mét một năm tức là gấp gần hai mươi lần so với nước biển dần dự báo phần lớn diện tích có thể sẽ nằm dưới mực nước biển trung bình vào cuối thế kỷ hai mươi mốt chiều ngày ba mươi mốt tháng bảy tại hà nội cơ quan chuyên môn đã báo cáo lãnh đạo bộ nông nghiệp và phát triển nông thôn về đề án tổng thể phòng chống sụt lún đất sạt lở bờ sông bờ biển ngập úng hạn hán xâm nhập mặn tại đồng bằng sông cửu long đồng thời lấy ý kiến của các nhà khoa học góp ý cho đề án này",
+        "clean_text": "Sụt lún đang là vấn đề cấp bách với đồng bằng sông cửu long khi có nơi sụt lún trung bình lên tới năm phẩy bảy xen ti mét một năm tức là gấp gần hai mươi lần so với nước biển dần dự báo phần lớn diện tích có thể sẽ nằm dưới mực nước biển trung bình vào cuối thế kỷ hai mươi mốt chiều ngày ba mươi mốt tháng bảy tại hà nội cơ quan chuyên môn đã báo cáo lãnh đạo bộ nông nghiệp và phát triển nông thôn về đề án tổng thể phòng chống sụt lún đất sạt lở bờ sông bờ biển ngập úng hạn hán xâm nhập mặn tại đồng bằng sông cửu long đồng thời lấy ý kiến của các nhà khoa học góp ý cho đề án này.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 4,
+      "time_range": {
+        "start": 63.52,
+        "end": 81.36
+      },
+      "audio_metadata": {
+        "raw_text": "thực tế này đòi hỏi cần phải có một đề án tổng thể về phòng chống sụt lún đất sạt lở bờ sông bờ biển ngập úng hạn hán xâm nhập mặn tại đồng bằng sông cửu long đặc biệt đề án cần đánh giá được những tác động từ quá trình phát triển đang làm trông trọng thêm các loại hình thiên tài",
+        "clean_text": "Thực tế này đòi hỏi cần phải có một đề án tổng thể về phòng chống sụt lún đất sạt lở bờ sông bờ biển ngập úng hạn hán xâm nhập mặn tại đồng bằng sông cửu long đặc biệt đề án cần đánh giá được những tác động từ quá trình phát triển đang làm trông trọng thêm các loại hình thiên tài.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 5,
+      "time_range": {
+        "start": 86.64,
+        "end": 101.04
+      },
+      "audio_metadata": {
+        "raw_text": "chúng tốc độ của đối thủ này thì nó còn lớn lắm ta thấy là bảy đến mười lần của cấp hiện ra thì",
+        "clean_text": "Chúng tốc độ của đối thủ này thì nó còn lớn lắm ta thấy là bảy đến mười lần của cấp hiện ra thì.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 6,
+      "time_range": {
+        "start": 101.12,
+        "end": 103.28
+      },
+      "audio_metadata": {
+        "raw_text": "đã có vừa qua",
+        "clean_text": "Đã có vừa qua.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 7,
+      "time_range": {
+        "start": 103.6,
+        "end": 105.68
+      },
+      "audio_metadata": {
+        "raw_text": "câu hỏi",
+        "clean_text": "Câu hỏi.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 8,
+      "time_range": {
+        "start": 107.2,
+        "end": 122.64
+      },
+      "audio_metadata": {
+        "raw_text": "các nhà khoa học cơ quan quản lý kiến nghị nhiệm vụ của đề án phải tính đến sự đồng bộ lồng ghép được các giải pháp phòng chống thiên tai trong quy hoạch phát triển vấn đề chuyển đổi sản xuất phải song với vấn đề quản lý phòng chống thiên tai",
+        "clean_text": "Các nhà khoa học cơ quan quản lý kiến nghị nhiệm vụ của đề án phải tính đến sự đồng bộ lồng ghép được các giải pháp phòng chống thiên tai trong quy hoạch phát triển vấn đề chuyển đổi sản xuất phải song với vấn đề quản lý phòng chống thiên tai.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 9,
+      "time_range": {
+        "start": 125.2,
+        "end": 172.32
+      },
+      "audio_metadata": {
+        "raw_text": "tại thành phố cần thơ bảy tháng đầu năm hai ngàn không trăm hai mươi bốn trên địa bàn xảy ra hai mươi bốn vụ sạt lở bờ sông tại các quận huyện bình thủy ô mô thốt nốt phong điền cờ đỏ và cái răng gây thiệt hại hơn mười bốn phẩy năm tỷ đồng tổng chuyên gia bị ảnh hưởng do sạt lở hơn tám trăm ba mươi mét gây thiệt hại nặng nề về nhà cửa và tài sản của người dân có mười ba căn nhà bị sạt hoàn toàn một nhà kho bị sụt lúng ba mươi bốn căn nhà bị sạt một phần hoặc bị ảnh hưởng ủy ban nhân dân thành phố cũng đã ban hành lệnh xây dựng công trình khẩn cấp tại các vị trí sạt lở nguy hiểm trên các tuyến sông trà nóc sông ô môn sông cái sắn đồng thời chỉ đạo đẩy nhanh tiến độ các dự án kè này cũng như tổ chức thực hiện nhiều giải pháp để hạn chế đến mức thấp nhất những thiệt hại về người và tài sản của người dân",
+        "clean_text": "Tại thành phố cần thơ bảy tháng đầu năm hai ngàn không trăm hai mươi bốn trên địa bàn xảy ra hai mươi bốn vụ sạt lở bờ sông tại các quận huyện bình thủy ô mô thốt nốt phong điền cờ đỏ và cái răng gây thiệt hại hơn mười bốn phẩy năm tỷ đồng tổng chuyên gia bị ảnh hưởng do sạt lở hơn tám trăm ba mươi mét gây thiệt hại nặng nề về nhà cửa và tài sản của người dân có mười ba căn nhà bị sạt hoàn toàn một nhà kho bị sụt lúng ba mươi bốn căn nhà bị sạt một phần hoặc bị ảnh hưởng ủy ban nhân dân thành phố cũng đã ban hành lệnh xây dựng công trình khẩn cấp tại các vị trí sạt lở nguy hiểm trên các tuyến sông trà nóc sông ô môn sông cái sắn đồng thời chỉ đạo đẩy nhanh tiến độ các dự án kè này cũng như tổ chức thực hiện nhiều giải pháp để hạn chế đến mức thấp nhất những thiệt hại về người và tài sản của người dân.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 10,
+      "time_range": {
+        "start": 172.64,
+        "end": 186.96
+      },
+      "audio_metadata": {
+        "raw_text": "sáu loạt động đất mạnh ở tây nguyên một hiện tượng kỳ lạ đã xảy ra tại gia đình ông đàm xuân hoa ở xã y a cờ li huyện chư vờ rông tỉnh gia lai một cái giếng khoan cạn khô đã hồi sinh một cách bất ngờ phun trào cục nước cao hàng chục mét",
+        "clean_text": "Sáu loạt động đất mạnh ở tây nguyên một hiện tượng kỳ lạ đã xảy ra tại gia đình ông đàm xuân hoa ở xã y a cờ li huyện chư vờ rông tỉnh gia lai một cái giếng khoan cạn khô đã hồi sinh một cách bất ngờ phun trào cục nước cao hàng chục mét.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 11,
+      "time_range": {
+        "start": 187.52,
+        "end": 240.48
+      },
+      "audio_metadata": {
+        "raw_text": "trao đổi với phóng viên ông hòa cho biết giếng nước này được ông khoan để tìm nước tưới cho rẫy sầu riêng bên cạnh nhưng khoan tới một trăm bảy mươi mét không thấy nước nên ông dừng sau trận động đất mạnh năm độ tại kon tum ngày hai tám tháng bảy ông hòa phát hiện miệng giếng có tiếng phun hơi nghe rất lạ đến trưa ba mươi tháng bảy ông lấy giàn khoan tiếp tục khoan sâu thêm khoảng mười lăm mét thì xuất hiện khí phun lên kèm nước ban đầu dòng nước kèm theo khí có mùi đất đèn nhưng sau đó mùi này biến mất do giếng nước đang phun khí và nước rất mạnh nên gia đình để nguyên hiện trạng không bịt được miệng giếng gia đình ông hòa thử lấy nước vào lắng pha trà thì thấy bình thường không có mùi vị khác hiện tượng ngoạn mục này thu hút nhiều người đến xem hiện tại để đảm bảo an toàn trong lúc chờ xác minh nguyên nhân chính quyền xã đã căng dây cảnh báo nguy hiểm để người dân không đến gần",
+        "clean_text": "Trao đổi với phóng viên ông hòa cho biết giếng nước này được ông khoan để tìm nước tưới cho rẫy sầu riêng bên cạnh nhưng khoan tới một trăm bảy mươi mét không thấy nước nên ông dừng sau trận động đất mạnh năm độ tại kon tum ngày hai tám tháng bảy ông hòa phát hiện miệng giếng có tiếng phun hơi nghe rất lạ đến trưa ba mươi tháng bảy ông lấy giàn khoan tiếp tục khoan sâu thêm khoảng mười lăm mét thì xuất hiện khí phun lên kèm nước ban đầu dòng nước kèm theo khí có mùi đất đèn nhưng sau đó mùi này biến mất do giếng nước đang phun khí và nước rất mạnh nên gia đình để nguyên hiện trạng không bịt được miệng giếng gia đình ông hòa thử lấy nước vào lắng pha trà thì thấy bình thường không có mùi vị khác hiện tượng ngoạn mục này thu hút nhiều người đến xem hiện tại để đảm bảo an toàn trong lúc chờ xác minh nguyên nhân chính quyền xã đã căng dây cảnh báo nguy hiểm để người dân không đến gần.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 12,
+      "time_range": {
+        "start": 240.88,
+        "end": 260.72
+      },
+      "audio_metadata": {
+        "raw_text": "ngày ba mươi tháng bảy bệnh viện trung ương huế cho biết bệnh nhân bốn mươi ba tuổi ở quảng nam vừa được ghép tim hiện nhân hồi phục sức khỏe trước đó ngay khi nhận được thông tin từ trung tâm điều phối ghép tạng quốc gia có người chết não hiến tạng tại bệnh viện việt đức ê kíp bác sĩ bệnh viện trung ương huế đã nhanh chóng có mặt để phối hợp nhận tạng về huế ghép cho bệnh nhân",
+        "clean_text": "Ngày ba mươi tháng bảy bệnh viện trung ương huế cho biết bệnh nhân bốn mươi ba tuổi ở quảng nam vừa được ghép tim hiện nhân hồi phục sức khỏe trước đó ngay khi nhận được thông tin từ trung tâm điều phối ghép tạng quốc gia có người chết não hiến tạng tại bệnh viện việt đức ê kíp bác sĩ bệnh viện trung ương huế đã nhanh chóng có mặt để phối hợp nhận tạng về huế ghép cho bệnh nhân.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 13,
+      "time_range": {
+        "start": 261.6,
+        "end": 313.2
+      },
+      "audio_metadata": {
+        "raw_text": "người hiến tạng là bệnh nhân nữ sáu mươi lăm tuổi quê hải dương do là ca hiến tạng lớn tuổi và nhẹ cân nên việc lựa chọn người bệnh nhận tim sẽ khó khăn do có nhiều nguy cơ cao khi ghép bệnh nhân suy tim rất nặng được lựa chọn và đồng ý nhận tạng theo giáo sư tiến sĩ phạm như hiệp giám đốc bệnh viện trung ương huế các y bác sĩ tính toán thời gian lấy tim và vận chuyển về huế phải ngắn nhất có thể ngoài ra thời gian chuẩn bị cho bệnh nhân nhận tim cũng phải hợp lý nhất bằng sự nỗ lực của các thầy thuốc sau bốn giờ năm mươi hai phút kể từ thời điểm nhận tim và vận chuyển vào bệnh viện trung ương huế trái tim hà nội đã đập lại khỏe mạnh trong lồng ngực của người bệnh tại huế vào lúc hai mươi ba giờ một phút ngày mười tám tháng bảy sau sáu ngày chăm sóc và hồi sức tích cực bệnh nhân được giảm dần các thuốc trợ tim vận mạch ngưng thở máy cai ép mô i a bê pê với các thông số huyết động sinh hóa ổn định chức năng tiêm tốt",
+        "clean_text": "Người hiến tạng là bệnh nhân nữ sáu mươi lăm tuổi quê hải dương do là ca hiến tạng lớn tuổi và nhẹ cân nên việc lựa chọn người bệnh nhận tim sẽ khó khăn do có nhiều nguy cơ cao khi ghép bệnh nhân suy tim rất nặng được lựa chọn và đồng ý nhận tạng theo giáo sư tiến sĩ phạm như hiệp giám đốc bệnh viện trung ương huế các y bác sĩ tính toán thời gian lấy tim và vận chuyển về huế phải ngắn nhất có thể ngoài ra thời gian chuẩn bị cho bệnh nhân nhận tim cũng phải hợp lý nhất bằng sự nỗ lực của các thầy thuốc sau bốn giờ năm mươi hai phút kể từ thời điểm nhận tim và vận chuyển vào bệnh viện trung ương huế trái tim hà nội đã đập lại khỏe mạnh trong lồng ngực của người bệnh tại huế vào lúc hai mươi ba giờ một phút ngày mười tám tháng bảy sau sáu ngày chăm sóc và hồi sức tích cực bệnh nhân được giảm dần các thuốc trợ tim vận mạch ngưng thở máy cai ép mô i a bê pê với các thông số huyết động sinh hóa ổn định chức năng tiêm tốt.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 14,
+      "time_range": {
+        "start": 315.44,
+        "end": 329.04
+      },
+      "audio_metadata": {
+        "raw_text": "xuất khẩu cá tra có dấu hiệu phục hồi tuy nhiên giá cá tra nguyên liệu lại đang ở mức thấp mặt khác thì chi phí đầu vào tăng lại khiến người nuôi lo lắng vì nguy cơ thua lỗ là rất cao ghi nhận sau tại đồng tháp",
+        "clean_text": "Xuất khẩu cá tra có dấu hiệu phục hồi tuy nhiên giá cá tra nguyên liệu lại đang ở mức thấp mặt khác thì chi phí đầu vào tăng lại khiến người nuôi lo lắng vì nguy cơ thua lỗ là rất cao ghi nhận sau tại đồng tháp.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 15,
+      "time_range": {
+        "start": 329.6,
+        "end": 383.68
+      },
+      "audio_metadata": {
+        "raw_text": "theo người đang đầu tư bảy ao nuôi cá tra thời điểm ba tháng trở lại đây giá cá tra nguyên liệu lúc lên lúc xuống tuy nhiên nhìn chung giá đang ở mức khá thấp không nuôi quả thì cái người nuôi cũng đang cân nhắc lắm vì cái nghề nuôi cá tra này thì cái tính rủi ro nó rất là cao giá thức ăn á thì nó liên tục nó tăng trong khi cái giá cá thương phẩm á thì nó ở cái mức là liên dao động trong mức thấp nó cũng kéo dài ở tình trạng là quà vốn hoặc lỗ hơi hiện tại các địa phương có diện tích nuôi thả cá tra lớn ngành chức năng khuyến cáo người dân tiếp tục theo dõi sát tình hình thị trường thả nuôi theo hợp đồng sản xuất và nhu cầu của thị trường đối với các doanh nghiệp chế biến xuất khẩu cá tra cần quan tâm xây dựng các vùng nuôi liên kết gắn kết với các hộ nuôi thông qua hợp đồng bao tiêu sản phẩm bên cạnh đó doanh nghiệp cần đầu tư hỗ trợ kinh phí cùng có trách nhiệm trong việc giám sát theo dõi quá trình thực hiện sản xuất",
+        "clean_text": "Theo người đang đầu tư bảy ao nuôi cá tra thời điểm ba tháng trở lại đây giá cá tra nguyên liệu lúc lên lúc xuống tuy nhiên nhìn chung giá đang ở mức khá thấp không nuôi quả thì cái người nuôi cũng đang cân nhắc lắm vì cái nghề nuôi cá tra này thì cái tính rủi ro nó rất là cao giá thức ăn á thì nó liên tục nó tăng trong khi cái giá cá thương phẩm á thì nó ở cái mức là liên dao động trong mức thấp nó cũng kéo dài ở tình trạng là quà vốn hoặc lỗ hơi hiện tại các địa phương có diện tích nuôi thả cá tra lớn ngành chức năng khuyến cáo người dân tiếp tục theo dõi sát tình hình thị trường thả nuôi theo hợp đồng sản xuất và nhu cầu của thị trường đối với các doanh nghiệp chế biến xuất khẩu cá tra cần quan tâm xây dựng các vùng nuôi liên kết gắn kết với các hộ nuôi thông qua hợp đồng bao tiêu sản phẩm bên cạnh đó doanh nghiệp cần đầu tư hỗ trợ kinh phí cùng có trách nhiệm trong việc giám sát theo dõi quá trình thực hiện sản xuất.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 16,
+      "time_range": {
+        "start": 384.08,
+        "end": 393.28
+      },
+      "audio_metadata": {
+        "raw_text": "đến hẹn lại lên sau mùa gặt những cánh đồng ở huyện biên giới hồng ngự tỉnh đồng tháp lại có hàng chục con trâu được người dân đưa đến chăn thả trên đồng",
+        "clean_text": "Đến hẹn lại lên sau mùa gặt những cánh đồng ở huyện biên giới hồng ngự tỉnh đồng tháp lại có hàng chục con trâu được người dân đưa đến chăn thả trên đồng.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 17,
+      "time_range": {
+        "start": 393.44,
+        "end": 416.32
+      },
+      "audio_metadata": {
+        "raw_text": "việc chăn thả này nhằm tận dụng nguồn thức ăn tiết kiệm chi phí tại các xã đô nguồn thương thái hậu a thường phước một nơi đón con nước nổi sớm nhất của huyện những cánh đồng vừa được thu hoạch còn sót lại lúa non và những vạt cỏ xanh đây là nguồn thức ăn chính được người dân tận dụng cho đàn trâu bò thời gian chăn thả kéo dài từ một đến ba tuần khi con nước tràn đồng đàn trâu sẽ được dẫn trở về chùa",
+        "clean_text": "Việc chăn thả này nhằm tận dụng nguồn thức ăn tiết kiệm chi phí tại các xã đô nguồn thương thái hậu a thường phước một nơi đón con nước nổi sớm nhất của huyện những cánh đồng vừa được thu hoạch còn sót lại lúa non và những vạt cỏ xanh đây là nguồn thức ăn chính được người dân tận dụng cho đàn trâu bò thời gian chăn thả kéo dài từ một đến ba tuần khi con nước tràn đồng đàn trâu sẽ được dẫn trở về chùa.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 18,
+      "time_range": {
+        "start": 417.52,
+        "end": 420.72
+      },
+      "audio_metadata": {
+        "raw_text": "trong phần sau",
+        "clean_text": "Trong phần sau.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 19,
+      "time_range": {
+        "start": 420.88,
+        "end": 425.76
+      },
+      "audio_metadata": {
+        "raw_text": "bắt giữ nhóm tám đối tượng trộm cắp tài sản tại các sự kiện đông người",
+        "clean_text": "Bắt giữ nhóm tám đối tượng trộm cắp tài sản tại các sự kiện đông người.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 20,
+      "time_range": {
+        "start": 427.2,
+        "end": 433.84
+      },
+      "audio_metadata": {
+        "raw_text": "hai đối tượng liên quan đến vụ án mạng tại một quán karaoke ra đầu thú",
+        "clean_text": "Hai đối tượng liên quan đến vụ án mạng tại một quán karaoke ra đầu thú.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 21,
+      "time_range": {
+        "start": 436.08,
+        "end": 454.96
+      },
+      "audio_metadata": {
+        "raw_text": "công an quận năm thành phố hồ chí minh vừa triệt phá bắt giữ nhóm tám đối tượng trộm các tài sản với thủ đoạn tra trộn gian cảnh tại các sự kiện đông người như lễ tốt nghiệp của các trường học hỗ chợ hay triển lãm nhóm này do trần thị minh nguyệt sinh năm một nghìn chín trăm bảy mươi bốn ngụ thành phố thủ đức cầm đầu",
+        "clean_text": "Công an quận năm thành phố hồ chí minh vừa triệt phá bắt giữ nhóm tám đối tượng trộm các tài sản với thủ đoạn tra trộn gian cảnh tại các sự kiện đông người như lễ tốt nghiệp của các trường học hỗ chợ hay triển lãm nhóm này do trần thị minh nguyệt sinh năm một nghìn chín trăm bảy mươi bốn ngụ thành phố thủ đức cầm đầu.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 22,
+      "time_range": {
+        "start": 455.6,
+        "end": 512.32
+      },
+      "audio_metadata": {
+        "raw_text": "qua theo dõi công an quận năm phát hiện đối tượng nguyệt cùng đồng bọn cải trang thành phụ huynh đi chúc mừng người thân ở lễ tốt nghiệp sau đó chúng sẽ tạo tình huống chen lấn che chắn để đối tượng nguyệt móc túi trộm điện thoại tiền của nạn nhân tài sản trộm được sẽ chuyển cho đối tượng nguyễn thị tuyết hạnh cất giấu các đối tượng còn lại là trần thị thu hiền lê chinh đức và nguyễn quang phú ngoài nhiệm vụ chở các đối tượng đi trộm cắp tài sản còn được phân công cảnh giới mang điện thoại di động trộm cắp bán cho nguyễn ngọc chân mặc dù biết rõ điện thoại có nguồn gốc do phạm tội mà có nhưng vì lợi nhuận đối tượng chân vẫn cố ý mua lại với thủ đoạn như vậy chỉ tính riêng đầu năm đến nay các đối tượng này đã thực hiện trót lọt nhiều vụ trộm khoảng ba mươi điện thoại di động đem đi tiêu thụ chia nhau tiền tiêu xài cơ quan cảnh sát điều tra công an quận năm đang khẩn trương củng cố tài liệu chứng cứ sớm kết luận điều tra đề nghị truy tố xử lý nghiêm theo quy định của pháp luật",
+        "clean_text": "Qua theo dõi công an quận năm phát hiện đối tượng nguyệt cùng đồng bọn cải trang thành phụ huynh đi chúc mừng người thân ở lễ tốt nghiệp sau đó chúng sẽ tạo tình huống chen lấn che chắn để đối tượng nguyệt móc túi trộm điện thoại tiền của nạn nhân tài sản trộm được sẽ chuyển cho đối tượng nguyễn thị tuyết hạnh cất giấu các đối tượng còn lại là trần thị thu hiền lê chinh đức và nguyễn quang phú ngoài nhiệm vụ chở các đối tượng đi trộm cắp tài sản còn được phân công cảnh giới mang điện thoại di động trộm cắp bán cho nguyễn ngọc chân mặc dù biết rõ điện thoại có nguồn gốc do phạm tội mà có nhưng vì lợi nhuận đối tượng chân vẫn cố ý mua lại với thủ đoạn như vậy chỉ tính riêng đầu năm đến nay các đối tượng này đã thực hiện trót lọt nhiều vụ trộm khoảng ba mươi điện thoại di động đem đi tiêu thụ chia nhau tiền tiêu xài cơ quan cảnh sát điều tra công an quận năm đang khẩn trương củng cố tài liệu chứng cứ sớm kết luận điều tra đề nghị truy tố xử lý nghiêm theo quy định của pháp luật.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 23,
+      "time_range": {
+        "start": 512.56,
+        "end": 529.36
+      },
+      "audio_metadata": {
+        "raw_text": "với những lời hứa hẹn có cánh và thủ đoạn tinh vi phạm văn học đã khiến nhiều người mất trắng hơn mười tỷ đồng y đã ngang nhiên bán những thửa đất không thuộc quyền sở hữu của mình rồi nhanh chóng tẩu thoát sau một thời gian lẩn trốn cuối cùng gã lừa đảo này cũng đã sa lưới pháp luật về tội lừa đảo chiếm đoạt tài sản",
+        "clean_text": "Với những lời hứa hẹn có cánh và thủ đoạn tinh vi phạm văn học đã khiến nhiều người mất trắng hơn mười tỷ đồng y đã ngang nhiên bán những thửa đất không thuộc quyền sở hữu của mình rồi nhanh chóng tẩu thoát sau một thời gian lẩn trốn cuối cùng gã lừa đảo này cũng đã sa lưới pháp luật về tội lừa đảo chiếm đoạt tài sản.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 24,
+      "time_range": {
+        "start": 529.84,
+        "end": 586.32
+      },
+      "audio_metadata": {
+        "raw_text": "tại cơ quan công an đối tượng khai nhận năm hai ngàn không trăm hai mươi hai đối tượng lấy bảy thứ đất của người dân tại xã trung mít huyện dương minh châu ký hợp đồng chuyển nhượng quyền sử dụng đất cho hai người ngụ tỉnh bình dương chiếm đoạt số tiền trên mười tỷ đồng ngày hai mươi bảy tháng chín hai ngàn không trăm hai mươi ba cơ quan cảnh sát điều tra công an tỉnh tây ninh trao quyết định khởi tố vụ án khởi tố bị can và bắt tạm giam đối tượng phạm văn học nhưng học đã bỏ trốn đến ngày ba mươi tháng bảy năm hai ngàn không trăm hai mươi bốn bằng các biện pháp nghi vụ tổ công tác của văn phòng cơ quan cảnh sát điều tra công an tỉnh tây ninh đã bắt giữ được bị can phạm văn học khi y đang lẩn trốn tại một nhà trọ ở quận bình thạnh thành phố hồ chí minh tại cơ quan điều tra học đã khai nhận hành vi phạm tội của mình văn phòng cơ quan cảnh sát điều tra công an tỉnh tây ninh thông báo người dân nào là bị hại trong vụ việc của bị can học liên hệ đến văn phòng để được hỗ trợ",
+        "clean_text": "Tại cơ quan công an đối tượng khai nhận năm hai ngàn không trăm hai mươi hai đối tượng lấy bảy thứ đất của người dân tại xã trung mít huyện dương minh châu ký hợp đồng chuyển nhượng quyền sử dụng đất cho hai người ngụ tỉnh bình dương chiếm đoạt số tiền trên mười tỷ đồng ngày hai mươi bảy tháng chín hai ngàn không trăm hai mươi ba cơ quan cảnh sát điều tra công an tỉnh tây ninh trao quyết định khởi tố vụ án khởi tố bị can và bắt tạm giam đối tượng phạm văn học nhưng học đã bỏ trốn đến ngày ba mươi tháng bảy năm hai ngàn không trăm hai mươi bốn bằng các biện pháp nghi vụ tổ công tác của văn phòng cơ quan cảnh sát điều tra công an tỉnh tây ninh đã bắt giữ được bị can phạm văn học khi y đang lẩn trốn tại một nhà trọ ở quận bình thạnh thành phố hồ chí minh tại cơ quan điều tra học đã khai nhận hành vi phạm tội của mình văn phòng cơ quan cảnh sát điều tra công an tỉnh tây ninh thông báo người dân nào là bị hại trong vụ việc của bị can học liên hệ đến văn phòng để được hỗ trợ.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 25,
+      "time_range": {
+        "start": 586.64,
+        "end": 603.04
+      },
+      "audio_metadata": {
+        "raw_text": "một đêm kinh hoàng tại quán ka ra ô kê ở huyện tháp mười tỉnh đồng tháp đã kết thúc bằng cái chết của anh e nờ hắt a bốn mươi mốt tuổi sau nhiều ngày bị lực lượng công an truy lùng ráo riết cuối cùng hai kẻ thù ác phạm thanh hùng và nguyễn quốc khánh biết không thể trốn tránh đã ra đầu thú",
+        "clean_text": "Một đêm kinh hoàng tại quán ka ra ô kê ở huyện tháp mười tỉnh đồng tháp đã kết thúc bằng cái chết của anh e nờ hắt a bốn mươi mốt tuổi sau nhiều ngày bị lực lượng công an truy lùng ráo riết cuối cùng hai kẻ thù ác phạm thanh hùng và nguyễn quốc khánh biết không thể trốn tránh đã ra đầu thú.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 26,
+      "time_range": {
+        "start": 603.76,
+        "end": 647.6
+      },
+      "audio_metadata": {
+        "raw_text": "trước đó tối ngày hai mươi tám tháng bảy năm hai ngàn không trăm hai mươi bốn công an huyện tháp mười nhận được tính báo của quần chúng nhân dân có một vụ dùng hung khí giải quyết mâu thuẫn xảy ra tại một cơ sở kinh doanh dịch vụ ka ra ô kê trên địa bàn thị trấn mỹ an bằng các biện pháp nghiệp vụ công an huyện tháp mười đã xác minh được hai nghi phạm và phối hợp với vòng cảnh sát hình sự tiến hành truy bắt kết hợp vận động các đối tượng ra đầu thú sau khi ra đầu thú hai đối tượng khai nhận do có mâu thuẫn cá nhân nên đã dùng bình xịt hơi cay và dùng dao tấn công nạn nhân ngụ tại địa phương dẫn đến cái chết của người này vụ án mạng đau lòng này một lần nữa giống lên hồi chuông cảnh báo về những hậu quả khôn lường của việc giải quyết mâu thuẫn bằng bạo lực cơ quan chức năng đang tiếp tục điều tra làm rõ vụ việc và sẽ xử lý nghiêm minh các đối tượng theo quy định của pháp luật",
+        "clean_text": "Trước đó tối ngày hai mươi tám tháng bảy năm hai ngàn không trăm hai mươi bốn công an huyện tháp mười nhận được tính báo của quần chúng nhân dân có một vụ dùng hung khí giải quyết mâu thuẫn xảy ra tại một cơ sở kinh doanh dịch vụ ka ra ô kê trên địa bàn thị trấn mỹ an bằng các biện pháp nghiệp vụ công an huyện tháp mười đã xác minh được hai nghi phạm và phối hợp với vòng cảnh sát hình sự tiến hành truy bắt kết hợp vận động các đối tượng ra đầu thú sau khi ra đầu thú hai đối tượng khai nhận do có mâu thuẫn cá nhân nên đã dùng bình xịt hơi cay và dùng dao tấn công nạn nhân ngụ tại địa phương dẫn đến cái chết của người này vụ án mạng đau lòng này một lần nữa giống lên hồi chuông cảnh báo về những hậu quả khôn lường của việc giải quyết mâu thuẫn bằng bạo lực cơ quan chức năng đang tiếp tục điều tra làm rõ vụ việc và sẽ xử lý nghiêm minh các đối tượng theo quy định của pháp luật.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 27,
+      "time_range": {
+        "start": 647.76,
+        "end": 658.0
+      },
+      "audio_metadata": {
+        "raw_text": "tối qua trên quốc luật mùng ba đoạn qua địa bàn thị trấn tân hiệp huyện châu thành tỉnh tiền giang đã xảy ra vụ va chạm liên hoàn giữa năm xe máy hậu quả là một người bị thương nặng",
+        "clean_text": "Tối qua trên quốc luật mùng ba đoạn qua địa bàn thị trấn tân hiệp huyện châu thành tỉnh tiền giang đã xảy ra vụ va chạm liên hoàn giữa năm xe máy hậu quả là một người bị thương nặng.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 28,
+      "time_range": {
+        "start": 658.56,
+        "end": 702.56
+      },
+      "audio_metadata": {
+        "raw_text": "theo thông tin ban đầu vào khoảng mười chín giờ ba mươi phút xe máy mang biển kiểm soát tỉnh sóc trăng do một người đàn ông điều khiển chở theo một phụ nữ lưu thông hướng đi từ thành phố hồ chí minh về miền tây trong lúc xe đang đi qua đoạn thuộc địa bàn thị trấn tân hiệp thì bị một xe máy khác chưa rõ biển kiểm soát lưu thông cùng chiều từ phía sau trờ tới tông mạnh phú tông này làm cả hai té xuống đường còn chiếc xe máy bị tông tiếp tục lao thẳng về phía trước hơn năm mươi mét rồi lao vào lề đường tiếp tục va chạm vào ba xe máy khác đang được dựng sát lề đường người điều khiển chiếc xe máy gây tai nạn tăng ga bỏ trốn khỏi hiện trường người phụ nữ đi trên xe máy bị thương nên nhanh chóng được đưa đi cấp cứu tại hiện trường bốn xe máy đều bị hư hỏng",
+        "clean_text": "Theo thông tin ban đầu vào khoảng mười chín giờ ba mươi phút xe máy mang biển kiểm soát tỉnh sóc trăng do một người đàn ông điều khiển chở theo một phụ nữ lưu thông hướng đi từ thành phố hồ chí minh về miền tây trong lúc xe đang đi qua đoạn thuộc địa bàn thị trấn tân hiệp thì bị một xe máy khác chưa rõ biển kiểm soát lưu thông cùng chiều từ phía sau trờ tới tông mạnh phú tông này làm cả hai té xuống đường còn chiếc xe máy bị tông tiếp tục lao thẳng về phía trước hơn năm mươi mét rồi lao vào lề đường tiếp tục va chạm vào ba xe máy khác đang được dựng sát lề đường người điều khiển chiếc xe máy gây tai nạn tăng ga bỏ trốn khỏi hiện trường người phụ nữ đi trên xe máy bị thương nên nhanh chóng được đưa đi cấp cứu tại hiện trường bốn xe máy đều bị hư hỏng.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 29,
+      "time_range": {
+        "start": 702.88,
+        "end": 714.56
+      },
+      "audio_metadata": {
+        "raw_text": "tại đồng nai cơn mưa lớn kéo dài hơn một giờ đồng hồ vào chiều tối qua khiến quốc lộ hai mươi đoạn qua các xã quang trung gia tầng một dải tầng hai da tầng ba và gia kiệm huyện thống nhất ngập sâu",
+        "clean_text": "Tại đồng nai cơn mưa lớn kéo dài hơn một giờ đồng hồ vào chiều tối qua khiến quốc lộ hai mươi đoạn qua các xã quang trung gia tầng một dải tầng hai da tầng ba và gia kiệm huyện thống nhất ngập sâu.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 30,
+      "time_range": {
+        "start": 714.64,
+        "end": 735.2
+      },
+      "audio_metadata": {
+        "raw_text": "có nhiều chỗ ngập sâu từ ba mươi đến bảy mươi xen li mét hàng loạt phương tiện buộc phải dừng lưu thông mưa lớn kèm theo sét đó là một số khu vực ở xã gia tân ba mức điện nguyên nhân ngập do các tấm đàn hô ga khu vực này nhỏ nước thoát không kịp nên mỗi lần mưa lớn là tuyến quốc lộ hai mươi bị ngập sâu tình trạng này kéo dài rất nhiều năm nay nhưng vẫn chưa được khắc phục",
+        "clean_text": "Có nhiều chỗ ngập sâu từ ba mươi đến bảy mươi xen li mét hàng loạt phương tiện buộc phải dừng lưu thông mưa lớn kèm theo sét đó là một số khu vực ở xã gia tân ba mức điện nguyên nhân ngập do các tấm đàn hô ga khu vực này nhỏ nước thoát không kịp nên mỗi lần mưa lớn là tuyến quốc lộ hai mươi bị ngập sâu tình trạng này kéo dài rất nhiều năm nay nhưng vẫn chưa được khắc phục.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 31,
+      "time_range": {
+        "start": 736.64,
+        "end": 746.32
+      },
+      "audio_metadata": {
+        "raw_text": "trong phần sau của chương trình dưới thời tiết mưa liên tục lực lượng cứu hộ ấn độ nỗ lực tìm kiếm nạn nhân các trận lở đất",
+        "clean_text": "Trong phần sau của chương trình dưới thời tiết mưa liên tục lực lượng cứu hộ ấn độ nỗ lực tìm kiếm nạn nhân các trận lở đất.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 32,
+      "time_range": {
+        "start": 747.12,
+        "end": 754.16
+      },
+      "audio_metadata": {
+        "raw_text": "sử dụng chó đánh hơi tổ trứng rùa trên các bãi biển nhằm bảo vệ chúng trước các mối đe dọa",
+        "clean_text": "Sử dụng chó đánh hơi tổ trứng rùa trên các bãi biển nhằm bảo vệ chúng trước các mối đe dọa.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 33,
+      "time_range": {
+        "start": 755.92,
+        "end": 772.56
+      },
+      "audio_metadata": {
+        "raw_text": "sau cuộc họp chính sách ngày ba mốt tháng bảy cục dự trữ liên bang mỹ phét đã quyết định tiếp tục giữ nguyên lãi suất và để ngỏ khả năng cắt giảm lãi suất trong cuộc họp chính sách tiếp theo dự kiến diễn ra vào tháng chín tới song mở ra cánh cửa để cắt giảm chi phí đi vay trong cuộc họp tiếp theo",
+        "clean_text": "Sau cuộc họp chính sách ngày ba mốt tháng bảy cục dự trữ liên bang mỹ phét đã quyết định tiếp tục giữ nguyên lãi suất và để ngỏ khả năng cắt giảm lãi suất trong cuộc họp chính sách tiếp theo dự kiến diễn ra vào tháng chín tới song mở ra cánh cửa để cắt giảm chi phí đi vay trong cuộc họp tiếp theo.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 34,
+      "time_range": {
+        "start": 773.36,
+        "end": 825.36
+      },
+      "audio_metadata": {
+        "raw_text": "trong tuyên bố đưa ra cuối cuộc họp fed đã quyết định giữ nguyên lãi suất chuẩn trong phạm vi năm phẩy hai mươi lăm phần trăm đến năm phẩy năm mươi phần trăm đồng thời lưu ý tình hình lạm phát tiếp tục tiến triển hướng tới mục tiêu hai phần trăm của cơ quan này fed đánh giá lạm phát hiện chỉ tăng nhẹ một sự thay đổi đáng kể so với đánh giá lạm phát tăng cao mà cơ quan này thường xuyên sử dụng trong suốt thời gian qua ngân hàng trung ương mỹ cũng đánh giá nền kinh tế vẫn tiếp tục tăng trưởng với tốc độ vững chắc trong khi tăng trưởng việc làm chậm lại và tỷ lệ thất nghiệp vẫn ở mức thấp mặc dù không cam kết cắt giảm lãi suất và nhắc lại rằng các nhà hoạch định chính sách vẫn cần niềm tin lớn hơn lạm phát đang tiến triển bền vững tới mục tiêu hai phần trăm trước khi hạ chi phí đi vay như những thay đổi trong tuyên bố chính sách mới nhất của phép đang củng cố kỳ vọng của các nhà đầu tư rằng ngân hàng trung ương mỹ sẽ bắt đầu cắt giảm lãi suất trong cuộc họp chính sách tiếp theo vào tháng chín tới",
+        "clean_text": "Trong tuyên bố đưa ra cuối cuộc họp fed đã quyết định giữ nguyên lãi suất chuẩn trong phạm vi năm phẩy hai mươi lăm phần trăm đến năm phẩy năm mươi phần trăm đồng thời lưu ý tình hình lạm phát tiếp tục tiến triển hướng tới mục tiêu hai phần trăm của cơ quan này fed đánh giá lạm phát hiện chỉ tăng nhẹ một sự thay đổi đáng kể so với đánh giá lạm phát tăng cao mà cơ quan này thường xuyên sử dụng trong suốt thời gian qua ngân hàng trung ương mỹ cũng đánh giá nền kinh tế vẫn tiếp tục tăng trưởng với tốc độ vững chắc trong khi tăng trưởng việc làm chậm lại và tỷ lệ thất nghiệp vẫn ở mức thấp mặc dù không cam kết cắt giảm lãi suất và nhắc lại rằng các nhà hoạch định chính sách vẫn cần niềm tin lớn hơn lạm phát đang tiến triển bền vững tới mục tiêu hai phần trăm trước khi hạ chi phí đi vay như những thay đổi trong tuyên bố chính sách mới nhất của phép đang củng cố kỳ vọng của các nhà đầu tư rằng ngân hàng trung ương mỹ sẽ bắt đầu cắt giảm lãi suất trong cuộc họp chính sách tiếp theo vào tháng chín tới.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 35,
+      "time_range": {
+        "start": 825.6,
+        "end": 840.56
+      },
+      "audio_metadata": {
+        "raw_text": "quân đội ấn độ và lực lượng cứu hộ nước này vẫn đang nỗ lực dưới thời tiết mưa liên tục để tìm kiếm các thi thể cũng như những người sống sót trên những ngọn đồi ở bang tre ra la tính đến nay thì có được hai trăm người thiệt mạng và một trăm chín mươi lăm người bị thương sau các trận lở đất tại đây",
+        "clean_text": "Quân đội ấn độ và lực lượng cứu hộ nước này vẫn đang nỗ lực dưới thời tiết mưa liên tục để tìm kiếm các thi thể cũng như những người sống sót trên những ngọn đồi ở bang tre ra la tính đến nay thì có được hai trăm người thiệt mạng và một trăm chín mươi lăm người bị thương sau các trận lở đất tại đây.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 36,
+      "time_range": {
+        "start": 841.2,
+        "end": 879.12
+      },
+      "audio_metadata": {
+        "raw_text": "nhà chức trách địa phương cho biết gần một ngàn người đã được giải cứu khỏi các ngôi làng trên sườn đồi ở quận que da nát hai trăm hai mươi lăm người vẫn còn mất tích mưa lớn ở bang ki ra la một trong những điểm đến du lịch hấp dẫn nhất của ấn độ đã gây ra các trận lở đất vào ngày ba mươi tháng bảy tạo nên dòng nước lũ mạnh cuốn trôi nhiều người dân khi họ đang ngủ đây là thảm họa tồi tệ nhất ở bang này kể từ trận lũ nghiêm trọng năm hai ngàn không trăm mười tám khiến gần bốn trăm người thiệt mạng các chuyên gia cho biết khu vực này đã hứng chịu mưa lớn trong hai tuần qua khiến đất mềm và lượng mưa cực lớn hôm hai mươi chín tháng bảy đã gây ra nhiều trận lở đất",
+        "clean_text": "Nhà chức trách địa phương cho biết gần một ngàn người đã được giải cứu khỏi các ngôi làng trên sườn đồi ở quận que da nát hai trăm hai mươi lăm người vẫn còn mất tích mưa lớn ở bang ki ra la một trong những điểm đến du lịch hấp dẫn nhất của ấn độ đã gây ra các trận lở đất vào ngày ba mươi tháng bảy tạo nên dòng nước lũ mạnh cuốn trôi nhiều người dân khi họ đang ngủ đây là thảm họa tồi tệ nhất ở bang này kể từ trận lũ nghiêm trọng năm hai ngàn không trăm mười tám khiến gần bốn trăm người thiệt mạng các chuyên gia cho biết khu vực này đã hứng chịu mưa lớn trong hai tuần qua khiến đất mềm và lượng mưa cực lớn hôm hai mươi chín tháng bảy đã gây ra nhiều trận lở đất.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 37,
+      "time_range": {
+        "start": 879.36,
+        "end": 889.36
+      },
+      "audio_metadata": {
+        "raw_text": "châu âu đang phải chống chọi với nhiệt độ nóng như thiêu đốt trong mùa hè năm nay những đám cháy rừng bùng phát khắp nơi từ lục địa từ địa trung hải đến tây ban nha",
+        "clean_text": "Châu âu đang phải chống chọi với nhiệt độ nóng như thiêu đốt trong mùa hè năm nay những đám cháy rừng bùng phát khắp nơi từ lục địa từ địa trung hải đến tây ban nha.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 38,
+      "time_range": {
+        "start": 890.24,
+        "end": 950.72
+      },
+      "audio_metadata": {
+        "raw_text": "lực lượng chữa cháy cờ ráp rát si a cho biết họ đã kiểm soát được nhiều đám cháy rừng dọc theo bờ biển a ri a tích của nước này trong ngày ba mươi mốt tháng bảy nhiệt độ cao gió lớn và khô hạn kéo dài là những yếu tố góp phần gây ra các vụ cháy rừng hai mươi bốn giờ qua là thời gian khắc nghiệt nhất trong mùa hè này tính đến hiện tại hơn một ngàn lính chữa cháy và hai mươi máy bay được huy động chỉ trong một ngày để xử lý hơn một trăm đám cháy nhà chức trách đã sơ tán cư dân trong khu vực gần thị trấn tu se pi tiến lên phía bắc gần thị trấn si be ních lực lượng chữa cháy đã kiểm soát được một đám cháy không cho nó lan đến vườn quốc gia cực tha đây là khu bảo tồn thiên nhiên thu hút nhiều du khách còn tại tây ban nha lực lượng cứu hỏa đang chiến đấu với đám cháy rừng ở tỉnh a li can tê trong điều kiện thời tiết không thuận lợi nhà chức trách đã huy động hai trăm lính chữa cháy cùng mười ba phương tiện thả nước đợt nắng nóng thứ ba của tây ban nha trong mùa hè này được cho là đạt đỉnh trong ngày ba mươi mốt tháng bảy cơ chế hỗ trợ của liên minh châu âu đã được kích hoạt nhằm hỗ trợ cho nhiều nước chịu ảnh hưởng như bun ga ri và an ba ni",
+        "clean_text": "Lực lượng chữa cháy cờ ráp rát si a cho biết họ đã kiểm soát được nhiều đám cháy rừng dọc theo bờ biển a ri a tích của nước này trong ngày ba mươi mốt tháng bảy nhiệt độ cao gió lớn và khô hạn kéo dài là những yếu tố góp phần gây ra các vụ cháy rừng hai mươi bốn giờ qua là thời gian khắc nghiệt nhất trong mùa hè này tính đến hiện tại hơn một ngàn lính chữa cháy và hai mươi máy bay được huy động chỉ trong một ngày để xử lý hơn một trăm đám cháy nhà chức trách đã sơ tán cư dân trong khu vực gần thị trấn tu se pi tiến lên phía bắc gần thị trấn si be ních lực lượng chữa cháy đã kiểm soát được một đám cháy không cho nó lan đến vườn quốc gia cực tha đây là khu bảo tồn thiên nhiên thu hút nhiều du khách còn tại tây ban nha lực lượng cứu hỏa đang chiến đấu với đám cháy rừng ở tỉnh a li can tê trong điều kiện thời tiết không thuận lợi nhà chức trách đã huy động hai trăm lính chữa cháy cùng mười ba phương tiện thả nước đợt nắng nóng thứ ba của tây ban nha trong mùa hè này được cho là đạt đỉnh trong ngày ba mươi mốt tháng bảy cơ chế hỗ trợ của liên minh châu âu đã được kích hoạt nhằm hỗ trợ cho nhiều nước chịu ảnh hưởng như bun ga ri và an ba ni.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 39,
+      "time_range": {
+        "start": 951.04,
+        "end": 962.24
+      },
+      "audio_metadata": {
+        "raw_text": "thủ đô cô ben ha gen của đan mạch đang thí điểm một chương trình làm sạch môi trường kéo dài bốn tuần vào mùa hè này du khách đến đây khi tham gia vào các hoạt động này sẽ nhận được phần thưởng dưới những hình thức khác nhau",
+        "clean_text": "Thủ đô cô ben ha gen của đan mạch đang thí điểm một chương trình làm sạch môi trường kéo dài bốn tuần vào mùa hè này du khách đến đây khi tham gia vào các hoạt động này sẽ nhận được phần thưởng dưới những hình thức khác nhau.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 40,
+      "time_range": {
+        "start": 963.04,
+        "end": 1022.32
+      },
+      "audio_metadata": {
+        "raw_text": "chèo thuyền cai giắt dọc theo các tuyến đường thủy khám phá cô ben ha ren là một trong những hoạt động thu hút nhiều du khách bình thường khách du lịch phải trả phí cho chuyến đi kéo dài hai giờ nhưng nếu họ thu gom rác trên mặt nước thì chuyến đi này hoàn toàn miễn phí hay tại khu vực đô thị ô en ha du khách tham gia các hoạt động trồng cây tưới nước hay nhổ cỏ dại sẽ nhận được phần thưởng là một bữa ăn trưa du khách còn được tặng kem miễn phí nếu họ sử dụng phương tiện công cộng đến bảo tàng quốc gia đan mạch tùy thuộc vào việc bạn ở lại đây trong bao lâu nếu ở hơn hai ngày tôi nghĩ đó là một cách thú vị để khám phá và tương tác với thành phố rất đáng trân trọng thủ đô của đan mạch thí điểm chương trình cô pen pây trong bối cảnh nhiều nơi trên thế giới đang phải đối mặt với tình trạng quá tải du lịch gây áp lực cho cuộc sống sinh hoạt của người dân địa phương chương trình này nhằm mục đích biến khái niệm sự bền vững thành hành động cụ thể dự kiến nó sẽ kết thúc vào ngày mười một tháng tám tới",
+        "clean_text": "Chèo thuyền cai giắt dọc theo các tuyến đường thủy khám phá cô ben ha ren là một trong những hoạt động thu hút nhiều du khách bình thường khách du lịch phải trả phí cho chuyến đi kéo dài hai giờ nhưng nếu họ thu gom rác trên mặt nước thì chuyến đi này hoàn toàn miễn phí hay tại khu vực đô thị ô en ha du khách tham gia các hoạt động trồng cây tưới nước hay nhổ cỏ dại sẽ nhận được phần thưởng là một bữa ăn trưa du khách còn được tặng kem miễn phí nếu họ sử dụng phương tiện công cộng đến bảo tàng quốc gia đan mạch tùy thuộc vào việc bạn ở lại đây trong bao lâu nếu ở hơn hai ngày tôi nghĩ đó là một cách thú vị để khám phá và tương tác với thành phố rất đáng trân trọng thủ đô của đan mạch thí điểm chương trình cô pen pây trong bối cảnh nhiều nơi trên thế giới đang phải đối mặt với tình trạng quá tải du lịch gây áp lực cho cuộc sống sinh hoạt của người dân địa phương chương trình này nhằm mục đích biến khái niệm sự bền vững thành hành động cụ thể dự kiến nó sẽ kết thúc vào ngày mười một tháng tám tới.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 41,
+      "time_range": {
+        "start": 1022.8,
+        "end": 1043.6
+      },
+      "audio_metadata": {
+        "raw_text": "cá múa nâu biểu tượng của địa trung hải có vai trò rất quan trọng đối với đa dạng sinh học vì nó đứng đầu chuỗi thức ăn gần như đã biến mất khỏi khu vực này vào những năm một ngàn chín trăm sáu mươi khi diễn ra hoạt động du lịch và đánh bắt quá mức nhưng nhờ vành đai được bảo vệ dài sáu phẩy năm ki lô mét tại vùng bờ biển ca ta lan quần thể loài cá nâu đốm trắng đã hồi sinh",
+        "clean_text": "Cá múa nâu biểu tượng của địa trung hải có vai trò rất quan trọng đối với đa dạng sinh học vì nó đứng đầu chuỗi thức ăn gần như đã biến mất khỏi khu vực này vào những năm một ngàn chín trăm sáu mươi khi diễn ra hoạt động du lịch và đánh bắt quá mức nhưng nhờ vành đai được bảo vệ dài sáu phẩy năm ki lô mét tại vùng bờ biển ca ta lan quần thể loài cá nâu đốm trắng đã hồi sinh.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 42,
+      "time_range": {
+        "start": 1044.08,
+        "end": 1104.48
+      },
+      "audio_metadata": {
+        "raw_text": "khu bảo tồn biển bon dun sa be trồng hai ki lô mét vuông này đã cho phép tăng sự phong phú về loài số lượng cá thể và đặc biệt là tuổi thọ của cá theo bát can rô men người phụ trách khu đa dạng sinh học bon dun suu me lệnh cấm đánh bắt cá mú nâu có hiệu lực từ năm một nghìn chín trăm chín mươi ba sau đó được mở rộng vào năm hai ngàn lẻ hai tuy nhiên không thực sự được tôn trọng bên ngoài các khu bảo tồn nhưng may mắn nó được áp dụng trong các khu bảo tồn một cách mạnh mẽ tại khu vực dãy pi rê nê đổ vào địa trung hải không dưới một ngàn hai trăm loài động vật và gần năm trăm loài thực vật được bảo vệ tốc độ tàu thuyền đi qua khu vực này giới hạn ở mức tám hải lý một giờ nhằm tránh ô nhiễm tiếng ồn vốn gây căng thẳng cho cá trong thời kỳ sinh sản khu bảo tồn này đã được thêm vào danh sách xanh của liên minh bảo tồn thiên nhiên quốc tế một tổ chức tập hợp các cơ quan chính phủ chuyên gia và tổ chức phi chính phủ vào năm hai ngàn không trăm mười bốn diện tích của nó cũng sẽ sớm tăng gấp đôi đạt một nghìn hai trăm năm mươi héc ta trong vòng hai năm",
+        "clean_text": "Khu bảo tồn biển bon dun sa be trồng hai ki lô mét vuông này đã cho phép tăng sự phong phú về loài số lượng cá thể và đặc biệt là tuổi thọ của cá theo bát can rô men người phụ trách khu đa dạng sinh học bon dun suu me lệnh cấm đánh bắt cá mú nâu có hiệu lực từ năm một nghìn chín trăm chín mươi ba sau đó được mở rộng vào năm hai ngàn lẻ hai tuy nhiên không thực sự được tôn trọng bên ngoài các khu bảo tồn nhưng may mắn nó được áp dụng trong các khu bảo tồn một cách mạnh mẽ tại khu vực dãy pi rê nê đổ vào địa trung hải không dưới một ngàn hai trăm loài động vật và gần năm trăm loài thực vật được bảo vệ tốc độ tàu thuyền đi qua khu vực này giới hạn ở mức tám hải lý một giờ nhằm tránh ô nhiễm tiếng ồn vốn gây căng thẳng cho cá trong thời kỳ sinh sản khu bảo tồn này đã được thêm vào danh sách xanh của liên minh bảo tồn thiên nhiên quốc tế một tổ chức tập hợp các cơ quan chính phủ chuyên gia và tổ chức phi chính phủ vào năm hai ngàn không trăm mười bốn diện tích của nó cũng sẽ sớm tăng gấp đôi đạt một nghìn hai trăm năm mươi héc ta trong vòng hai năm.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 43,
+      "time_range": {
+        "start": 1104.64,
+        "end": 1113.68
+      },
+      "audio_metadata": {
+        "raw_text": "tại i ta li a các nhà bảo tồn sử dụng chó để đánh hơi tổ trứng rùa biển mục đích nhằm khoanh vùng và bảo vệ loài sinh vật này trước các mối đe dọa",
+        "clean_text": "Tại i ta li a các nhà bảo tồn sử dụng chó để đánh hơi tổ trứng rùa biển mục đích nhằm khoanh vùng và bảo vệ loài sinh vật này trước các mối đe dọa.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 44,
+      "time_range": {
+        "start": 1114.48,
+        "end": 1173.44
+      },
+      "audio_metadata": {
+        "raw_text": "pa cô năm tuổi là một trong những chú chó đảm nhận nhiệm vụ đánh hơi tổ trứng rùa trên các bãi biển pa cô được tập luyện đánh hơi từ khi còn nhỏ sau đó bà cô đã tham gia dự án lai tơ tô nét để bảo vệ loài rùa ca rét ta trong hai thập niên trở lại đây các chuyên gia đã ghi nhận số lượng tổ trứng rùa biển gia tăng dọc theo bờ biển của các nước i ta li a pháp và tây ban nha sau khi chó đánh hơi được tổ rùa các chuyên gia sẽ thực hiện nhiều biện pháp để bảo vệ trứng thậm chí là phong tỏa nếu cần thiết từ tháng năm đến tháng bảy vừa qua lai tơ tô nét đã tìm thấy bốn trăm lẻ bốn tổ rùa biển tăng cường gấp đôi so với cùng kỳ năm ngoái nhiệm vụ chính của chúng tôi là giám sát và kiểm tra các tổ rùa các đơn vị cho đánh hơi tổ rùa sẽ đảm nhận nhiệm vụ vào mùa hè này ở các vùng a bu li a cam ba ni a lai di ô và tuút ca ni các hoạt động của con người được cho là mối đe dọa chính đối với loài rùa biển chúng có thể bị mắc vào lưới đánh cá chết ngạt do rác thải nhựa đại dương hoặc bị làm phiền trong mùa sinh sản",
+        "clean_text": "Pa cô năm tuổi là một trong những chú chó đảm nhận nhiệm vụ đánh hơi tổ trứng rùa trên các bãi biển pa cô được tập luyện đánh hơi từ khi còn nhỏ sau đó bà cô đã tham gia dự án lai tơ tô nét để bảo vệ loài rùa ca rét ta trong hai thập niên trở lại đây các chuyên gia đã ghi nhận số lượng tổ trứng rùa biển gia tăng dọc theo bờ biển của các nước i ta li a pháp và tây ban nha sau khi chó đánh hơi được tổ rùa các chuyên gia sẽ thực hiện nhiều biện pháp để bảo vệ trứng thậm chí là phong tỏa nếu cần thiết từ tháng năm đến tháng bảy vừa qua lai tơ tô nét đã tìm thấy bốn trăm lẻ bốn tổ rùa biển tăng cường gấp đôi so với cùng kỳ năm ngoái nhiệm vụ chính của chúng tôi là giám sát và kiểm tra các tổ rùa các đơn vị cho đánh hơi tổ rùa sẽ đảm nhận nhiệm vụ vào mùa hè này ở các vùng a bu li a cam ba ni a lai di ô và tuút ca ni các hoạt động của con người được cho là mối đe dọa chính đối với loài rùa biển chúng có thể bị mắc vào lưới đánh cá chết ngạt do rác thải nhựa đại dương hoặc bị làm phiền trong mùa sinh sản.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 45,
+      "time_range": {
+        "start": 1173.84,
+        "end": 1181.68
+      },
+      "audio_metadata": {
+        "raw_text": "tại bình dương công an thành phố dĩ an đang tiếp tục điều tra nguyên nhân một người phụ nữ rơi từ tầng cao chung cư xuống đất tử vong",
+        "clean_text": "Tại bình dương công an thành phố dĩ an đang tiếp tục điều tra nguyên nhân một người phụ nữ rơi từ tầng cao chung cư xuống đất tử vong.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 46,
+      "time_range": {
+        "start": 1182.48,
+        "end": 1201.28
+      },
+      "audio_metadata": {
+        "raw_text": "theo đó khoảng hai mươi mốt giờ ba mươi tối qua bảo vệ của chung cư trên đường nguyễn bỉnh khiêm phường đông hòa bất ngờ phát hiện một người rơi từ trên xuống tử vong nhận tin báo công an thành phố di an có mặt phong tỏa hiện trường lấy lời khai nhân chứng hiện chưa xác minh được nhân thân lai lịch của nạn nhân nên chưa thể xác định người này đã rơi từ tầng nào xuống",
+        "clean_text": "Theo đó khoảng hai mươi mốt giờ ba mươi tối qua bảo vệ của chung cư trên đường nguyễn bỉnh khiêm phường đông hòa bất ngờ phát hiện một người rơi từ trên xuống tử vong nhận tin báo công an thành phố di an có mặt phong tỏa hiện trường lấy lời khai nhân chứng hiện chưa xác minh được nhân thân lai lịch của nạn nhân nên chưa thể xác định người này đã rơi từ tầng nào xuống.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 47,
+      "time_range": {
+        "start": 1202.24,
+        "end": 1210.72
+      },
+      "audio_metadata": {
+        "raw_text": "tối qua một vụ tai nạn giao thông chết người đã xảy ra ngay trên đường nguyễn ảnh thủ quận mười hai thành phố hồ chí minh",
+        "clean_text": "Tối qua một vụ tai nạn giao thông chết người đã xảy ra ngay trên đường nguyễn ảnh thủ quận mười hai thành phố hồ chí minh.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 48,
+      "time_range": {
+        "start": 1211.12,
+        "end": 1245.76
+      },
+      "audio_metadata": {
+        "raw_text": "theo thông tin ban đầu khoảng mười tám giờ bốn mươi lăm phút xe máy do một người đàn ông cầm lái đang di chuyển từ đường tô ký hướng về đường nguyễn thị búc khi phương tiện này đến trước địa chỉ số một ngàn không trăm bốn lăm đường nguyễn ảnh thủ phường tân chánh hiệp thì bất ngờ xảy ra va chạm với xe tải chạy cùng chiều chiếc xe tải cán qua người khiến nạn nhân tử vong tại chỗ nhận tin báo lực lượng chức năng công an quận mười hai có mặt xử lý hiện trường vụ tai nạn xảy ra trên đoạn đường đông phương tiện giao thông dẫn đến tình trạng ùn tắc kéo dài lực lượng chức năng tiếp tục điều tra nguyên nhân và xử lý theo quy định",
+        "clean_text": "Theo thông tin ban đầu khoảng mười tám giờ bốn mươi lăm phút xe máy do một người đàn ông cầm lái đang di chuyển từ đường tô ký hướng về đường nguyễn thị búc khi phương tiện này đến trước địa chỉ số một ngàn không trăm bốn lăm đường nguyễn ảnh thủ phường tân chánh hiệp thì bất ngờ xảy ra va chạm với xe tải chạy cùng chiều chiếc xe tải cán qua người khiến nạn nhân tử vong tại chỗ nhận tin báo lực lượng chức năng công an quận mười hai có mặt xử lý hiện trường vụ tai nạn xảy ra trên đoạn đường đông phương tiện giao thông dẫn đến tình trạng ùn tắc kéo dài lực lượng chức năng tiếp tục điều tra nguyên nhân và xử lý theo quy định.",
+        "confidence": null
+      }
+    },
+    {
+      "segment_id": 49,
+      "time_range": {
+        "start": 1246.32,
+        "end": 1255.36
+      },
+      "audio_metadata": {
+        "raw_text": "những thông tin vừa rồi xin được kết thúc chương trình sáu mươi giây sáng hôm nay của chúng tôi hẹn gặp lại quý vị trong chương trình sáu mươi giây chiều nay còn bây giờ xin kính chào tạm biệt",
+        "clean_text": "Những thông tin vừa rồi xin được kết thúc chương trình sáu mươi giây sáng hôm nay của chúng tôi hẹn gặp lại quý vị trong chương trình sáu mươi giây chiều nay còn bây giờ xin kính chào tạm biệt.",
+        "confidence": null
+      }
+    }
+  ]
+}
